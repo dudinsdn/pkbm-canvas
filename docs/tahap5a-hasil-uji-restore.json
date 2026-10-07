@@ -1,0 +1,123 @@
+{
+  "scope": "full local dump/restore into isolated databases; selected domain tables row count and hash equality; not production recovery",
+  "passed": 24,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "pkbm_development full restore",
+      "passed": true
+    },
+    {
+      "name": "pkbm_development pkbms restored unchanged",
+      "passed": true,
+      "row_count": 2
+    },
+    {
+      "name": "pkbm_development people restored unchanged",
+      "passed": true,
+      "row_count": 6
+    },
+    {
+      "name": "pkbm_development pkbm_memberships restored unchanged",
+      "passed": true,
+      "row_count": 6
+    },
+    {
+      "name": "pkbm_development role_assignments restored unchanged",
+      "passed": true,
+      "row_count": 6
+    },
+    {
+      "name": "pkbm_development learning_plans restored unchanged",
+      "passed": true,
+      "row_count": 2
+    },
+    {
+      "name": "pkbm_development learning_plan_items restored unchanged",
+      "passed": true,
+      "row_count": 4
+    },
+    {
+      "name": "pkbm_development canvas_bindings restored unchanged",
+      "passed": true,
+      "row_count": 26
+    },
+    {
+      "name": "pkbm_development identity_accounts restored unchanged",
+      "passed": true,
+      "row_count": 6
+    },
+    {
+      "name": "pkbm_development identity_membership_links restored unchanged",
+      "passed": true,
+      "row_count": 6
+    },
+    {
+      "name": "pkbm_development identity_external_subjects restored unchanged",
+      "passed": true,
+      "row_count": 6
+    },
+    {
+      "name": "pkbm_development canvas_identity_links restored unchanged",
+      "passed": true,
+      "row_count": 6
+    },
+    {
+      "name": "pkbm_development canvas_management_links restored unchanged",
+      "passed": true,
+      "row_count": 2
+    },
+    {
+      "name": "pkbm_development scratch database removed",
+      "passed": true
+    },
+    {
+      "name": "canvas_development full restore",
+      "passed": true
+    },
+    {
+      "name": "canvas_development accounts restored unchanged",
+      "passed": true,
+      "row_count": 6
+    },
+    {
+      "name": "canvas_development users restored unchanged",
+      "passed": true,
+      "row_count": 10
+    },
+    {
+      "name": "canvas_development pseudonyms restored unchanged",
+      "passed": true,
+      "row_count": 14
+    },
+    {
+      "name": "canvas_development account_users restored unchanged",
+      "passed": true,
+      "row_count": 4
+    },
+    {
+      "name": "canvas_development courses restored unchanged",
+      "passed": true,
+      "row_count": 5
+    },
+    {
+      "name": "canvas_development enrollments restored unchanged",
+      "passed": true,
+      "row_count": 8
+    },
+    {
+      "name": "canvas_development assignments restored unchanged",
+      "passed": true,
+      "row_count": 0
+    },
+    {
+      "name": "canvas_development submissions restored unchanged",
+      "passed": true,
+      "row_count": 0
+    },
+    {
+      "name": "canvas_development scratch database removed",
+      "passed": true
+    }
+  ]
+}

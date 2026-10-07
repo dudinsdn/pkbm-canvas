@@ -17,11 +17,14 @@ services:
       - ../var/identity/import:/opt/keycloak/data/import:ro
     networks: [outbound]
   pkbm:
+    command: /bin/bash -lc "ruby bin/local-mail-sink.rb & rm -f tmp/pids/server.pid; exec bundle exec rails server -b 0.0.0.0 -p 3000"
     environment: &pkbm_oidc_environment
       PKBM_SSO_ENABLED: ${PKBM_SSO_ENABLED:-false}
       PKBM_OIDC_ISSUER: http://127.0.0.1:8082/realms/pkbm
       PKBM_OIDC_BACKCHANNEL: http://identity:8080/realms/pkbm
       PKBM_OIDC_CLIENT_ID: pkbm-portal
+      PKBM_IDP_PROVISION_CLIENT_ID: pkbm-provisioning
+      PKBM_IDP_PROVISION_CLIENT_SECRET: ${PKBM_IDP_PROVISION_CLIENT_SECRET:-}
       PKBM_OIDC_CLIENT_SECRET: ${PKBM_OIDC_CLIENT_SECRET:?Generate identity environment first}
   pkbm-sync:
     environment: *pkbm_oidc_environment

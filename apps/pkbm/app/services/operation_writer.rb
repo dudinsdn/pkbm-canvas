@@ -44,6 +44,8 @@ class OperationWriter
     record.assign_attributes(data)
     a = record.attributes.symbolize_keys
     if table == "people"
+      raise Invalid, 'Password diatur melalui aktivasi akun terpusat' if ENV['PKBM_SSO_ENABLED'] == 'true' && attributes['password'].present?
+      record.password_digest ||= LocalCredentials.digest(SecureRandom.hex(32)) if ENV['PKBM_SSO_ENABLED'] == 'true'
       password = attributes["password"]
       record.password_digest = LocalCredentials.digest(password) if password.present?
       raise Invalid, "Password awal wajib diisi" if record.password_digest.blank?

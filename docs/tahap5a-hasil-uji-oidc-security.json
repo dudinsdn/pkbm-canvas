@@ -1,0 +1,99 @@
+{
+  "passed": 23,
+  "failed": 0,
+  "scope": "OIDC assertions and controller callback guards with isolated RSA keys, rolled-back flows and failed-exchange stub",
+  "checks": [
+    {
+      "name": "issuer rejected",
+      "passed": true
+    },
+    {
+      "name": "audience rejected",
+      "passed": true
+    },
+    {
+      "name": "expiry rejected",
+      "passed": true
+    },
+    {
+      "name": "nonce rejected",
+      "passed": true
+    },
+    {
+      "name": "future issuance rejected",
+      "passed": true
+    },
+    {
+      "name": "missing subject rejected",
+      "passed": true
+    },
+    {
+      "name": "authorized party rejected",
+      "passed": true
+    },
+    {
+      "name": "valid signed assertion accepted",
+      "passed": true
+    },
+    {
+      "name": "invalid signature rejected",
+      "passed": true
+    },
+    {
+      "name": "valid logout assertion accepted",
+      "passed": true
+    },
+    {
+      "name": "logout nonce rejected",
+      "passed": true
+    },
+    {
+      "name": "logout missing session rejected",
+      "passed": true
+    },
+    {
+      "name": "logout event rejected",
+      "passed": true
+    },
+    {
+      "name": "logout stale issuance rejected",
+      "passed": true
+    },
+    {
+      "name": "logout audience rejected",
+      "passed": true
+    },
+    {
+      "name": "callback missing flow rejected",
+      "passed": true
+    },
+    {
+      "name": "external callback override ignored",
+      "passed": true
+    },
+    {
+      "name": "callback state mismatch rejected",
+      "passed": true
+    },
+    {
+      "name": "external callback override ignored",
+      "passed": true
+    },
+    {
+      "name": "callback expired flow rejected",
+      "passed": true
+    },
+    {
+      "name": "external callback override ignored",
+      "passed": true
+    },
+    {
+      "name": "failed exchange consumes state safely",
+      "passed": true
+    },
+    {
+      "name": "callback replay rejected",
+      "passed": true
+    }
+  ]
+}

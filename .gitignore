@@ -7,3 +7,5 @@
 !/apps/pkbm/.env.example
 /apps/pkbm/log/
 /apps/pkbm/tmp/
+__pycache__/
+*.py[cod]

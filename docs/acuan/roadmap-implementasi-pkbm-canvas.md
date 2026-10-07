@@ -168,17 +168,34 @@ Status pelaksanaan 7 Oktober 2026: **Lulus lokal, 130 pemeriksaan akhir lulus, 0
 
 Kebutuhan ini ditambahkan setelah WB mendapat akses ditolak pada Course Canvas karena browser memakai akun demo lama, sedangkan Course memakai user hasil sinkronisasi. LTI Canvas → pendamping bukan SSO pendamping → Canvas. Bukti Tahap 5 tetap berlaku pada lingkup yang tercatat, tanpa klaim satu login.
 
-**Dokumen rancangan tersedia:** [arsitektur identitas, algoritma provisioning, alur tiap peran, migrasi dan kriteria penerimaan](../tahap5a-arsitektur-identitas-dan-alur.md), [status](../tahap5a-status.json). Dukungan SAML ditemukan pada source Canvas terkunci; IdP, resource/dependensi, protokol portal dan logout belum ditetapkan atau diuji.
+**Acuan:** [arsitektur identitas](../tahap5a-arsitektur-identitas-dan-alur.md), [status](../tahap5a-status.json), [operasi dan batas bukti](../tahap5a-operasi-identitas.md). Pembaruan checklist: 7 Oktober 2026, termasuk uji aktivasi/reset, callback, provisioning ulang dan restore lokal terbaru.
 
-- [ ] 5A.1: pilih IdP/protokol/versi, resource, callback/domain dan kontrak logout.
-- [ ] 5A.2: implementasikan identity global, pemetaan provider/profile/Canvas dan audit pencocokan akun lama.
-- [ ] 5A.3: sediakan aktivasi/login/pemulihan terpusat, sesi portal dan konteks membership PKBM.
-- [ ] 5A.4: pasang federasi Canvas dan provisioning idempotent yang memakai kembali user yang benar, tanpa password pengguna kedua.
-- [ ] 5A.4-pengelola: tautan Kelola Canvas, satu login, provisioning pengelola dan hak administrasi hanya pada subaccount PKBM sendiri; buktikan penolakan akses PKBM lain/root.
+- [x] 5A.1: pilih IdP/protokol/versi, resource, callback/domain dan kontrak logout lokal. Keycloak 26.8.0, OIDC untuk portal/Canvas, konfigurasi resource dan endpoint tersedia; logout lokal memiliki bukti HTTP dan browser WB DEMO-A.
+- [x] 5A.2: implementasikan identity global, pemetaan provider/profile/Canvas dan audit pencocokan akun lama. Skema diterapkan; 24 pemeriksaan fondasi lolos. Enam identity demo terpetakan; empat user Canvas dipakai kembali dan dua user pengelola diprovision melalui API.
+- [x] 5A.3: sediakan aktivasi/login/pemulihan terpusat, sesi portal dan konteks membership PKBM.
+  - [x] Login terpusat, sesi server dan konteks membership: enam akun/tiga peran/dua PKBM terbukti melalui HTTP/API.
+  - [x] Undangan/aktivasi pengguna baru dan pemulihan password terpusat tersedia lokal: 11 pemeriksaan HTTP lolos melalui SMTP sink internal; 6 pemeriksaan otorisasi undangan menolak tutor/WB dan membership PKBM lain. Nama keluarga opsional; tidak mengirim email keluar. SMTP produksi belum dikonfigurasi.
+- [x] 5A.4: pasang federasi Canvas dan provisioning idempotent yang memakai kembali user yang benar, tanpa password pengguna kedua.
+  - [x] Provider OIDC dan login federasi dipasang; empat user tutor/WB dipakai kembali. Pengulangan konfigurasi empat login tanpa duplikasi tercatat.
+  - [x] Dua pengelola diprovision dengan login federasi tanpa password Canvas kedua; grant subaccount dibaca ulang sebelum siap.
+  - [x] Pengulangan provisioning nyata kedua pengelola memakai user 9/10 dan membaca tepat satu grant pada subaccount 4/5. Token admin sementara dicabut. Ini retry berurutan, bukan bukti worker paralel.
+- [x] 5A.4-pengelola: tautan Kelola Canvas, satu login, provisioning pengelola dan hak administrasi hanya pada subaccount PKBM sendiri; buktikan penolakan akses PKBM lain/root. Bukti HTTP/API dua pengelola: 30 lolos, 0 gagal; API course PKBM lain/root 403. Browser pengelola DEMO-A membuktikan login dari portal/Canvas, dashboard, dan kembali ke portal pada satu tab tanpa password kedua.
 - [ ] 5A.5: sediakan alur portal → Canvas → portal, penanganan sesi yang berbeda serta logout bersama.
+  - [x] Login/akses Course tutor/WB dan admin pengelola dengan user Canvas yang benar: HTTP/API dua PKBM. Browser WB dan pengelola DEMO-A terbukti pada lingkup tercatat.
+  - [x] Pengelola DEMO-A: portal → Canvas → portal, akses langsung Canvas, dan pergantian WB setelah logout. Pengelola DEMO-B: portal → Canvas subaccount 5 → portal terbukti; satu tab, tanpa password kedua.
+  - [x] Logout portal dan Canvas mencabut sesi melalui IdP dan menuju form login: HTTP/API; browser WB DEMO-A.
+  - [ ] Sesi Canvas akun lain yang masih aktif, multi-tab, dan keadaan kegagalan logout belum lengkap diuji. Browser Back setelah logout pengelola DEMO-A tetap menuju form login; belum mencakup Back dari semua halaman Canvas/peran.
 - [ ] 5A.6: migrasikan fixture yang ditelaah, pertahankan enrollment/hasil, buktikan API/browser tiga peran/dua PKBM dan rollback.
+  - [x] Enam fixture identity ditautkan; empat akun tutor/WB lama dipertahankan; dua pengelola mendapat akses subaccount.
+  - [x] Bukti API tiga peran/dua PKBM tersedia: 230 pemeriksaan OIDC/operasional dan 30 pemeriksaan dashboard pengelola (suite berbeda).
+  - [x] Restore penuh database PKBM dan Canvas ke database terisolasi: 24 pemeriksaan lolos, termasuk hash/jumlah baris 20 tabel domain dan pembersihan database sementara.
+  - [ ] Bukti browser lengkap tiga peran/dua PKBM dan seluruh pekerjaan/nilai historis belum selesai. Tabel assignment/submission saat restore kosong; belum membuktikan histori penilaian yang terisi. Restore layanan identitas Keycloak juga belum diuji.
 
-**Gerbang:** login sekali terbukti di browser kedua aplikasi, identitas/user/peran tepat, akun lama tidak terduplikasi, hasil terjaga dan logout/pencabutan sesuai kontrak yang diuji. **Status: rancangan terdokumentasi; implementasi dan pengujian belum dimulai.** Penyelesaian alur pengguna Tahap 6 bergantung pada gerbang ini. Kode Tahap 6 yang sudah ditulis dipertahankan.
+**Gerbang:** login sekali terbukti di browser kedua aplikasi, identitas/user/peran tepat, akun lama tidak terduplikasi, hasil terjaga dan logout/pencabutan sesuai kontrak yang diuji. **Status: implementasi lokal dan bukti parsial tersedia; gerbang keseluruhan belum lulus.** Item selesai di atas tidak berarti seluruh kriteria penerimaan 5A selesai. Penyelesaian alur pengguna Tahap 6 tetap bergantung pada gerbang ini.
+
+**Bukti:** [fondasi: 24 lolos](../tahap5a-hasil-uji-identitas.json), [OIDC/API: 230 lolos](../tahap5a-hasil-uji-oidc-api.json), [dashboard pengelola: 30 lolos](../tahap5a-hasil-uji-dashboard-pengelola.json), [browser logout WB](../logout-login-browser.png), [browser login pengelola](../pengelola-login-browser.png).
+
+**Bukti tambahan:** [aktivasi/reset: 11 lolos](../tahap5a-hasil-uji-aktivasi.json), [callback/assertion: 23 lolos](../tahap5a-hasil-uji-oidc-security.json), [retry provisioning: 4 lolos](../tahap5a-hasil-uji-provisioning-ulang.json), [restore database: 24 lolos](../tahap5a-hasil-uji-restore.json).
 
 ## 10. Tahap 6 — tiga modul dan alur penilaian lengkap
 

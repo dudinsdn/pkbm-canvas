@@ -1,0 +1,68 @@
+{
+  "scope": "local HTTP activation/reset with disposable named profile and internal SMTP receiver; test profile retained for audit; no real-user password changed",
+  "fixture_username": "validation-7073af7194e2",
+  "passed": 11,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "unauthenticated invitation rejected",
+      "passed": true,
+      "detail": 401
+    },
+    {
+      "name": "manager invitation accepted",
+      "passed": true,
+      "detail": 202
+    },
+    {
+      "name": "activation delivered only to local sink",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "activation action completion",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "path": "/"
+      }
+    },
+    {
+      "name": "activated identity can login",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "active identity reinvitation rejected",
+      "passed": true,
+      "detail": 422
+    },
+    {
+      "name": "central forgot password link",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reset email delivered",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reset action completed",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "new central password works",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "previous password rejected",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "test_profiles_retired": 8,
+  "cleanup_report": "docs/tahap5a-hasil-uji-aktivasi-cleanup.json"
+}

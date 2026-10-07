@@ -60,3 +60,7 @@ Rails.application.routes.draw do
   post '/api/v1/identity/logout', to: 'identity#logout'
   post '/auth/backchannel-logout', to: 'identity#backchannel_logout'
 end
+
+Rails.application.routes.draw do
+  post '/api/v1/identity/invitations', to: 'identity_invitations#create'
+end

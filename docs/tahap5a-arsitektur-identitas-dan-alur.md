@@ -183,11 +183,11 @@ Implementasi awal Tahap 6 tetap disimpan. Pengujian end-to-end dan klaim siap di
 
 ## 10. Kriteria penerimaan dan rencana pengujian
 
-Belum ada pengujian Tahap 5A yang dijalankan. Saat pengguna meminta pengujian, bukti harus mencakup:
+Status per 7 Oktober 2026: pengujian fondasi/HTTP/API dan browser terbatas sudah dijalankan. Checklist berikut mengikuti bukti aktual; kriteria gabungan tetap terbuka bila ada bagiannya yang belum terbukti. Status pelaksanaan terinci ada pada [roadmap](acuan/roadmap-implementasi-pkbm-canvas.md).
 
 - [ ] WB, tutor dan pengelola mengaktifkan/login satu akun; tidak ada password Canvas kedua.
-- [ ] Login sekali di portal lalu membuka Course/item Canvas dengan user ID yang tepat.
-- [ ] Canvas → portal dan akses langsung Canvas menggunakan identity/konteks yang sesuai.
+- [x] Login sekali di portal lalu membuka Course/item Canvas dengan user ID yang tepat. HTTP/API tutor/WB dua PKBM; browser WB DEMO-A.
+- [ ] Canvas → portal dan akses langsung Canvas menggunakan identity/konteks yang sesuai untuk seluruh peran/dua PKBM. Pengelola DEMO-A sudah terbukti di browser; cakupan lengkap masih terbuka.
 - [ ] Sesi Canvas demo lama yang berbeda tidak memberi akses salah atau membuat loop login.
 - [ ] Retry login/provisioning dan worker paralel tidak menggandakan identity, login atau user Canvas.
 - [ ] Dua PKBM memakai email/nama yang sama sebagai fixture tetapi tetap terpisah sampai identitas sama dibuktikan.

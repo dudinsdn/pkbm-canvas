@@ -1,0 +1,43 @@
+{
+  "scope": "HTTP invitation authorization using existing demo fixtures; only rejected writes; no account created or altered",
+  "passed": 6,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "unauthenticated rejected",
+      "passed": true,
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "name": "existing active identity cannot be relinked",
+      "passed": true,
+      "status": 422,
+      "expected": 422
+    },
+    {
+      "name": "invalid username rejected",
+      "passed": true,
+      "status": 422,
+      "expected": 422
+    },
+    {
+      "name": "foreign PKBM membership rejected",
+      "passed": true,
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "name": "tutor cannot invite",
+      "passed": true,
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "name": "warga-belajar cannot invite",
+      "passed": true,
+      "status": 403,
+      "expected": 403
+    }
+  ]
+}

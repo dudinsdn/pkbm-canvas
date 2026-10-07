@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+"""Configure local recovery and a dedicated user-management service after approval."""
+import pathlib,requests,secrets,os
+root=pathlib.Path(__file__).resolve().parents[1];p=root/'var/identity/runtime.env'
+env=dict(x.split('=',1) for x in p.read_text().splitlines() if '=' in x)
+secret=env.get('PKBM_IDP_PROVISION_CLIENT_SECRET') or secrets.token_urlsafe(36)
+if 'PKBM_IDP_PROVISION_CLIENT_SECRET' not in env:
+ with p.open('a') as out:out.write('PKBM_IDP_PROVISION_CLIENT_SECRET='+secret+'\n')
+ os.chmod(p,0o600)
+base='http://127.0.0.1:8082';s=requests.Session()
+r=s.post(base+'/realms/master/protocol/openid-connect/token',data=dict(grant_type='password',client_id='admin-cli',username='operator',password=env['PKBM_IDP_ADMIN_PASSWORD']),timeout=30);r.raise_for_status();s.headers['Authorization']='Bearer '+r.json()['access_token']
+def call(method,path,data=None):
+ r=s.request(method,base+'/admin/realms/pkbm'+path,json=data,timeout=30);r.raise_for_status();return r.json() if r.content else None
+realm=call('GET','');realm.update(resetPasswordAllowed=True,smtpServer=dict(host='pkbm',port='1025',**{'from':'noreply@pkbm.local','fromDisplayName':'Pembelajaran PKBM','ssl':'false','starttls':'false','auth':'false'}));call('PUT','',realm)
+# Portal stores a person's complete name; Indonesian names need not have a surname.
+profile=call('GET','/users/profile')
+for attribute in profile['attributes']:
+ if attribute['name']=='lastName':attribute.pop('required',None)
+call('PUT','/users/profile',profile)
+portal=call('GET','/clients?clientId=pkbm-portal')[0]
+portal['redirectUris']=list(dict.fromkeys(portal['redirectUris']+['http://127.0.0.1:3000/']));call('PUT','/clients/'+portal['id'],portal)
+clients=call('GET','/clients?clientId=pkbm-provisioning')
+if not clients:
+ call('POST','/clients',dict(clientId='pkbm-provisioning',enabled=True,protocol='openid-connect',publicClient=False,secret=secret,serviceAccountsEnabled=True,standardFlowEnabled=False,directAccessGrantsEnabled=False));clients=call('GET','/clients?clientId=pkbm-provisioning')
+assert len(clients)==1
+client=clients[0];assert client.get('serviceAccountsEnabled') is True and client.get('standardFlowEnabled') is False
+service=call('GET','/clients/'+client['id']+'/service-account-user');management=call('GET','/clients?clientId=realm-management')[0]
+roles=[call('GET','/clients/'+management['id']+'/roles/'+name) for name in ['manage-users','view-users','query-users']]
+call('POST','/users/'+service['id']+'/role-mappings/clients/'+management['id'],roles)
+print('Local email/reset and user-management service configured; secrets withheld.')

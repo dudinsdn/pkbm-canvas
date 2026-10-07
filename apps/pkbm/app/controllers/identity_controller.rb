@@ -1,7 +1,7 @@
 class IdentityController < ActionController::API
   include ActionController::Cookies
   before_action :enabled!, except: [:configuration]
-  rescue_from OidcClient::Invalid, IdentitySessionStore::Unauthorized, ActiveRecord::RecordNotFound, ActionController::ParameterMissing do
+  rescue_from IdentityDirectory::Unavailable, OidcClient::Invalid, IdentitySessionStore::Unauthorized, ActiveRecord::RecordNotFound, ActionController::ParameterMissing do
     render json: {error: 'Login belum tersedia atau identitas belum ditautkan. Hubungi pengelola PKBM.'}, status: :unauthorized
   end
   def configuration
@@ -33,6 +33,11 @@ class IdentityController < ActionController::API
     claims = client.redeem(code: params.require(:code), nonce: flow.fetch('nonce'), verifier: flow.fetch('verifier'))
     subject = IdentityExternalSubject.find_by!(issuer: OidcClient.new.issuer, protocol: 'oidc', subject: claims.fetch('sub'))
     identity = IdentityAccount.find(subject.identity_account_id)
+    if identity.status == 'pending'
+      activated = IdentityDirectory.new.user(subject.subject)
+      raise OidcClient::Invalid unless activated['enabled'] && activated['emailVerified'] && activated.fetch('requiredActions', []).empty?
+      identity.update!(status: 'active')
+    end
     token = IdentitySessionStore.issue!(identity: identity, oidc_sid: claims['sid'])
     cookies.encrypted[:pkbm_logout_hint] = {value: client.logout_id_token, httponly: true, same_site: :lax, secure: request.ssl?, expires: 8.hours.from_now}
     cookies[:pkbm_identity_session] = {value: token, httponly: true, same_site: :lax, secure: request.ssl?, expires: 8.hours.from_now}

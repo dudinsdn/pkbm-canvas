@@ -1,6 +1,6 @@
 {
   "stage": "5A identity foundation",
-  "passed": 23,
+  "passed": 24,
   "failed": 0,
   "checks": [
     "identity starts pending",
@@ -8,6 +8,7 @@
     "other tenant manager rejected",
     "learner cannot provision",
     "tenant profiles not merged by email",
+    "one identity uses second tenant context explicitly",
     "membership conflict rejected",
     "pending identity cannot issue session",
     "active identity resolves own membership",
