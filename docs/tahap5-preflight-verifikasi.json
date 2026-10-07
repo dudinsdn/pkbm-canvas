@@ -1,0 +1,183 @@
+{
+  "scope": "preflight_only_no_canvas_token",
+  "checks": [
+    {
+      "name": "DEMO-A_pengelola_login",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_pengelola_integration_scope",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_credential_not_serialized",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_pengelola_course_links",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_tutor_login",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_tutor_integration_scope",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_tutor_course_links",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_tutor_deny_/api/v1/integration",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_tutor_deny_/api/v1/integration/jobs",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_tutor_deny_/api/v1/integration/resources",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_tutor_deny_/api/v1/integration/jobs/00000000-0000-0000-0000-000000000000/retry",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_warga_belajar_login",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_warga_belajar_integration_scope",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_warga_belajar_course_links",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_warga_belajar_deny_/api/v1/integration",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_warga_belajar_deny_/api/v1/integration/jobs",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_warga_belajar_deny_/api/v1/integration/resources",
+      "passed": true
+    },
+    {
+      "name": "DEMO-A_warga_belajar_deny_/api/v1/integration/jobs/00000000-0000-0000-0000-000000000000/retry",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_pengelola_login",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_pengelola_integration_scope",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_credential_not_serialized",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_pengelola_course_links",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_tutor_login",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_tutor_integration_scope",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_tutor_course_links",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_tutor_deny_/api/v1/integration",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_tutor_deny_/api/v1/integration/jobs",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_tutor_deny_/api/v1/integration/resources",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_tutor_deny_/api/v1/integration/jobs/00000000-0000-0000-0000-000000000000/retry",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_warga_belajar_login",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_warga_belajar_integration_scope",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_warga_belajar_course_links",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_warga_belajar_deny_/api/v1/integration",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_warga_belajar_deny_/api/v1/integration/jobs",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_warga_belajar_deny_/api/v1/integration/resources",
+      "passed": true
+    },
+    {
+      "name": "DEMO-B_warga_belajar_deny_/api/v1/integration/jobs/00000000-0000-0000-0000-000000000000/retry",
+      "passed": true
+    },
+    {
+      "name": "anonymous_denied_/api/v1/integration",
+      "passed": true
+    },
+    {
+      "name": "anonymous_denied_/api/v1/integration/links",
+      "passed": true
+    },
+    {
+      "name": "anonymous_denied_/api/v1/integration/resources/00000000-0000-0000-0000-000000000000?delivery_id=00000000-0000-0000-0000-000000000000",
+      "passed": true
+    },
+    {
+      "name": "invalid_lti_0",
+      "passed": true
+    },
+    {
+      "name": "invalid_lti_1",
+      "passed": true
+    },
+    {
+      "name": "invalid_lti_2",
+      "passed": true
+    },
+    {
+      "name": "invalid_lti_exchange",
+      "passed": true
+    },
+    {
+      "name": "missing_lti_exchange",
+      "passed": true
+    }
+  ],
+  "passed": 44,
+  "failed": 0
+}

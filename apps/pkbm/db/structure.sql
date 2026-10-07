@@ -160,6 +160,46 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: canvas_bindings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.canvas_bindings (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    canvas_instance_id uuid NOT NULL,
+    object_kind text NOT NULL,
+    local_key text NOT NULL,
+    remote_id text NOT NULL,
+    remote_context text DEFAULT ''::text NOT NULL,
+    last_payload_checksum text NOT NULL,
+    last_remote_snapshot jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT canvas_bindings_object_kind_check CHECK ((object_kind = ANY (ARRAY['account'::text, 'course'::text, 'section'::text, 'user'::text, 'enrollment'::text, 'outcome'::text, 'module'::text, 'page'::text, 'module_item'::text, 'external_tool'::text])))
+);
+
+
+--
+-- Name: canvas_instances; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.canvas_instances (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    name text NOT NULL,
+    api_base_url text NOT NULL,
+    public_base_url text NOT NULL,
+    root_account_id integer NOT NULL,
+    credentials_encrypted text NOT NULL,
+    consumer_key text NOT NULL,
+    enabled boolean DEFAULT true NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT canvas_instances_root_account_id_check CHECK ((root_account_id > 0))
+);
+
+
+--
 -- Name: component_relations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -271,6 +311,21 @@ CREATE TABLE public.delivery_enrollments (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
     CONSTRAINT delivery_enrollments_status_check CHECK ((status = ANY (ARRAY['active'::text, 'inactive'::text, 'completed'::text])))
+);
+
+
+--
+-- Name: delivery_resources; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.delivery_resources (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    delivery_id uuid NOT NULL,
+    learning_resource_id uuid NOT NULL,
+    note text DEFAULT ''::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
 );
 
 
@@ -556,6 +611,32 @@ CREATE TABLE public.learning_targets (
 
 
 --
+-- Name: lti_launch_codes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.lti_launch_codes (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    membership_id uuid NOT NULL,
+    code_digest text NOT NULL,
+    expires_at timestamp with time zone NOT NULL,
+    used_at timestamp with time zone
+);
+
+
+--
+-- Name: lti_nonces; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.lti_nonces (
+    id uuid NOT NULL,
+    canvas_instance_id uuid NOT NULL,
+    nonce_digest text NOT NULL,
+    expires_at timestamp with time zone NOT NULL
+);
+
+
+--
 -- Name: people; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -775,6 +856,46 @@ CREATE TABLE public.specialization_tracks (
 
 
 --
+-- Name: sync_events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.sync_events (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    sync_job_id uuid NOT NULL,
+    event_type text NOT NULL,
+    object_kind text,
+    local_key text,
+    detail jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: sync_jobs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.sync_jobs (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    canvas_instance_id uuid NOT NULL,
+    delivery_id uuid NOT NULL,
+    requested_by uuid NOT NULL,
+    status text DEFAULT 'queued'::text NOT NULL,
+    attempts integer DEFAULT 0 NOT NULL,
+    force_local boolean DEFAULT false NOT NULL,
+    started_at timestamp with time zone,
+    finished_at timestamp with time zone,
+    error_code text,
+    last_error text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT sync_jobs_attempts_check CHECK ((attempts >= 0)),
+    CONSTRAINT sync_jobs_status_check CHECK ((status = ANY (ARRAY['queued'::text, 'running'::text, 'completed'::text, 'failed'::text, 'conflict'::text])))
+);
+
+
+--
 -- Name: academic_frameworks academic_frameworks_catalog_key_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -828,6 +949,62 @@ ALTER TABLE ONLY public.activity_targets
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: canvas_bindings canvas_bindings_canvas_instance_id_object_kind_local_key_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_bindings
+    ADD CONSTRAINT canvas_bindings_canvas_instance_id_object_kind_local_key_key UNIQUE (canvas_instance_id, object_kind, local_key);
+
+
+--
+-- Name: canvas_bindings canvas_bindings_canvas_instance_id_object_kind_remote_conte_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_bindings
+    ADD CONSTRAINT canvas_bindings_canvas_instance_id_object_kind_remote_conte_key UNIQUE (canvas_instance_id, object_kind, remote_context, remote_id);
+
+
+--
+-- Name: canvas_bindings canvas_bindings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_bindings
+    ADD CONSTRAINT canvas_bindings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: canvas_instances canvas_instances_consumer_key_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_instances
+    ADD CONSTRAINT canvas_instances_consumer_key_key UNIQUE (consumer_key);
+
+
+--
+-- Name: canvas_instances canvas_instances_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_instances
+    ADD CONSTRAINT canvas_instances_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: canvas_instances canvas_instances_pkbm_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_instances
+    ADD CONSTRAINT canvas_instances_pkbm_id_key UNIQUE (pkbm_id);
+
+
+--
+-- Name: canvas_instances canvas_instances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_instances
+    ADD CONSTRAINT canvas_instances_pkey PRIMARY KEY (id);
 
 
 --
@@ -972,6 +1149,22 @@ ALTER TABLE ONLY public.delivery_enrollments
 
 ALTER TABLE ONLY public.delivery_enrollments
     ADD CONSTRAINT delivery_enrollments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: delivery_resources delivery_resources_pkbm_id_delivery_id_learning_resource_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_resources
+    ADD CONSTRAINT delivery_resources_pkbm_id_delivery_id_learning_resource_id_key UNIQUE (pkbm_id, delivery_id, learning_resource_id);
+
+
+--
+-- Name: delivery_resources delivery_resources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_resources
+    ADD CONSTRAINT delivery_resources_pkey PRIMARY KEY (id);
 
 
 --
@@ -1319,6 +1512,38 @@ ALTER TABLE ONLY public.learning_targets
 
 
 --
+-- Name: lti_launch_codes lti_launch_codes_code_digest_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lti_launch_codes
+    ADD CONSTRAINT lti_launch_codes_code_digest_key UNIQUE (code_digest);
+
+
+--
+-- Name: lti_launch_codes lti_launch_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lti_launch_codes
+    ADD CONSTRAINT lti_launch_codes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: lti_nonces lti_nonces_canvas_instance_id_nonce_digest_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lti_nonces
+    ADD CONSTRAINT lti_nonces_canvas_instance_id_nonce_digest_key UNIQUE (canvas_instance_id, nonce_digest);
+
+
+--
+-- Name: lti_nonces lti_nonces_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lti_nonces
+    ADD CONSTRAINT lti_nonces_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: people people_pkbm_id_email_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1591,6 +1816,30 @@ ALTER TABLE ONLY public.specialization_tracks
 
 
 --
+-- Name: sync_events sync_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sync_events
+    ADD CONSTRAINT sync_events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sync_jobs sync_jobs_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sync_jobs
+    ADD CONSTRAINT sync_jobs_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: sync_jobs sync_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sync_jobs
+    ADD CONSTRAINT sync_jobs_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: activity_targets_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1707,6 +1956,13 @@ CREATE INDEX mappings_target_idx ON public.resource_target_mappings USING btree 
 --
 
 CREATE UNIQUE INDEX one_active_learning_plan ON public.learning_plans USING btree (pkbm_id, learner_program_id) WHERE (status = 'active'::text);
+
+
+--
+-- Name: one_pending_delivery_sync; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX one_pending_delivery_sync ON public.sync_jobs USING btree (canvas_instance_id, delivery_id) WHERE (status = ANY (ARRAY['queued'::text, 'running'::text]));
 
 
 --
@@ -1841,6 +2097,30 @@ ALTER TABLE ONLY public.activity_targets
 
 
 --
+-- Name: canvas_bindings canvas_bindings_pkbm_id_canvas_instance_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_bindings
+    ADD CONSTRAINT canvas_bindings_pkbm_id_canvas_instance_id_fkey FOREIGN KEY (pkbm_id, canvas_instance_id) REFERENCES public.canvas_instances(pkbm_id, id);
+
+
+--
+-- Name: canvas_bindings canvas_bindings_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_bindings
+    ADD CONSTRAINT canvas_bindings_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: canvas_instances canvas_instances_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_instances
+    ADD CONSTRAINT canvas_instances_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
 -- Name: component_relations component_relations_from_component_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1966,6 +2246,30 @@ ALTER TABLE ONLY public.delivery_enrollments
 
 ALTER TABLE ONLY public.delivery_enrollments
     ADD CONSTRAINT delivery_enrollments_pkbm_id_learner_program_id_fkey FOREIGN KEY (pkbm_id, learner_program_id) REFERENCES public.learner_programs(pkbm_id, id);
+
+
+--
+-- Name: delivery_resources delivery_resources_learning_resource_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_resources
+    ADD CONSTRAINT delivery_resources_learning_resource_id_fkey FOREIGN KEY (learning_resource_id) REFERENCES public.learning_resources(id);
+
+
+--
+-- Name: delivery_resources delivery_resources_pkbm_id_delivery_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_resources
+    ADD CONSTRAINT delivery_resources_pkbm_id_delivery_id_fkey FOREIGN KEY (pkbm_id, delivery_id) REFERENCES public.deliveries(pkbm_id, id);
+
+
+--
+-- Name: delivery_resources delivery_resources_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_resources
+    ADD CONSTRAINT delivery_resources_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
 
 
 --
@@ -2313,6 +2617,30 @@ ALTER TABLE ONLY public.learning_targets
 
 
 --
+-- Name: lti_launch_codes lti_launch_codes_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lti_launch_codes
+    ADD CONSTRAINT lti_launch_codes_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: lti_launch_codes lti_launch_codes_pkbm_id_membership_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lti_launch_codes
+    ADD CONSTRAINT lti_launch_codes_pkbm_id_membership_id_fkey FOREIGN KEY (pkbm_id, membership_id) REFERENCES public.pkbm_memberships(pkbm_id, id);
+
+
+--
+-- Name: lti_nonces lti_nonces_canvas_instance_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lti_nonces
+    ADD CONSTRAINT lti_nonces_canvas_instance_id_fkey FOREIGN KEY (canvas_instance_id) REFERENCES public.canvas_instances(id);
+
+
+--
 -- Name: people people_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2465,12 +2793,61 @@ ALTER TABLE ONLY public.specialization_tracks
 
 
 --
+-- Name: sync_events sync_events_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sync_events
+    ADD CONSTRAINT sync_events_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: sync_events sync_events_pkbm_id_sync_job_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sync_events
+    ADD CONSTRAINT sync_events_pkbm_id_sync_job_id_fkey FOREIGN KEY (pkbm_id, sync_job_id) REFERENCES public.sync_jobs(pkbm_id, id);
+
+
+--
+-- Name: sync_jobs sync_jobs_pkbm_id_canvas_instance_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sync_jobs
+    ADD CONSTRAINT sync_jobs_pkbm_id_canvas_instance_id_fkey FOREIGN KEY (pkbm_id, canvas_instance_id) REFERENCES public.canvas_instances(pkbm_id, id);
+
+
+--
+-- Name: sync_jobs sync_jobs_pkbm_id_delivery_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sync_jobs
+    ADD CONSTRAINT sync_jobs_pkbm_id_delivery_id_fkey FOREIGN KEY (pkbm_id, delivery_id) REFERENCES public.deliveries(pkbm_id, id);
+
+
+--
+-- Name: sync_jobs sync_jobs_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sync_jobs
+    ADD CONSTRAINT sync_jobs_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: sync_jobs sync_jobs_pkbm_id_requested_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sync_jobs
+    ADD CONSTRAINT sync_jobs_pkbm_id_requested_by_fkey FOREIGN KEY (pkbm_id, requested_by) REFERENCES public.pkbm_memberships(pkbm_id, id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261007000300'),
 ('20261007000200'),
 ('20261007000100');
 

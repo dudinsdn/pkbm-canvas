@@ -77,14 +77,14 @@ Catatan pelaksanaan: [Tahap 0](./catatan-implementasi-pkbm-canvas.md). Pemeriksa
 - [x] Pisahkan database Canvas dan PKBM secara logis; proses PostgreSQL boleh berbagi layanan jika kompatibel dan dipilih untuk menghemat sumber daya. Gunakan user/hak akses terpisah. Redis mengikuti kebutuhan Canvas; antrean pendamping dipilih tersendiri.
 - [x] Sediakan perintah singkat untuk start, stop, log, migrasi dan seed; dokumentasikan penyimpanan yang harus dipertahankan.
 
-Perintah `sync` sudah tersedia sebagai penjaga yang menolak operasi belum diimplementasikan. Implementasi sinkronisasi tetap pekerjaan Tahap 5, setelah fondasi akademik dan integrasi tersedia.
+Pada snapshot Tahap 1, `sync` masih guard. Tahap 5 kini menyediakan runner/worker opsional; koneksi nyata sudah diuji lokal. [Status Tahap 5](../tahap5-status.json).
 
 **Hasil:** fondasi source/config dan panduan menjalankan lokal.
 
 **Gerbang:** konfigurasi Compose valid, nama/volume/port tidak bertabrakan dan secret tidak masuk repositori. Gerbang ini adalah bukti konfigurasi, belum bukti aplikasi berjalan.
 
 
-Status terbaru Tahap 1: **Lulus lokal fondasi**. Konfigurasi, pemisahan akses database, source pin dan rujukan diperiksa. Penyediaan wrapper tidak berarti setiap kombinasi argumennya diuji. Sinkronisasi tetap Tahap 5. Bukti: [verifikasi Tahap 1–2](../tahap12-verifikasi.md).
+Status terbaru Tahap 1: **Lulus lokal fondasi**. Konfigurasi, pemisahan akses database, source pin dan rujukan diperiksa. Penyediaan wrapper tidak berarti setiap kombinasi argumennya diuji. Implementasi sinkronisasi Tahap 5 tersedia; gerbang integrasinya lulus lokal, lihat verifikasi Tahap 5. Bukti: [verifikasi Tahap 1–2](../tahap12-verifikasi.md).
 
 ## 6. Tahap 2 — migrasi database dan katalog acuan
 
@@ -148,16 +148,18 @@ Status pelaksanaan 7 Oktober 2026: **Lulus lokal: API diuji agen, alur dasar bro
 
 **Tujuan:** rancangan dan peserta pendamping terhubung dengan Course Canvas.
 
-- [ ] Implementasikan instance/binding, otorisasi API, penyimpanan token yang terlindungi dan job sinkronisasi.
-- [ ] Sinkronkan account/course/section/user/enrollment berdasarkan sumber utama yang ditetapkan.
-- [ ] Publikasikan target menjadi Outcomes dan catat hubungan ID, termasuk keterbatasan versi Canvas yang ditemukan.
-- [ ] Publikasikan materi/kegiatan yang dipilih serta tautannya; jangan menerbitkan pemetaan bermasalah sebagai klaim cakupan penuh.
-- [ ] Sediakan status job, error, retry, rekonsiliasi dan pencatatan konflik.
-- [ ] Tambahkan akses LTI ke layar pendamping setelah API dasar berjalan; pemeriksaan identitas/lingkup tetap diterapkan.
+- [x] Implementasikan instance/binding, otorisasi API, penyimpanan token yang terlindungi dan job sinkronisasi.
+- [x] Sinkronkan account/course/section/user/enrollment berdasarkan sumber utama yang ditetapkan.
+- [x] Publikasikan target menjadi Outcomes dan catat hubungan ID, termasuk keterbatasan versi Canvas yang ditemukan.
+- [x] Publikasikan materi/kegiatan yang dipilih serta tautannya; jangan menerbitkan pemetaan bermasalah sebagai klaim cakupan penuh.
+- [x] Sediakan status job, error, retry, rekonsiliasi dan pencatatan konflik.
+- [x] Tambahkan akses LTI ke layar pendamping setelah API dasar berjalan; pemeriksaan identitas/lingkup tetap diterapkan.
 
 **Hasil:** pelaksanaan dibuat/diperbarui melalui proses yang terlacak.
 
 **Gerbang:** sinkronisasi ulang tidak menggandakan objek; update dan kegagalan parsial dapat dipulihkan; binding dua sistem benar. Uji koneksi nyata ke Canvas lokal, bukan mock saja.
+
+Status pelaksanaan 7 Oktober 2026: **Lulus lokal, 130 pemeriksaan akhir lulus, 0 gagal**. Koneksi dua PKBM ke Canvas, pengulangan tanpa duplikasi, update/roster, binding, konflik/retry, pemulihan parsial terkontrol dan launch Canvas bertanda tangan melalui HTTP terbukti. UI status diperiksa; seluruh navigasi/formulir browser tidak diklaim. Token sementara dicabut dan salinannya dibersihkan. Worker daemon tidak dimulai; runner satu job diuji. [Bukti dan batas](../tahap5-verifikasi.md), [status](../tahap5-status.json).
 
 ## 10. Tahap 6 — tiga modul dan alur penilaian lengkap
 

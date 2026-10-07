@@ -77,7 +77,7 @@ services:
     <<: *canvas
     ports: []
     command: bundle exec script/delayed_job run
-  pkbm:
+  pkbm: &pkbm
     profiles: [catalog]
     image: pkbm-canvas-web:local
     pull_policy: never
@@ -91,14 +91,25 @@ services:
       PKBM_LOCAL_ADMIN_PASSWORD: ${PKBM_LOCAL_ADMIN_PASSWORD:-}
       PKBM_LOCAL_TUTOR_PASSWORD: ${PKBM_LOCAL_TUTOR_PASSWORD:-}
       PKBM_LOCAL_WB_PASSWORD: ${PKBM_LOCAL_WB_PASSWORD:-}
+      CANVAS_API_BASE_URL: http://web:3000
+      CANVAS_PUBLIC_BASE_URL: http://127.0.0.1:${CANVAS_PORT:-8081}
+      CANVAS_ROOT_ACCOUNT_ID: '1'
+      PKBM_PUBLIC_BASE_URL: http://127.0.0.1:${PKBM_PORT:-3000}
+      PKBM_SOURCE_ROOT: /sources
     volumes:
       - ../apps/pkbm:/usr/src/pkbm
       - ../var/pkbm-gems:/home/docker/.gem
       - ../var/pkbm-bundle:/home/docker/.bundle
+      - /home/din/Downloads/modul-kesetaraan:/sources:ro
     ports:
       - '127.0.0.1:${PKBM_PORT:-3000}:3000'
     depends_on: [postgres]
     networks: [backend, outbound]
+  pkbm-sync:
+    <<: *pkbm
+    profiles: [integration]
+    ports: []
+    command: bundle exec rails runner /usr/src/pkbm/bin/canvas-sync-worker.rb
 networks:
   backend:
     internal: true

@@ -1,0 +1,588 @@
+{
+  "date": "2026-10-07",
+  "stage": 5,
+  "passed": 130,
+  "failed": 0,
+  "suites": {
+    "preflight": {
+      "scope": "preflight_only_no_canvas_token",
+      "checks": [
+        {
+          "name": "DEMO-A_pengelola_login",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_pengelola_integration_scope",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_credential_not_serialized",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_pengelola_course_links",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_tutor_login",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_tutor_integration_scope",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_tutor_course_links",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_tutor_deny_/api/v1/integration",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_tutor_deny_/api/v1/integration/jobs",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_tutor_deny_/api/v1/integration/resources",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_tutor_deny_/api/v1/integration/jobs/00000000-0000-0000-0000-000000000000/retry",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_warga_belajar_login",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_warga_belajar_integration_scope",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_warga_belajar_course_links",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_warga_belajar_deny_/api/v1/integration",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_warga_belajar_deny_/api/v1/integration/jobs",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_warga_belajar_deny_/api/v1/integration/resources",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_warga_belajar_deny_/api/v1/integration/jobs/00000000-0000-0000-0000-000000000000/retry",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_pengelola_login",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_pengelola_integration_scope",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_credential_not_serialized",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_pengelola_course_links",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_tutor_login",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_tutor_integration_scope",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_tutor_course_links",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_tutor_deny_/api/v1/integration",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_tutor_deny_/api/v1/integration/jobs",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_tutor_deny_/api/v1/integration/resources",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_tutor_deny_/api/v1/integration/jobs/00000000-0000-0000-0000-000000000000/retry",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_warga_belajar_login",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_warga_belajar_integration_scope",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_warga_belajar_course_links",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_warga_belajar_deny_/api/v1/integration",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_warga_belajar_deny_/api/v1/integration/jobs",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_warga_belajar_deny_/api/v1/integration/resources",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_warga_belajar_deny_/api/v1/integration/jobs/00000000-0000-0000-0000-000000000000/retry",
+          "passed": true
+        },
+        {
+          "name": "anonymous_denied_/api/v1/integration",
+          "passed": true
+        },
+        {
+          "name": "anonymous_denied_/api/v1/integration/links",
+          "passed": true
+        },
+        {
+          "name": "anonymous_denied_/api/v1/integration/resources/00000000-0000-0000-0000-000000000000?delivery_id=00000000-0000-0000-0000-000000000000",
+          "passed": true
+        },
+        {
+          "name": "invalid_lti_0",
+          "passed": true
+        },
+        {
+          "name": "invalid_lti_1",
+          "passed": true
+        },
+        {
+          "name": "invalid_lti_2",
+          "passed": true
+        },
+        {
+          "name": "invalid_lti_exchange",
+          "passed": true
+        },
+        {
+          "name": "missing_lti_exchange",
+          "passed": true
+        }
+      ],
+      "passed": 44,
+      "failed": 0
+    },
+    "integration": {
+      "checks": [
+        {
+          "name": "DEMO-A_login",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_configure",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_select_reference",
+          "passed": true
+        },
+        {
+          "name": "enqueue",
+          "passed": true
+        },
+        {
+          "name": "sync_completed",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_all_object_kinds",
+          "passed": true
+        },
+        {
+          "name": "enqueue",
+          "passed": true
+        },
+        {
+          "name": "sync_completed",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_binding_idempotent",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_login",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_configure",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_select_reference",
+          "passed": true
+        },
+        {
+          "name": "enqueue",
+          "passed": true
+        },
+        {
+          "name": "sync_completed",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_all_object_kinds",
+          "passed": true
+        },
+        {
+          "name": "enqueue",
+          "passed": true
+        },
+        {
+          "name": "sync_completed",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_binding_idempotent",
+          "passed": true
+        }
+      ],
+      "passed": 18,
+      "failed": 0
+    },
+    "behavior": {
+      "checks": [
+        {
+          "name": "distinct_canvas_accounts",
+          "passed": true
+        },
+        {
+          "name": "distinct_canvas_courses",
+          "passed": true
+        },
+        {
+          "name": "pengelola_only_own_course",
+          "passed": true
+        },
+        {
+          "name": "pengelola_pdf_bytes",
+          "passed": true
+        },
+        {
+          "name": "pengelola_foreign_pdf_denied",
+          "passed": true
+        },
+        {
+          "name": "tutor_only_own_course",
+          "passed": true
+        },
+        {
+          "name": "tutor_pdf_bytes",
+          "passed": true
+        },
+        {
+          "name": "tutor_foreign_pdf_denied",
+          "passed": true
+        },
+        {
+          "name": "warga_belajar_only_own_course",
+          "passed": true
+        },
+        {
+          "name": "warga_belajar_pdf_bytes",
+          "passed": true
+        },
+        {
+          "name": "warga_belajar_foreign_pdf_denied",
+          "passed": true
+        },
+        {
+          "name": "foreign_delivery_enqueue_denied",
+          "passed": true
+        },
+        {
+          "name": "foreign_job_retry_denied",
+          "passed": true
+        },
+        {
+          "name": "foreign_resource_selection_denied",
+          "passed": true
+        },
+        {
+          "name": "repeat_completed",
+          "passed": true
+        },
+        {
+          "name": "remote_counts_idempotent",
+          "passed": true
+        },
+        {
+          "name": "remote_conflict_detected",
+          "passed": true
+        },
+        {
+          "name": "normal_retry_preserves_conflict",
+          "passed": true
+        },
+        {
+          "name": "forced_retry_completed",
+          "passed": true
+        },
+        {
+          "name": "local_name_restored",
+          "passed": true
+        },
+        {
+          "name": "partial_failure_recorded",
+          "passed": true
+        },
+        {
+          "name": "partial_failure_retry_completed",
+          "passed": true
+        },
+        {
+          "name": "recovery_same_remote_id",
+          "passed": true
+        },
+        {
+          "name": "recovery_no_remote_duplicates",
+          "passed": true
+        },
+        {
+          "name": "credential_ciphertext_not_plaintext",
+          "passed": true
+        },
+        {
+          "name": "signed_lti_positive",
+          "passed": true
+        },
+        {
+          "name": "one_time_exchange",
+          "passed": true
+        },
+        {
+          "name": "forged_role_ignored",
+          "passed": true
+        },
+        {
+          "name": "nonce_replay_denied",
+          "passed": true
+        },
+        {
+          "name": "code_replay_denied",
+          "passed": true
+        },
+        {
+          "name": "lti_expired_denied",
+          "passed": true
+        },
+        {
+          "name": "lti_foreign_course_denied",
+          "passed": true
+        },
+        {
+          "name": "lti_unknown_user_denied",
+          "passed": true
+        },
+        {
+          "name": "lti_wrong_signature_denied",
+          "passed": true
+        },
+        {
+          "name": "canvas_generated_launch_form",
+          "passed": true
+        },
+        {
+          "name": "actual_canvas_signed_launch",
+          "passed": true
+        }
+      ],
+      "passed": 36,
+      "failed": 0,
+      "partial_failure": "controlled fault after actual Canvas PUT, before local binding save",
+      "lti_transport": "HTTP; browser rendering not claimed"
+    },
+    "update": {
+      "checks": [
+        {
+          "name": "local_update",
+          "passed": true
+        },
+        {
+          "name": "repeat_completed",
+          "passed": true
+        },
+        {
+          "name": "course_update_propagated",
+          "passed": true
+        },
+        {
+          "name": "repeat_completed",
+          "passed": true
+        },
+        {
+          "name": "course_name_restored",
+          "passed": true
+        },
+        {
+          "name": "repeat_completed",
+          "passed": true
+        },
+        {
+          "name": "roster_inactivated",
+          "passed": true
+        },
+        {
+          "name": "repeat_completed",
+          "passed": true
+        },
+        {
+          "name": "roster_reactivated",
+          "passed": true
+        },
+        {
+          "name": "local_status_restored",
+          "passed": true
+        }
+      ],
+      "passed": 10,
+      "failed": 0
+    },
+    "binding": {
+      "checks": [
+        {
+          "name": "DEMO-A_course_account_binding",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_section_course_binding",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_enrollment_bindings",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_page_reference_and_warning",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_outcome_vendor_binding",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_module_page_binding",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_course_account_binding",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_section_course_binding",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_enrollment_bindings",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_page_reference_and_warning",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_outcome_vendor_binding",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_module_page_binding",
+          "passed": true
+        }
+      ],
+      "passed": 12,
+      "failed": 0
+    },
+    "canvas-lti": {
+      "checks": [
+        {
+          "name": "canvas_generated_launch_form",
+          "passed": true
+        },
+        {
+          "name": "actual_canvas_signed_launch",
+          "passed": true
+        },
+        {
+          "name": "actual_canvas_exchange",
+          "passed": true
+        },
+        {
+          "name": "actual_canvas_identity",
+          "passed": true
+        }
+      ],
+      "passed": 4,
+      "failed": 0
+    },
+    "cleanup": {
+      "checks": [
+        {
+          "name": "DEMO-A_token_cleared_status",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_missing_token_enqueue_rejected",
+          "passed": true
+        },
+        {
+          "name": "DEMO-A_no_unfinished_jobs",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_token_cleared_status",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_missing_token_enqueue_rejected",
+          "passed": true
+        },
+        {
+          "name": "DEMO-B_no_unfinished_jobs",
+          "passed": true
+        }
+      ],
+      "passed": 6,
+      "failed": 0
+    }
+  },
+  "token_lifecycle": {
+    "temporary_token_revoked": true,
+    "revoked_token_http_status": 401,
+    "temporary_secret_file_removed": true,
+    "companion_access_token_cleared": true,
+    "lti_secret_retained_for_existing_tool": true
+  },
+  "scope": "local real Canvas HTTP/API; UI status inspected; full browser LTI navigation not tested",
+  "initial_failures": [
+    "internal Host mismatch HTTP 403 fixed",
+    "test masquerade as_user_id ignored on web route; use official Act as",
+    "delivery enrollment immutable; roster test uses learner_program status"
+  ],
+  "partial_failure": "Controlled fault after successful Canvas PUT, before local binding save; retry uses same remote ID",
+  "retained_data": "Two Canvas subaccounts, courses, sections, users/enrollments, content/tools and audit jobs retained; local names and learner status restored"
+}

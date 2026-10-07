@@ -1,6 +1,6 @@
 # Catatan implementasi PKBM–Canvas
 
-**Status terbaru:** Tahap 4 diimplementasikan dan API lulus lokal; pengguna mengonfirmasi UI dasar secara manual. Tahap 4 Lulus lokal berdasarkan uji API agen dan konfirmasi alur dasar browser oleh pengguna. Tahap 1–2 lulus lokal untuk fondasi dan katalog contoh; Tahap 3 lulus lokal dengan checklist lengkap, termasuk pengukuran terpisah dan unggahan browser melalui Files lama. [Bukti terbaru](../tahap12-verifikasi.md). Bagian sebelumnya merupakan riwayat bertanggal, bukan status terkini.
+**Status terbaru:** Tahap 5 Lulus lokal: 130 pemeriksaan akhir lulus, 0 gagal; token sementara dicabut. Tahap 4 diimplementasikan dan API lulus lokal; pengguna mengonfirmasi UI dasar secara manual. Tahap 4 Lulus lokal berdasarkan uji API agen dan konfirmasi alur dasar browser oleh pengguna. Tahap 1–2 lulus lokal untuk fondasi dan katalog contoh; Tahap 3 lulus lokal dengan checklist lengkap, termasuk pengukuran terpisah dan unggahan browser melalui Files lama. [Bukti terbaru](../tahap5-verifikasi.md). Bagian sebelumnya merupakan riwayat bertanggal, bukan status terkini.
 
 ## Tahap 0 — 7 Oktober 2026
 
@@ -247,3 +247,25 @@ UI React lokal menyediakan layar pengelola/tutor/warga belajar pada port 3000 ya
 Atas permintaan pengguna, API diuji pada dua PKBM dan tiga peran, dilengkapi warga belajar sementara pada PKBM yang sama. Hasil akhir 483 assertion lulus, 0 gagal. Seluruh koleksi, otorisasi lintas PKBM, mutasi peran, rancangan/target, penugasan, rencana pribadi serta alur tulis diuji. Celah pembacaan item rencana pelaksanaan lain oleh tutor ditemukan, dibatasi pada delivery yang dapat diakses, kemudian kasus diuji ulang dan lulus.
 
 Record sementara dibersihkan tepat UUID; seluruh record asli kedua PKBM sama sebelum/sesudah. Tidak mengubah tabel Canvas. Pengguna mengonfirmasi tampilan/alur dasar browser berjalan; belum ada bukti agen atas keseluruhan alur browser pembuatan/penugasan/rencana WB. Tahap 4 Lulus lokal: batas PKBM/peran terbukti lewat API dan alur dasar browser dikonfirmasi manual pengguna sesuai gerbang roadmap. Pengujian otomatis seluruh formulir tidak diklaim. Penundaan validasi API sebelumnya adalah riwayat yang digantikan permintaan terbaru. [Bukti](../tahap4-api-verifikasi.md), [hasil](../tahap4-api-verifikasi.json). Belum commit atau mulai Tahap 5.
+
+## Implementasi Tahap 5 — 7 Oktober 2026
+
+Migrasi `20261007000300` berhasil diterapkan (exit 0). Instance/binding, pilihan bahan, job/event, nonce LTI dan kode launch satu kali ditambahkan; schema dump Rails diperbarui. Token API/shared secret terenkripsi dengan kunci turunan secret pendamping, tidak diserialisasi atau ditampilkan di status.
+
+Pipeline API menyiapkan sub-account/Course/Section/users/enrollments, Outcomes, Pages/module/items serta course navigation LTI. SIS/vendor/marker dan binding digunakan untuk lookup/pemulihan; snapshot remote dipakai untuk konflik, retry dicatat, roster terikat dapat dinonaktifkan. LTI 1.1 lokal memverifikasi HMAC, timestamp/replay, binding identitas/course dan akses PKBM. Bahan PDF menggunakan mount read-only serta pemeriksaan akses pelaksanaan. Tidak menulis langsung database Canvas.
+
+UI pengelola menyediakan konfigurasi, pilihan bahan, antrean/status/event dan retry; peran lain mendapat tautan Course sesuai akses. Runner satu job dan worker opsional disediakan, belum dinyalakan. Konfigurasi layanan pendamping diperbarui pada port yang sama.
+
+**Status: implementasi tersedia, gerbang Tahap 5 belum lulus.** Pengguna memilih “Implementasi dahulu”; tidak menjalankan pemeriksaan API/browser, koneksi Canvas nyata, pengulangan sinkronisasi, pemulihan kegagalan atau launch LTI. Token Canvas belum dibuat/dikonfigurasi. LTI 1.3/produksi belum dibuat; batas keputusan lokal dicatat. [Lingkup](../tahap5-implementasi.md), [status](../tahap5-status.json). Log migrasi lokal: `var/validation/stage5-migrate.log`. Belum commit, Tahap 6 belum dimulai.
+
+## Pengujian awal Tahap 5 — 7 Oktober 2026
+
+Pengguna meminta pengujian sehingga penundaan sebelumnya berakhir. API awal menghasilkan 44 pemeriksaan lulus, 0 gagal: login dua PKBM/tiga peran, pembatasan pengelolaan integrasi, akses tautan, penolakan anonim, launch LTI tidak sah dan kode exchange tidak sah. Ruby syntax dan dua JavaScript syntax diperiksa dengan exit 0. Ini belum membuktikan isolasi data hasil sinkronisasi karena instance/binding masih kosong.
+
+Pemeriksaan runtime menemukan nol instance Canvas dan nol job. Permintaan otorisasi pembuatan token sementara telah diajukan sesuai ketentuan credential di dokumentasi Tahap 5. Sinkronisasi nyata, idempotensi, retry/konflik serta launch LTI positif menunggu token; gerbang Tahap 5 tetap belum lulus. [Hasil awal](../tahap5-preflight-verifikasi.json).
+
+## Pengujian nyata Tahap 5 — 7 Oktober 2026
+
+Pengguna mengizinkan token sementara. Rangkaian akhir 130 pemeriksaan lulus, 0 gagal: sinkronisasi nyata dua PKBM, idempotensi ID/jumlah objek, binding, akses PDF/peran, update nama/roster, konflik/retry dan pemulihan fault setelah PUT sebelum binding. Header Host client diperbaiki setelah HTTP 403. Launch bertanda tangan Canvas sampai exchange/identitas dibuktikan melalui HTTP sesi Act as, bukan seluruh navigasi browser. UI status diperiksa.
+
+Token sementara dicabut, HTTP 401 terbukti, salinan file/ciphertext dibersihkan; shared secret LTI dipertahankan terenkripsi. Course 3/4 serta audit/binding tetap tersedia, nama/status lokal dipulihkan, tidak ada job aktif. Runner satu job diuji, daemon tidak dimulai. **Gerbang Tahap 5 Lulus lokal**; produksi/LTI 1.3 dan Tahap 6 belum dikerjakan. [Verifikasi](../tahap5-verifikasi.md). Belum commit.

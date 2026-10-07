@@ -44,8 +44,12 @@ Endpoint katalog lokal pada port 3000 tetap hanya katalog bersama. API operasion
 
 ## Batas
 
-Skema PKBM, orang, kelompok dan rencana tersedia pada Tahap 4. Bukti hasil serta keputusan akademik mengikuti Tahap 6 dan seterusnya. Penarikan hasil Canvas dan pengesahan SKK belum tersedia. Struktur katalog bukan klaim ketuntasan warga belajar.
+Skema PKBM, orang, kelompok dan rencana tersedia pada Tahap 4. Bukti hasil serta keputusan akademik mengikuti Tahap 6 dan seterusnya. Integrasi pelaksanaan Canvas tersedia sebagai Tahap 5 yang lulus pengujian lokal nyata; penarikan hasil dan pengesahan SKK belum tersedia. Struktur katalog bukan klaim ketuntasan warga belajar.
 
 ## Pengelolaan dan rencana belajar (Tahap 4)
 
 Implementasi data pelaksanaan, autentikasi pendamping, pembatasan PKBM/peran dan UI React tersedia. Jalankan `./scripts/local pkbm-migrate`, `pkbm-operations-seed` (fixture opt-in dua PKBM), lalu `catalog-start`. UI pada port 3000 yang sama. [Lingkup, alur dan batas](../../docs/tahap4-implementasi.md). Gerbang kelulusan mengikuti bukti API/browser yang tercatat, bukan keberadaan file.
+
+## Integrasi Canvas (Tahap 5)
+
+UI pengelola menyediakan Integrasi Canvas. Token disimpan terenkripsi, kemudian pelaksanaan dapat diantrekan. `./scripts/local sync` menjalankan satu job; `sync-start`/`sync-stop` mengelola worker opsional tanpa port baru. Koneksi, pengulangan, update/roster, konflik/retry, pemulihan parsial dan launch Canvas melalui HTTP lulus lokal. Token uji telah dicabut dan dibersihkan; siapkan token baru untuk sinkronisasi berikutnya. Worker daemon belum dinyalakan. [Bukti](../../docs/tahap5-verifikasi.md). [Lingkup, identitas dan batas](../../docs/tahap5-implementasi.md).
