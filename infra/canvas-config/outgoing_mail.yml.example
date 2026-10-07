@@ -1,0 +1,4 @@
+development:
+  delivery_method: test
+  outgoing_address: canvas@pkbm.local
+  default_name: PKBM Simulasi Lokal

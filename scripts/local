@@ -1,0 +1,28 @@
+#!/bin/bash
+set -euo pipefail
+TASK_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$TASK_ROOT"
+case "${1:-help}" in
+  env) exec ./scripts/env-init ;;
+  status) exec ./scripts/compose ps ;;
+  capacity) df -h / "$TASK_ROOT"; exec du -sh vendor var ;;
+  build) python3 ./scripts/disk-gate; ./scripts/compose build web; python3 ./scripts/disk-gate; exec ./scripts/compose build postgres ;;
+  start) exec ./scripts/compose up -d --no-build --pull never ;;
+  stop) exec ./scripts/compose stop ;;
+  logs) shift; exec ./scripts/compose logs --tail=100 "$@" ;;
+  canvas-gems) python3 ./scripts/disk-gate; exec ./scripts/compose run --no-deps --rm web bundle install --jobs 1 ;;
+  canvas-node) python3 ./scripts/disk-gate; exec ./scripts/compose run --no-deps --rm web yarn install --frozen-lockfile --production=false --network-concurrency 1 ;;
+  canvas-assets) python3 ./scripts/disk-gate; exec ./scripts/compose run --no-deps --rm -e SKIP_SOURCEMAPS=1 web bundle exec rake canvas:compile_assets_dev ;;
+  canvas-migrate) exec ./scripts/compose run --rm web bundle exec rake db:migrate ;;
+  canvas-init) exec ./scripts/compose run --rm web bundle exec rake db:initial_setup ;;
+  canvas-shell) exec ./scripts/compose run --rm web bash ;;
+  catalog-db-start) python3 ./scripts/disk-gate; exec ./scripts/compose up -d --wait --wait-timeout 60 --no-build --pull never postgres ;;
+  catalog-migrate) exec ./scripts/db-catalog migrate ;;
+  catalog-seed) exec ./scripts/db-catalog seed ;;
+  pkbm-install) python3 ./scripts/disk-gate; exec ./scripts/compose --profile catalog run --no-deps --rm pkbm bundle install ;;
+  pkbm-migrate) exec ./scripts/compose --profile catalog run --rm pkbm bundle exec rails db:migrate ;;
+  pkbm-seed) exec ./scripts/compose --profile catalog run --rm pkbm bundle exec rails db:seed ;;
+  catalog-start) exec ./scripts/compose --profile catalog up -d --no-build --pull never pkbm ;;
+  sync) echo 'Belum tersedia: integrasi Canvas pada Tahap 5.' >&2; exit 2 ;;
+  *) echo 'local env|status|capacity|build|start|stop|logs|canvas-migrate|canvas-init|canvas-shell|canvas-gems|canvas-node|canvas-assets|catalog-db-start|catalog-migrate|catalog-seed|pkbm-install|pkbm-migrate|pkbm-seed|catalog-start' ;;
+esac

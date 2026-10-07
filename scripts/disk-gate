@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import shutil
+for p in [Path('/'),Path(__file__).resolve().parents[1]]:
+    free=shutil.disk_usage(p).free/1024**3
+    print(f'{p}: {free:.1f} GiB tersedia')
+    if free<5: raise SystemExit('Sisa di bawah cadangan lokal 5 GiB; build belum dijalankan.')

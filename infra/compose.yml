@@ -1,0 +1,102 @@
+name: pkbm-canvas
+services:
+  postgres:
+    image: pkbm-canvas-postgres:local
+    pull_policy: never
+    build:
+      context: .
+      dockerfile: postgres.Dockerfile
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run scripts/env-init}
+      CANVAS_DB_PASSWORD: ${CANVAS_DB_PASSWORD:?Run scripts/env-init}
+      PKBM_DB_PASSWORD: ${PKBM_DB_PASSWORD:?Run scripts/env-init}
+    volumes:
+      - ../var/postgres:/var/lib/postgresql/data
+      - ./postgres-init.sh:/docker-entrypoint-initdb.d/10-pkbm.sh:ro
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U postgres -d postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    command: [postgres, -c, max_locks_per_transaction=640, -c, max_stack_depth=5MB, -c, random_page_cost=1.0, -c, shared_buffers=256MB, -c, effective_cache_size=256MB]
+    networks: [backend]
+  redis:
+    image: redis:alpine@sha256:3811787313eba226a2ef38658c6ccb91cd5e110edc89c37767de373120a0e5a0
+    command: [redis-server, --appendonly, 'yes']
+    volumes:
+      - ../var/redis:/data
+    networks: [backend]
+  web: &canvas
+    image: pkbm-canvas-web:local
+    pull_policy: never
+    command: /bin/bash -lc "rm -f tmp/pids/server.pid && exec bundle exec rails server -b 0.0.0.0 -p 3000"
+    build:
+      context: ../vendor/canvas-lms
+      dockerfile: ../../infra/canvas.Dockerfile
+      args:
+        USER_ID: ${LOCAL_UID:-1000}
+    environment:
+      RAILS_ENV: development
+      CANVAS_RAILS: '8.0'
+      CANVAS_BUILD_CONCURRENCY: '1'
+      MAKEFLAGS: '-j1'
+      RAYON_NUM_THREADS: '1'
+      NODE_OPTIONS: '--max-old-space-size=2048'
+      BUNDLE_WITHOUT: test
+      CANVAS_LMS_ADMIN_EMAIL: ${CANVAS_LMS_ADMIN_EMAIL:?Set local admin}
+      CANVAS_LMS_ADMIN_PASSWORD: ${CANVAS_LMS_ADMIN_PASSWORD:?Set local admin}
+      CANVAS_LMS_ACCOUNT_NAME: ${CANVAS_LMS_ACCOUNT_NAME:-PKBM Simulasi Lokal}
+      CANVAS_LMS_STATS_COLLECTION: opt_out
+      CANVAS_LOCAL_TUTOR_EMAIL: ${CANVAS_LOCAL_TUTOR_EMAIL:-tutor@pkbm.local}
+      CANVAS_LOCAL_TUTOR_PASSWORD: ${CANVAS_LOCAL_TUTOR_PASSWORD:?Set local tutor}
+      CANVAS_LOCAL_WB_EMAIL: ${CANVAS_LOCAL_WB_EMAIL:-wb@pkbm.local}
+      CANVAS_LOCAL_WB_PASSWORD: ${CANVAS_LOCAL_WB_PASSWORD:?Set local learner}
+      CANVAS_DB_PASSWORD: ${CANVAS_DB_PASSWORD:?Run scripts/env-init}
+      CANVAS_ENCRYPTION_KEY: ${CANVAS_ENCRYPTION_KEY:?Run scripts/env-init}
+      CANVAS_JWT_KEY: ${CANVAS_JWT_KEY:?Run scripts/env-init}
+    volumes:
+      - ../vendor/canvas-lms:/usr/src/app
+      - ../var/gems:/home/docker/.gem
+      - ../var/bundle:/home/docker/.bundle
+      - ../var/yarn-cache:/home/docker/.cache/yarn
+      - ../var/uploads:/usr/src/app/tmp/files
+      - ./canvas-config/database.yml:/usr/src/app/config/database.yml:ro
+      - ./canvas-config/domain.yml:/usr/src/app/config/domain.yml:ro
+      - ./canvas-config/security.yml:/usr/src/app/config/security.yml:ro
+      - ./canvas-config/redis.yml:/usr/src/app/config/redis.yml:ro
+      - ./canvas-config/cache_store.yml:/usr/src/app/config/cache_store.yml:ro
+      - ./canvas-config/file_store.yml:/usr/src/app/config/file_store.yml:ro
+      - ./canvas-config/delayed_jobs.yml:/usr/src/app/config/delayed_jobs.yml:ro
+      - ./canvas-config/outgoing_mail.yml:/usr/src/app/config/outgoing_mail.yml:ro
+    depends_on: [postgres, redis]
+    networks: [backend, outbound]
+    ports:
+      - '127.0.0.1:${CANVAS_PORT:-8081}:3000'
+  jobs:
+    <<: *canvas
+    ports: []
+    command: bundle exec script/delayed_job run
+  pkbm:
+    profiles: [catalog]
+    image: pkbm-canvas-web:local
+    pull_policy: never
+    working_dir: /usr/src/pkbm
+    command: /bin/bash -lc "rm -f tmp/pids/server.pid && exec bundle exec rails server -b 0.0.0.0 -p 3000"
+    environment:
+      RAILS_ENV: development
+      BUNDLE_GEMFILE: /usr/src/pkbm/Gemfile
+      PKBM_DB_PASSWORD: ${PKBM_DB_PASSWORD:?Run scripts/env-init}
+      PKBM_SECRET_KEY_BASE: ${PKBM_SECRET_KEY_BASE:?Run scripts/env-init}
+    volumes:
+      - ../apps/pkbm:/usr/src/pkbm
+      - ../var/pkbm-gems:/home/docker/.gem
+      - ../var/pkbm-bundle:/home/docker/.bundle
+    ports:
+      - '127.0.0.1:${PKBM_PORT:-3000}:3000'
+    depends_on: [postgres]
+    networks: [backend, outbound]
+networks:
+  backend:
+    internal: true
+  outbound: {}

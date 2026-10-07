@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import json
+root=Path(__file__).resolve().parents[1]
+canvas=root/'vendor/canvas-lms'
+for sub in ['.yardoc','app/stylesheets/brandable_css_brands','app/views/info','config/locales/generated','log','node_modules','packages/js-utils/es','packages/js-utils/lib','packages/js-utils/node_modules','pacts','public/dist','public/javascripts/translations','reports','tmp']:
+ (canvas/sub).mkdir(parents=True,exist_ok=True)
+p=canvas/'package.json';x=json.loads(p.read_text())
+script=x['scripts']['build:packages']
+if '--serial' not in script:
+ x['scripts']['build:packages']=script.replace('wsrun ','wsrun --serial ',1)
+ p.write_text(json.dumps(x,indent=2)+'\n')
+print('Canvas directories and serial package build prepared.')
+
+p=canvas/"lib/tasks/rspec.rake"
+s=p.read_text()
+old="unless Rails.env.production? || ARGV.any?"
+new='unless ENV.fetch("BUNDLE_WITHOUT", "").split(/[:,\\s]+/).include?("test") || Rails.env.production? || ARGV.any?'
+if old in s:
+ p.write_text(s.replace(old,new,1))
+
+p=canvas/"ui/features/discovery_page/react/components/ConfigureModal.tsx"
+s=p.read_text()
+p.write_text(s.replace("from '@instructure/platform-alerts'", "from '@canvas/alerts/react/FlashAlert'"))

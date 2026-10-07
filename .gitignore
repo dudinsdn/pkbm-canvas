@@ -1,0 +1,9 @@
+/.env
+/vendor/
+/var/
+/infra/canvas-config/*.yml
+!/infra/canvas-config/*.yml.example
+/apps/pkbm/.env*
+!/apps/pkbm/.env.example
+/apps/pkbm/log/
+/apps/pkbm/tmp/

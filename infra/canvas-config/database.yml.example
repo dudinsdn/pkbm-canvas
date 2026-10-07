@@ -1,0 +1,12 @@
+development:
+  adapter: postgresql
+  encoding: utf8
+  host: postgres
+  database: canvas_development
+  username: canvas
+  password: <%= ENV.fetch('CANVAS_DB_PASSWORD') %>
+  timeout: 5000
+  prepared_statements: false
+  use_qualified_names: true
+  shard_name: public
+  schema_search_path: "''"

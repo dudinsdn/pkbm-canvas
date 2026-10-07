@@ -1,0 +1,976 @@
+{
+  "schema_version": "1.1",
+  "prepared_on": "2026-10-07",
+  "purpose": "Pemetaan sumber dan aturan tahap 1",
+  "status": "pemetaan_dokumen_digunakan_sebagai_dasar_rancangan_database",
+  "scope": "Delapan PDF dari pengguna; tiga modul dipetakan pada unit/KD/indikator terkait. Bukan transkripsi seluruh KD Paket C.",
+  "legal_currency": "Menggunakan dokumen K13 yang diberikan; keberlakuan regulasi saat ini tidak dinilai.",
+  "sources": [
+    {
+      "id": "KUR-C",
+      "document_type": "kurikulum",
+      "title": "Kurikulum Pendidikan Kesetaraan Paket C",
+      "path": "/home/din/Downloads/modul-kesetaraan/Kurikulum_2013_Pendidikan_Kesetaraan-Paket-C.pdf",
+      "pdf_pages": 162,
+      "scope": "Paket C; seluruh mata pelajaran dan kelompok khusus",
+      "sha256": "1876f80c3f647dfe4d558480dcca86494d5ee5eb5b30c98afac97ff90ef500f3"
+    },
+    {
+      "id": "SIL-MTK",
+      "document_type": "silabus",
+      "title": "Silabus Matematika Paket C",
+      "path": "/home/din/Downloads/modul-kesetaraan/Matematika/C-Silabus-Matematika.pdf",
+      "pdf_pages": 24,
+      "scope": "Matematika wajib; Tingkatan V dan VI",
+      "sha256": "d38ab6c0949ef73c66a9ad1c7fadfe41d108851eec800cb9c5958dd5dff12772"
+    },
+    {
+      "id": "MOD-MTK-V-01",
+      "document_type": "modul",
+      "title": "Belanja Cerdas",
+      "path": "/home/din/Downloads/modul-kesetaraan/Matematika/C-Mtk-1-BELANJA_CERDAS.pdf",
+      "pdf_pages": 24,
+      "scope": "Matematika; Tingkatan V; Modul Tema 1",
+      "sha256": "f0dd0539a049270114c27db2d657c7fbd8e01d17592d8367e770cff7caab82ee"
+    },
+    {
+      "id": "MOD-MTK-V-02",
+      "document_type": "modul",
+      "title": "Memulai Bisnis",
+      "path": "/home/din/Downloads/modul-kesetaraan/Matematika/C-Mtk-2-MEMULAI_BISNIS.pdf",
+      "pdf_pages": 18,
+      "scope": "Matematika; Tingkatan V; Modul Tema 2",
+      "sha256": "086e83068d49a258dec25273107ae990e58a6106141f5950486731d88d7e59d6"
+    },
+    {
+      "id": "SIL-BID",
+      "document_type": "silabus",
+      "title": "Silabus Bahasa Indonesia Paket C",
+      "path": "/home/din/Downloads/modul-kesetaraan/Bahasa_Indonesia/C-Silabus-BId.pdf",
+      "pdf_pages": 22,
+      "scope": "Bahasa Indonesia; Tingkatan V dan VI",
+      "sha256": "c674e2c5cae8535290a2683eb85882a56eb0a362e2c423d1368d7e707b462f84"
+    },
+    {
+      "id": "MOD-BID-V-01",
+      "document_type": "modul",
+      "title": "Menyingkap Ilmu Pengetahuan di Sekitar Kita",
+      "path": "/home/din/Downloads/modul-kesetaraan/Bahasa_Indonesia/C-BId-1-Menyingkapi_Ilmu_Pengetahuan_di_Sekitar_Kita.pdf",
+      "pdf_pages": 22,
+      "scope": "Bahasa Indonesia; Tingkatan V; Modul Tema 1",
+      "sha256": "b5de63f4345a5710f6cc1bab0002819cb244398b3c32c05d6f932423e286fc5f"
+    },
+    {
+      "id": "PAN-KET",
+      "document_type": "panduan_penyelenggaraan",
+      "title": "Panduan Penyelenggaraan Muatan Keterampilan Pendidikan Kesetaraan",
+      "path": "/home/din/Downloads/modul-kesetaraan/muatan_khusus/Muatan-Keterampilan.pdf",
+      "pdf_pages": 18,
+      "scope": "Paket A/B/C; gunakan cakupan Paket C pada rancangan ini",
+      "sha256": "8b8b73d4799f27b4acb96571c9cd9451d756cbefbf7b06f5da4299e60513828c"
+    },
+    {
+      "id": "PAN-PEM",
+      "document_type": "panduan_penyelenggaraan",
+      "title": "Panduan Penyelenggaraan Muatan Pemberdayaan Pendidikan Kesetaraan",
+      "path": "/home/din/Downloads/modul-kesetaraan/muatan_khusus/Muatan-Pemberdayaan.pdf",
+      "pdf_pages": 20,
+      "scope": "Paket A/B/C; gunakan cakupan Paket C pada rancangan ini",
+      "sha256": "410b43794c53f1d203cd9dd9be9844ef3415cb70c1389a87b30f76e717435f9f"
+    }
+  ],
+  "module_mappings": [
+    {
+      "id": "MAP-01",
+      "module_id": "MOD-MTK-V-01",
+      "unit": "Unit 1: Persamaan linear satu variabel dan dua variabel serta penerapan sehari-hari",
+      "kd_codes": [
+        "3.1",
+        "4.1"
+      ],
+      "indicator_codes_as_printed": [
+        "3.1.1",
+        "3.1.2",
+        "3.1.3",
+        "4.1.1",
+        "4.1.2"
+      ],
+      "coverage": "Landasan persamaan dan pemodelan; bagian nilai mutlak belum tercakup oleh Unit 1 saja.",
+      "status": "landasan_sebagian",
+      "provenance": [
+        {
+          "source_id": "MOD-MTK-V-01",
+          "pdf_pages": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "printed_pages": "5-18",
+          "section": "Unit 1"
+        },
+        {
+          "source_id": "SIL-MTK",
+          "pdf_pages": [
+            11
+          ],
+          "printed_pages": "14-15",
+          "section": "KD 3.1/4.1"
+        },
+        {
+          "source_id": "KUR-C",
+          "pdf_pages": [
+            24
+          ],
+          "printed_pages": "38",
+          "section": "KD Matematika"
+        }
+      ],
+      "note": "",
+      "tutor_review": "pending",
+      "proves_learner_mastery": false
+    },
+    {
+      "id": "MAP-02",
+      "module_id": "MOD-MTK-V-01",
+      "unit": "Unit 2: Sistem pertidaksamaan linear satu variabel dan nilai mutlak",
+      "kd_codes": [
+        "3.1",
+        "4.1"
+      ],
+      "indicator_codes_as_printed": [
+        "4.1.3",
+        "4.1.4",
+        "4.1.5"
+      ],
+      "coverage": "Pertidaksamaan linear dan nilai mutlak; pemetaan indikator pengetahuan nilai mutlak perlu dirinci tutor.",
+      "status": "selaras_materi",
+      "provenance": [
+        {
+          "source_id": "MOD-MTK-V-01",
+          "pdf_pages": [
+            13,
+            14,
+            15,
+            16,
+            17
+          ],
+          "printed_pages": "19-27",
+          "section": "Unit 2 dan Nilai Mutlak"
+        },
+        {
+          "source_id": "SIL-MTK",
+          "pdf_pages": [
+            11
+          ],
+          "printed_pages": "14-15",
+          "section": "KD 3.1/4.1"
+        }
+      ],
+      "note": "Indikator 3.1 di silabus lebih umum daripada materi nilai mutlak; jangan menganggap semua indikator telah dinilai.",
+      "tutor_review": "pending",
+      "proves_learner_mastery": false
+    },
+    {
+      "id": "MAP-03",
+      "module_id": "MOD-MTK-V-01",
+      "unit": "Unit 3: Pertidaksamaan rasional dan irasional satu variabel",
+      "kd_codes": [
+        "3.2",
+        "4.2"
+      ],
+      "indicator_codes_as_printed": [
+        "3.2.1",
+        "3.2.2",
+        "3.2.3",
+        "3.2.4",
+        "4.2.1",
+        "4.2.2"
+      ],
+      "coverage": "Pertidaksamaan rasional/irasional dan contoh penyelesaian.",
+      "status": "selaras_materi",
+      "provenance": [
+        {
+          "source_id": "MOD-MTK-V-01",
+          "pdf_pages": [
+            18,
+            19
+          ],
+          "printed_pages": "28-31",
+          "section": "Unit 3"
+        },
+        {
+          "source_id": "SIL-MTK",
+          "pdf_pages": [
+            11,
+            12
+          ],
+          "printed_pages": "15-16",
+          "section": "KD 3.2/4.2"
+        }
+      ],
+      "note": "Indikator 3.2.2 tentang pertidaksamaan kuadrat perlu bukti kegiatan tersendiri; keberadaan pada silabus tidak membuktikan cakupan lengkap modul.",
+      "tutor_review": "pending",
+      "proves_learner_mastery": false
+    },
+    {
+      "id": "MAP-04",
+      "module_id": "MOD-MTK-V-01",
+      "unit": "Bagian A/B di Unit 3: sistem persamaan linear-kuadrat dan kuadrat-kuadrat",
+      "kd_codes": [
+        "3.4",
+        "4.4"
+      ],
+      "indicator_codes_as_printed": [
+        "3.2.2",
+        "3.2.3",
+        "4.2.1",
+        "4.2.2"
+      ],
+      "coverage": "Calon hubungan dari pengantar modul; isi bagian A/B membahas persamaan, sedangkan KD membahas pertidaksamaan.",
+      "status": "perlu_telaah_perbedaan_konsep",
+      "provenance": [
+        {
+          "source_id": "MOD-MTK-V-01",
+          "pdf_pages": [
+            4,
+            5,
+            20,
+            21,
+            22
+          ],
+          "printed_pages": "1-3;32-36",
+          "section": "Pengantar dan bagian A/B"
+        },
+        {
+          "source_id": "SIL-MTK",
+          "pdf_pages": [
+            12
+          ],
+          "printed_pages": "17",
+          "section": "KD 3.4/4.4"
+        },
+        {
+          "source_id": "KUR-C",
+          "pdf_pages": [
+            24
+          ],
+          "printed_pages": "38",
+          "section": "KD 3.4/4.4"
+        }
+      ],
+      "note": "Jangan aktifkan klaim pemenuhan KD 3.4/4.4. Kode indikator berulang dipertahankan sesuai cetakan; kunci unik juga memakai KD induk dan lokasi.",
+      "tutor_review": "pending",
+      "proves_learner_mastery": false
+    },
+    {
+      "id": "MAP-05",
+      "module_id": "MOD-MTK-V-02",
+      "unit": "Unit 1: Konteks penggunaan sistem persamaan linear dalam dunia usaha dan masalah sehari-hari",
+      "kd_codes": [
+        "3.3",
+        "4.3"
+      ],
+      "indicator_codes_as_printed": [
+        "3.3.1",
+        "4.3.1"
+      ],
+      "coverage": "Mengenali konteks dan besaran untuk SPLTV.",
+      "status": "selaras_materi",
+      "provenance": [
+        {
+          "source_id": "MOD-MTK-V-02",
+          "pdf_pages": [
+            6,
+            7
+          ],
+          "printed_pages": "4-7",
+          "section": "Unit 1"
+        },
+        {
+          "source_id": "SIL-MTK",
+          "pdf_pages": [
+            12
+          ],
+          "printed_pages": "16",
+          "section": "KD 3.3/4.3"
+        },
+        {
+          "source_id": "KUR-C",
+          "pdf_pages": [
+            24
+          ],
+          "printed_pages": "38",
+          "section": "KD 3.3/4.3"
+        }
+      ],
+      "note": "",
+      "tutor_review": "pending",
+      "proves_learner_mastery": false
+    },
+    {
+      "id": "MAP-06",
+      "module_id": "MOD-MTK-V-02",
+      "unit": "Unit 2: Strategi sistem persamaan linear tiga variabel",
+      "kd_codes": [
+        "3.3",
+        "4.3"
+      ],
+      "indicator_codes_as_printed": [
+        "3.3.2",
+        "4.3.2"
+      ],
+      "coverage": "Menggunakan konsep dan strategi penyelesaian SPLTV.",
+      "status": "selaras_materi",
+      "provenance": [
+        {
+          "source_id": "MOD-MTK-V-02",
+          "pdf_pages": [
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "printed_pages": "8-16",
+          "section": "Unit 2"
+        },
+        {
+          "source_id": "SIL-MTK",
+          "pdf_pages": [
+            12
+          ],
+          "printed_pages": "16",
+          "section": "KD 3.3/4.3"
+        }
+      ],
+      "note": "",
+      "tutor_review": "pending",
+      "proves_learner_mastery": false
+    },
+    {
+      "id": "MAP-07",
+      "module_id": "MOD-MTK-V-02",
+      "unit": "Unit 3: Penyelesaian masalah yang terkait dengan sistem persamaan linear tiga variabel",
+      "kd_codes": [
+        "3.3",
+        "4.3"
+      ],
+      "indicator_codes_as_printed": [
+        "3.3.1",
+        "3.3.2",
+        "4.3.1",
+        "4.3.2"
+      ],
+      "coverage": "Pemodelan, penyelesaian, dan penafsiran hasil kontekstual.",
+      "status": "selaras_materi",
+      "provenance": [
+        {
+          "source_id": "MOD-MTK-V-02",
+          "pdf_pages": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "printed_pages": "17-23",
+          "section": "Unit 3, kegiatan dan latihan"
+        },
+        {
+          "source_id": "SIL-MTK",
+          "pdf_pages": [
+            12
+          ],
+          "printed_pages": "16",
+          "section": "KD 3.3/4.3"
+        }
+      ],
+      "note": "",
+      "tutor_review": "pending",
+      "proves_learner_mastery": false
+    },
+    {
+      "id": "MAP-08",
+      "module_id": "MOD-BID-V-01",
+      "unit": "Unit 1: Alam sekitar kita yang luar biasa",
+      "kd_codes": [
+        "3.1",
+        "4.1"
+      ],
+      "indicator_codes_as_printed": [
+        "3.1.1",
+        "3.1.2",
+        "4.1.1",
+        "4..1.2"
+      ],
+      "coverage": "Isi pokok, tanggapan, kata khusus dan interpretasi LHO.",
+      "status": "selaras_materi",
+      "provenance": [
+        {
+          "source_id": "MOD-BID-V-01",
+          "pdf_pages": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "printed_pages": "1-11",
+          "section": "Unit 1"
+        },
+        {
+          "source_id": "SIL-BID",
+          "pdf_pages": [
+            10
+          ],
+          "printed_pages": "13",
+          "section": "KD 3.1/4.1"
+        },
+        {
+          "source_id": "KUR-C",
+          "pdf_pages": [
+            17
+          ],
+          "printed_pages": "25",
+          "section": "KD Bahasa Indonesia"
+        }
+      ],
+      "note": "Silabus mencetak 4..1.2; usulan kode tampilan 4.1.2 harus dicatat sebagai normalisasi, bukan perubahan sumber.",
+      "tutor_review": "pending",
+      "proves_learner_mastery": false
+    },
+    {
+      "id": "MAP-09",
+      "module_id": "MOD-BID-V-01",
+      "unit": "Unit 2, Kegiatan Belajar 1: analisis struktur dan kebahasaan LHO",
+      "kd_codes": [
+        "3.2"
+      ],
+      "indicator_codes_as_printed": [
+        "3.2.1",
+        "3.2.2"
+      ],
+      "coverage": "Analisis struktur dan kebahasaan. KD meminta minimal dua teks.",
+      "status": "selaras_materi",
+      "provenance": [
+        {
+          "source_id": "MOD-BID-V-01",
+          "pdf_pages": [
+            12,
+            13,
+            14
+          ],
+          "printed_pages": "12-16",
+          "section": "Unit 2 Kegiatan Belajar 1"
+        },
+        {
+          "source_id": "SIL-BID",
+          "pdf_pages": [
+            10
+          ],
+          "printed_pages": "13",
+          "section": "KD 3.2"
+        },
+        {
+          "source_id": "KUR-C",
+          "pdf_pages": [
+            17
+          ],
+          "printed_pages": "25",
+          "section": "KD 3.2"
+        }
+      ],
+      "note": "Penilaian perlu bukti analisis minimal dua teks; skor TAM sendiri bukan bukti keterampilan menulis.",
+      "tutor_review": "pending",
+      "proves_learner_mastery": false
+    },
+    {
+      "id": "MAP-10",
+      "module_id": "MOD-BID-V-01",
+      "unit": "Unit 2, Kegiatan Belajar 2: menyusun dan menyunting LHO",
+      "kd_codes": [
+        "4.2"
+      ],
+      "indicator_codes_as_printed": [
+        "4.2.1",
+        "4.2.2",
+        "4.2.3"
+      ],
+      "coverage": "Kerangka, teks hasil pengembangan, dan penyuntingan.",
+      "status": "selaras_materi",
+      "provenance": [
+        {
+          "source_id": "MOD-BID-V-01",
+          "pdf_pages": [
+            14,
+            15,
+            16
+          ],
+          "printed_pages": "16-20",
+          "section": "Unit 2 Kegiatan Belajar 2"
+        },
+        {
+          "source_id": "SIL-BID",
+          "pdf_pages": [
+            10
+          ],
+          "printed_pages": "13",
+          "section": "KD 4.2"
+        }
+      ],
+      "note": "Bukti produk dan revisi serta rubrik rinci adalah rancangan implementasi tutor; jangan disamakan dengan nilai tes pilihan ganda.",
+      "tutor_review": "pending",
+      "proves_learner_mastery": false
+    }
+  ],
+  "rules": [
+    {
+      "id": "R-01",
+      "basis": "eksplisit_sumber",
+      "scope": "program",
+      "statement": "Paket C memiliki Tingkatan V setara X-XI dan VI setara XII.",
+      "provenance": [
+        {
+          "source_id": "KUR-C",
+          "pdf_pages": [
+            6
+          ],
+          "printed_pages": "2-3",
+          "section": "Struktur"
+        }
+      ],
+      "implementation": "Pisahkan tingkatan dari tahun/periode pelaksanaan.",
+      "unresolved": [],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-02",
+      "basis": "eksplisit_sumber",
+      "scope": "program",
+      "statement": "Beban kelompok: umum 26/14; peminatan 30/15; khusus 24/13 SKK pada V/VI. Total 80/42, keseluruhan 122.",
+      "provenance": [
+        {
+          "source_id": "KUR-C",
+          "pdf_pages": [
+            6,
+            7
+          ],
+          "printed_pages": "3-4",
+          "section": "Tabel struktur"
+        }
+      ],
+      "implementation": "Simpan anggaran SKK per kelompok dan tingkatan; tidak membagi rata ke mata pelajaran atau modul.",
+      "unresolved": [
+        "Alokasi per mata pelajaran, pemberdayaan, keterampilan, modul dan pelaksanaan belum tersedia."
+      ],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-03",
+      "basis": "eksplisit_sumber",
+      "scope": "program",
+      "statement": "Satu SKK terkait 1 JP tatap muka atau 2 JP tutorial atau 3 JP mandiri atau kombinasi proporsional; satu JP Paket C 45 menit.",
+      "provenance": [
+        {
+          "source_id": "KUR-C",
+          "pdf_pages": [
+            5,
+            6
+          ],
+          "printed_pages": "1-3",
+          "section": "SKK"
+        }
+      ],
+      "implementation": "Simpan mode, JP dan bukti capaian secara terpisah; konversi waktu bukan pengesahan SKK.",
+      "unresolved": [
+        "Siapa yang menetapkan, bukti yang dipakai dan prosedur pengakuan SKK PKBM perlu kebijakan."
+      ],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-04",
+      "basis": "eksplisit_sumber",
+      "scope": "program",
+      "statement": "Pembelajaran dapat berbasis mata pelajaran atau tematik terpadu.",
+      "provenance": [
+        {
+          "source_id": "KUR-C",
+          "pdf_pages": [
+            6
+          ],
+          "printed_pages": "3",
+          "section": "Strategi pembelajaran"
+        }
+      ],
+      "implementation": "Default katalog mengikuti modul asli; pemetaan lintas mata pelajaran hanya bila dirancang dan ditelaah.",
+      "unresolved": [],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-05",
+      "basis": "eksplisit_sumber",
+      "scope": "silabus",
+      "statement": "Silabus Matematika tidak menetapkan alokasi waktu, penilaian dan sumber belajar; tutor bersama peserta didik menentukannya.",
+      "provenance": [
+        {
+          "source_id": "SIL-MTK",
+          "pdf_pages": [
+            3
+          ],
+          "printed_pages": "iii",
+          "section": "Kata pengantar"
+        }
+      ],
+      "implementation": "Sediakan rencana pelaksanaan dengan jadwal, instrumen, rubrik dan sumber yang dapat disesuaikan.",
+      "unresolved": [],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-06",
+      "basis": "eksplisit_sumber",
+      "scope": "MOD-MTK-V-01",
+      "statement": "Pindah modul melalui salah satu alternatif: tugas/latihan lengkap benar akurat sesuai prosedur; atau tugas/latihan minimal 75%; atau tes penempatan minimal 75%.",
+      "provenance": [
+        {
+          "source_id": "MOD-MTK-V-01",
+          "pdf_pages": [
+            23
+          ],
+          "printed_pages": "39",
+          "section": "Kriteria pindah modul"
+        }
+      ],
+      "implementation": "Modelkan alternatif OR, jenis jalur dan bukti keputusan; pemeriksaan prosedur memerlukan tutor.",
+      "unresolved": [
+        "Cara menghitung persentase tugas/latihan dan instrumen tes penempatan belum ditetapkan rinci.",
+        "Sumber juga menyebut nilai di bawah 75% belum boleh pindah; konflik antarbukti perlu keputusan tutor, bukan OR otomatis tanpa konteks."
+      ],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-07",
+      "basis": "eksplisit_sumber",
+      "scope": "MOD-MTK-V-02",
+      "statement": "Pindah modul melalui salah satu alternatif: tugas/latihan lengkap benar akurat sesuai prosedur; atau tugas/latihan minimal 75%; atau tes penempatan minimal 75%.",
+      "provenance": [
+        {
+          "source_id": "MOD-MTK-V-02",
+          "pdf_pages": [
+            16
+          ],
+          "printed_pages": "25",
+          "section": "Kriteria pindah modul"
+        }
+      ],
+      "implementation": "Modelkan alternatif OR, jenis jalur dan bukti keputusan; pemeriksaan prosedur memerlukan tutor.",
+      "unresolved": [
+        "Cara menghitung persentase tugas/latihan dan instrumen tes penempatan belum ditetapkan rinci.",
+        "Sumber juga menyebut nilai di bawah 75% belum boleh pindah; konflik antarbukti perlu keputusan tutor, bukan OR otomatis tanpa konteks."
+      ],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-08",
+      "basis": "eksplisit_sumber",
+      "scope": "MOD-BID-V-01/Unit1",
+      "statement": "Skor maksimum 10; nilai jumlah skor x 10; minimal 70 untuk lanjut Unit 2, jika belum ulang pembelajaran.",
+      "provenance": [
+        {
+          "source_id": "MOD-BID-V-01",
+          "pdf_pages": [
+            20
+          ],
+          "printed_pages": "28",
+          "section": "Pedoman Penilaian Unit 1"
+        }
+      ],
+      "implementation": "Simpan aturan pada penilaian Unit 1, bukan batas universal semua program.",
+      "unresolved": [],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-09",
+      "basis": "eksplisit_sumber",
+      "scope": "MOD-BID-V-01/Unit2",
+      "statement": "Skor maksimal lima soal: 2,2,4,1,1; nilai jumlah skor/10 x 100.",
+      "provenance": [
+        {
+          "source_id": "MOD-BID-V-01",
+          "pdf_pages": [
+            21
+          ],
+          "printed_pages": "30",
+          "section": "Pedoman Penilaian Unit 2"
+        }
+      ],
+      "implementation": "Penilaian uraian memakai bobot per soal; petunjuk unit menyebut sekitar 70% untuk lanjut.",
+      "unresolved": [
+        "Makna operasional sekitar 70% dan aturan setelah pengulangan ditetapkan tutor."
+      ],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-10",
+      "basis": "eksplisit_sumber",
+      "scope": "MOD-BID-V-01/TAM",
+      "statement": "Nilai TAM = jawaban benar/jumlah soal x 100; jika skor kurang dari 70 diberikan sekali lagi kesempatan mengulang TAM.",
+      "provenance": [
+        {
+          "source_id": "MOD-BID-V-01",
+          "pdf_pages": [
+            21
+          ],
+          "printed_pages": "31",
+          "section": "Pedoman Penilaian Test Uji Kompetensi"
+        }
+      ],
+      "implementation": "Simpan hasil awal dan pengulangan; aturan hanya berlaku untuk TAM modul ini.",
+      "unresolved": [
+        "Hasil yang dipakai untuk rekap (terakhir/tertinggi) serta tindak lanjut setelah gagal ulang belum ditentukan."
+      ],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-11",
+      "basis": "eksplisit_sumber",
+      "scope": "MOD-BID-V-01",
+      "statement": "Warga belajar mempelajari unit secara bertahap, latihan dan pemeriksaan mandiri, serta meminta waktu uji kompetensi kepada tutor; tutor sebagai fasilitator pendalaman.",
+      "provenance": [
+        {
+          "source_id": "MOD-BID-V-01",
+          "pdf_pages": [
+            4,
+            5
+          ],
+          "printed_pages": "v-vi",
+          "section": "Petunjuk penggunaan"
+        }
+      ],
+      "implementation": "Pisahkan latihan mandiri, permintaan uji, uji formal, dan pendampingan.",
+      "unresolved": [
+        "Petunjuk memakai istilah uji kompetensi berulang sebelum/ sesudah meminta uji; jenis asesmen dan kewenangan pelepasan kunci perlu dirumuskan tutor."
+      ],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-12",
+      "basis": "eksplisit_sumber",
+      "scope": "Bahasa Indonesia V/3.2",
+      "statement": "Analisis isi dan kebahasaan minimal dua teks laporan hasil observasi.",
+      "provenance": [
+        {
+          "source_id": "KUR-C",
+          "pdf_pages": [
+            17
+          ],
+          "printed_pages": "25",
+          "section": "KD 3.2"
+        },
+        {
+          "source_id": "SIL-BID",
+          "pdf_pages": [
+            10
+          ],
+          "printed_pages": "13",
+          "section": "KD 3.2"
+        }
+      ],
+      "implementation": "Catat dua teks yang dianalisis dan bukti hasil analisis; jangan gunakan skor tes tunggal sebagai pengganti.",
+      "unresolved": [],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-13",
+      "basis": "eksplisit_sumber",
+      "scope": "keterampilan",
+      "statement": "Keterampilan terdiri dari wajib dan pilihan. Wajib dikembangkan dari Seni Budaya, Pendidikan Olahraga dan Rekreasi, serta Prakarya.",
+      "provenance": [
+        {
+          "source_id": "PAN-KET",
+          "pdf_pages": [
+            7,
+            8
+          ],
+          "printed_pages": "6-9",
+          "section": "Muatan keterampilan"
+        }
+      ],
+      "implementation": "Modelkan cabang wajib/pilihan dan referensi KD; mata pelajaran sumber sudah tercantum di kurikulum, jangan menggandakan SKK.",
+      "unresolved": [],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-14",
+      "basis": "eksplisit_sumber",
+      "scope": "keterampilan Paket C",
+      "statement": "Keterampilan untuk kebutuhan sehari-hari, tuntutan dunia kerja dan berwirausaha; pilihan sesuai minat, kebutuhan, potensi lokal dan kapasitas lembaga.",
+      "provenance": [
+        {
+          "source_id": "PAN-KET",
+          "pdf_pages": [
+            8
+          ],
+          "printed_pages": "8-9",
+          "section": "Tabel 1 dan penyelenggaraan"
+        }
+      ],
+      "implementation": "Simpan analisis kebutuhan, program terpilih dan kapasitas praktik.",
+      "unresolved": [],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-15",
+      "basis": "eksplisit_sumber",
+      "scope": "keterampilan",
+      "statement": "Penyelenggaraan dapat mandiri atau bermitra, termasuk praktik/magang; pilihan dapat tersertifikasi atau nonsertifikasi.",
+      "provenance": [
+        {
+          "source_id": "PAN-KET",
+          "pdf_pages": [
+            8,
+            15,
+            16
+          ],
+          "printed_pages": "9;22-25",
+          "section": "Penyelenggaraan dan keterampilan pilihan"
+        }
+      ],
+      "implementation": "Simpan mitra, lokasi, pendidik/instruktur, dan bukti praktik serta penilaian mitra bila dipakai.",
+      "unresolved": [],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-16",
+      "basis": "eksplisit_sumber",
+      "scope": "keterampilan",
+      "statement": "Instrumen/rubrik sesuai kompetensi, silabus/RPP dan prinsip penilaian; peserta didik terlibat aktif.",
+      "provenance": [
+        {
+          "source_id": "PAN-KET",
+          "pdf_pages": [
+            12,
+            13
+          ],
+          "printed_pages": "17-19",
+          "section": "Strategi dan prosedur penilaian"
+        }
+      ],
+      "implementation": "Tidak memakai satu tes atau ambang 70/75 untuk semua keterampilan.",
+      "unresolved": [
+        "Rubrik, bobot, ambang dan standar program spesifik perlu ditetapkan."
+      ],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-17",
+      "basis": "eksplisit_sumber",
+      "scope": "keterampilan tersertifikasi",
+      "statement": "Penilaian dan sertifikasi mengacu standar/prosedur lembaga sertifikasi; uji teori dan praktik serta sertifikat dari lembaga berwenang.",
+      "provenance": [
+        {
+          "source_id": "PAN-KET",
+          "pdf_pages": [
+            16,
+            17,
+            18
+          ],
+          "printed_pages": "24-28",
+          "section": "Pelaksanaan, uji kompetensi, sertifikasi"
+        }
+      ],
+      "implementation": "Pisahkan nilai PKBM dari hasil uji eksternal, nomor sertifikat, penerbit, tanggal dan bukti.",
+      "unresolved": [
+        "Nama lembaga, standar/skema, TUK, asesornya dan masa berlaku jika relevan belum tersedia."
+      ],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-18",
+      "basis": "eksplisit_sumber",
+      "scope": "pemberdayaan",
+      "statement": "Penilaian memperhatikan kondisi awal, proses dan akhir pada pengetahuan, keterampilan serta sikap; bersifat partisipatif.",
+      "provenance": [
+        {
+          "source_id": "PAN-PEM",
+          "pdf_pages": [
+            14
+          ],
+          "printed_pages": "21",
+          "section": "Penilaian pemberdayaan"
+        }
+      ],
+      "implementation": "Simpan baseline dan pengamatan berkala; rubrik perkembangan tidak diganti dengan kuis tunggal.",
+      "unresolved": [],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-19",
+      "basis": "eksplisit_sumber",
+      "scope": "pemberdayaan",
+      "statement": "Metode langsung: kuesioner, wawancara, diskusi kelompok terfokus; tidak langsung: observasi dan unjuk karya/performa; dapat melibatkan pihak luar.",
+      "provenance": [
+        {
+          "source_id": "PAN-PEM",
+          "pdf_pages": [
+            15
+          ],
+          "printed_pages": "22-23",
+          "section": "Standar, Tabel 5 dan metode"
+        }
+      ],
+      "implementation": "Simpan instrumen, waktu, peserta/kelompok, pemberi masukan dan bukti.",
+      "unresolved": [
+        "Peran pengesah hasil dan skala capaian lokal belum ditetapkan."
+      ],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-20",
+      "basis": "keputusan_desain",
+      "scope": "sistem",
+      "statement": "Progres, skor, capaian kompetensi, penyelesaian program, SKK dan sertifikasi merupakan catatan berbeda.",
+      "provenance": [],
+      "implementation": "Setiap keputusan punya bukti, aturan/versi, pelaku dan tanggal; waktu akses atau klik selesai tidak otomatis mengesahkan kompetensi.",
+      "unresolved": [],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-21",
+      "basis": "keputusan_desain",
+      "scope": "sistem",
+      "statement": "Sumber dan pelaksanaan memiliki versi; pemetaan diperiksa tutor sebelum digunakan sebagai dasar penilaian.",
+      "provenance": [],
+      "implementation": "Simpan teks/kode sumber asli, kode normalisasi, lokasi dan status telaah. Kode indikator tidak menjadi primary key tunggal.",
+      "unresolved": [],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    },
+    {
+      "id": "R-22",
+      "basis": "keputusan_desain",
+      "scope": "sistem",
+      "statement": "Tiap percobaan dan revisi bukti dipertahankan.",
+      "provenance": [],
+      "implementation": "Pisahkan bukti mandiri/kelompok dan penilaian individu; rumus agregasi tidak diisi tanpa aturan.",
+      "unresolved": [],
+      "review_status": "belum_ditelaah_tutor_pkbm"
+    }
+  ],
+  "design_authority": {
+    "primary_sources": [
+      "KUR-C",
+      "SIL-MTK",
+      "SIL-BID",
+      "PAN-PEM",
+      "PAN-KET"
+    ],
+    "module_role": "Bahan pelaksanaan, pemetaan isi dan ketentuan khusus pada lingkup modul; bukan dasar hierarki akademik.",
+    "authorization": "Arahan pengguna 7 Oktober 2026: gunakan kurikulum, silabus dan panduan khusus untuk pemetaan, telaah dan struktur database.",
+    "database_design_file": "struktur-database-akademik-pkbm.md",
+    "full_module_catalog_required_for_schema": false,
+    "missing_local_policy": "Tetap kosong sampai kebijakan lokal ditetapkan; tidak direkayasa dari modul contoh."
+  }
+}

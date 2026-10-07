@@ -1,0 +1,54 @@
+{
+  "selected_at": "2026-10-07",
+  "mode": "local-development",
+  "canvas": {
+    "repository": "https://github.com/instructure/canvas-lms.git",
+    "tag": null,
+    "commit": "44bfdc264d5fe6a942ebdb5f10a0eb63ee04df3a",
+    "ruby_major_minor": "3.4",
+    "rails_major_minor": "8.0",
+    "node_major": 20,
+    "bundler": "2.6.7",
+    "yarn": "1.19.1",
+    "base_image": "instructure/ruby-passenger:3.4-jammy",
+    "branch": "prod",
+    "upstream_commit_date": "2026-04-30T14:39:54Z",
+    "bundler_image_setup": "2.5.10",
+    "actual_ruby": "3.4.8",
+    "actual_node": "20.20.2",
+    "actual_rails": "8.0.5",
+    "local_image_id": "sha256:2ea427dbe2484158f7471b7a1b5581c9743a61fee3e53221188a39e6ccd0b4fe",
+    "local_image_bytes": 1223272266
+  },
+  "postgres": {
+    "major": 14,
+    "extension": "pgvector",
+    "actual_version": "14.24",
+    "pgvector_package_version": "0.8.7-1.pgdg13+1",
+    "local_image_id": "sha256:ae9846aab4f16691e96bde01ccc2f2d6e7039e1b688cb404dff231ea5d515507",
+    "runtime_started": true
+  },
+  "redis": {
+    "image": "redis:alpine",
+    "selection": "upstream tag resolved to digest",
+    "compatibility_verified": true,
+    "runtime_started": true,
+    "actual_version": "8.10.2",
+    "compatibility_scope": "local Canvas login, caching and worker operations"
+  },
+  "image_digests": {
+    "ruby_passenger": "sha256:9bea82cbb2bfef450231582e25311db300ccf69de6bceeb0ab529d60002a4d9e",
+    "postgres": "sha256:ceef4a62198b562d6fe3e51be67362f72a0abf0aaa255f54f0c0e55be9768ed2",
+    "redis": "sha256:3811787313eba226a2ef38658c6ccb91cd5e110edc89c37767de373120a0e5a0"
+  },
+  "compose_project": "pkbm-canvas",
+  "canvas_endpoint": "http://127.0.0.1:8081",
+  "pkbm_endpoint": "http://127.0.0.1:3000",
+  "disk_reserve_gib": {
+    "root": 5,
+    "home": 5
+  },
+  "runtime_verified": true,
+  "selection_basis": "Latest observed prod head, per official Production Start; no GitHub Releases published; stable branch absent.",
+  "runtime_verification_scope": "local browser/API/worker/restart; not production"
+}

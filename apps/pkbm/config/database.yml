@@ -1,0 +1,8 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV.fetch("PKBM_DB_HOST", "postgres") %>
+  database: pkbm_development
+  username: pkbm
+  password: <%= ENV.fetch("PKBM_DB_PASSWORD") %>
+  pool: 5

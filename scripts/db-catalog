@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+TASK_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+case "${1:-}" in migrate|seed) ;; *) echo 'db-catalog migrate|seed' >&2; exit 2 ;; esac
+"$TASK_ROOT/scripts/catalog-sql" "$1" | "$TASK_ROOT/scripts/compose" exec -T postgres sh -c 'PGPASSWORD="$PKBM_DB_PASSWORD" exec psql -h 127.0.0.1 -U pkbm -d pkbm_development -v ON_ERROR_STOP=1 -q'
