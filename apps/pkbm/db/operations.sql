@@ -1,0 +1,59 @@
+CREATE TABLE pkbms (id uuid PRIMARY KEY, name text NOT NULL, local_code text NOT NULL UNIQUE, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE people (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, name text NOT NULL CHECK(length(trim(name))>0), email text NOT NULL, password_digest text NOT NULL, UNIQUE(pkbm_id,email), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id));
+CREATE INDEX ON people(pkbm_id);
+CREATE TABLE pkbm_memberships (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, person_id uuid NOT NULL, status text NOT NULL DEFAULT 'active' CHECK(status IN ('active','inactive')), UNIQUE(pkbm_id,person_id), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,person_id) REFERENCES people(pkbm_id,id));
+CREATE INDEX ON pkbm_memberships(pkbm_id);
+CREATE TABLE role_assignments (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, membership_id uuid NOT NULL, role text NOT NULL CHECK(role IN ('pengelola','tutor','instruktur','warga_belajar')), UNIQUE(pkbm_id,membership_id,role), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,membership_id) REFERENCES pkbm_memberships(pkbm_id,id));
+CREATE INDEX ON role_assignments(pkbm_id);
+CREATE TABLE program_offerings (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, curriculum_version_id uuid NOT NULL REFERENCES curriculum_versions, name text NOT NULL, period text NOT NULL, status text NOT NULL DEFAULT 'draft' CHECK(status IN ('draft','active','closed')), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id));
+CREATE INDEX ON program_offerings(pkbm_id);
+CREATE TABLE learner_programs (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, program_offering_id uuid NOT NULL, membership_id uuid NOT NULL, curriculum_level_id uuid NOT NULL REFERENCES curriculum_levels, specialization_track_id uuid REFERENCES specialization_tracks, starts_on date NOT NULL, status text NOT NULL DEFAULT 'active' CHECK(status IN ('active','inactive','completed')), UNIQUE(pkbm_id,program_offering_id,membership_id), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,program_offering_id) REFERENCES program_offerings(pkbm_id,id), FOREIGN KEY(pkbm_id,membership_id) REFERENCES pkbm_memberships(pkbm_id,id));
+CREATE INDEX ON learner_programs(pkbm_id);
+CREATE TABLE learning_groups (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, program_offering_id uuid NOT NULL, name text NOT NULL, period text NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,program_offering_id) REFERENCES program_offerings(pkbm_id,id));
+CREATE INDEX ON learning_groups(pkbm_id);
+CREATE TABLE group_memberships (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, learning_group_id uuid NOT NULL, learner_program_id uuid NOT NULL, starts_on date NOT NULL, ends_on date, CHECK(ends_on IS NULL OR ends_on>=starts_on), UNIQUE(pkbm_id,learning_group_id,learner_program_id), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,learning_group_id) REFERENCES learning_groups(pkbm_id,id), FOREIGN KEY(pkbm_id,learner_program_id) REFERENCES learner_programs(pkbm_id,id));
+CREATE INDEX ON group_memberships(pkbm_id);
+CREATE TABLE learning_design_versions (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, program_offering_id uuid NOT NULL, owner_membership_id uuid NOT NULL, name text NOT NULL, version integer NOT NULL CHECK(version>0), kind text NOT NULL CHECK(kind IN ('mapel','pemberdayaan','keterampilan','terpadu')), local_adjustment text NOT NULL DEFAULT '', adjustment_origin text NOT NULL DEFAULT 'rancangan_tutor_pkbm' CHECK(adjustment_origin='rancangan_tutor_pkbm'), status text NOT NULL DEFAULT 'draft' CHECK(status IN ('draft','published')), UNIQUE(pkbm_id,program_offering_id,name,version), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,program_offering_id) REFERENCES program_offerings(pkbm_id,id), FOREIGN KEY(pkbm_id,owner_membership_id) REFERENCES pkbm_memberships(pkbm_id,id));
+CREATE INDEX ON learning_design_versions(pkbm_id);
+CREATE TABLE design_components (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, learning_design_version_id uuid NOT NULL, curriculum_component_id uuid NOT NULL REFERENCES curriculum_components, UNIQUE(pkbm_id,learning_design_version_id,curriculum_component_id), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,learning_design_version_id) REFERENCES learning_design_versions(pkbm_id,id));
+CREATE INDEX ON design_components(pkbm_id);
+CREATE TABLE learning_activities (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, learning_design_version_id uuid NOT NULL, title text NOT NULL, position integer NOT NULL CHECK(position>0), objective text NOT NULL, mode text NOT NULL CHECK(mode IN ('tatap_muka','tutorial','mandiri','praktik')), evidence_plan text NOT NULL, assessment_method text NOT NULL, local_adjustment text NOT NULL DEFAULT '', UNIQUE(pkbm_id,learning_design_version_id,position), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,learning_design_version_id) REFERENCES learning_design_versions(pkbm_id,id));
+CREATE INDEX ON learning_activities(pkbm_id);
+CREATE TABLE activity_targets (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, learning_activity_id uuid NOT NULL, learning_target_id uuid NOT NULL REFERENCES learning_targets, relation_type text NOT NULL CHECK(relation_type IN ('landasan','diajarkan','dinilai')), mapping_status text NOT NULL DEFAULT 'rancangan_lokal' CHECK(mapping_status IN ('rancangan_lokal','ditelaah_tutor')), UNIQUE(pkbm_id,learning_activity_id,learning_target_id,relation_type), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,learning_activity_id) REFERENCES learning_activities(pkbm_id,id));
+CREATE INDEX ON activity_targets(pkbm_id);
+CREATE TABLE deliveries (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, learning_design_version_id uuid NOT NULL, learning_group_id uuid NOT NULL, name text NOT NULL, period text NOT NULL, location text NOT NULL DEFAULT '', status text NOT NULL DEFAULT 'draft' CHECK(status IN ('draft','active','closed')), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,learning_design_version_id) REFERENCES learning_design_versions(pkbm_id,id), FOREIGN KEY(pkbm_id,learning_group_id) REFERENCES learning_groups(pkbm_id,id));
+CREATE INDEX ON deliveries(pkbm_id);
+CREATE TABLE delivery_staff (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, delivery_id uuid NOT NULL, membership_id uuid NOT NULL, responsibility text NOT NULL, UNIQUE(pkbm_id,delivery_id,membership_id), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,delivery_id) REFERENCES deliveries(pkbm_id,id), FOREIGN KEY(pkbm_id,membership_id) REFERENCES pkbm_memberships(pkbm_id,id));
+CREATE INDEX ON delivery_staff(pkbm_id);
+CREATE TABLE delivery_enrollments (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, delivery_id uuid NOT NULL, learner_program_id uuid NOT NULL, status text NOT NULL DEFAULT 'active' CHECK(status IN ('active','inactive','completed')), UNIQUE(pkbm_id,delivery_id,learner_program_id), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,delivery_id) REFERENCES deliveries(pkbm_id,id), FOREIGN KEY(pkbm_id,learner_program_id) REFERENCES learner_programs(pkbm_id,id));
+CREATE INDEX ON delivery_enrollments(pkbm_id);
+CREATE TABLE learning_plans (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, learner_program_id uuid NOT NULL, version integer NOT NULL CHECK(version>0), starts_on date NOT NULL, ends_on date, objective text NOT NULL, status text NOT NULL DEFAULT 'draft' CHECK(status IN ('draft','active','superseded')), CHECK(ends_on IS NULL OR ends_on>=starts_on), UNIQUE(pkbm_id,learner_program_id,version), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,learner_program_id) REFERENCES learner_programs(pkbm_id,id));
+CREATE INDEX ON learning_plans(pkbm_id);
+CREATE TABLE learning_plan_items (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, learning_plan_id uuid NOT NULL, delivery_id uuid NOT NULL, learning_target_id uuid NOT NULL REFERENCES learning_targets, position integer NOT NULL CHECK(position>0), planned_on date, UNIQUE(pkbm_id,learning_plan_id,position), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,learning_plan_id) REFERENCES learning_plans(pkbm_id,id), FOREIGN KEY(pkbm_id,delivery_id) REFERENCES deliveries(pkbm_id,id));
+CREATE INDEX ON learning_plan_items(pkbm_id);
+CREATE TABLE learning_sessions (id uuid PRIMARY KEY, pkbm_id uuid NOT NULL REFERENCES pkbms, delivery_id uuid NOT NULL, learning_activity_id uuid NOT NULL, starts_at timestamptz NOT NULL, mode text NOT NULL CHECK(mode IN ('tatap_muka','tutorial','mandiri','praktik')), planned_jp numeric(8,2) NOT NULL CHECK(planned_jp>0), location text NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), UNIQUE(pkbm_id,id), FOREIGN KEY(pkbm_id,delivery_id) REFERENCES deliveries(pkbm_id,id), FOREIGN KEY(pkbm_id,learning_activity_id) REFERENCES learning_activities(pkbm_id,id));
+CREATE INDEX ON learning_sessions(pkbm_id);
+CREATE UNIQUE INDEX one_active_learning_plan ON learning_plans(pkbm_id,learner_program_id) WHERE status='active';
+
+-- Published local designs are immutable. New teaching adjustments need a new version.
+CREATE FUNCTION protect_published_local_design() RETURNS trigger LANGUAGE plpgsql AS $$
+DECLARE design_id uuid;
+BEGIN
+ IF TG_TABLE_NAME='learning_design_versions' THEN
+  IF OLD.status='published' THEN RAISE EXCEPTION 'Published design requires a new version'; END IF;
+ ELSE
+  IF TG_TABLE_NAME='activity_targets' THEN
+   SELECT learning_design_version_id INTO design_id FROM learning_activities WHERE pkbm_id=NEW.pkbm_id AND id=NEW.learning_activity_id;
+  ELSE
+   design_id := NEW.learning_design_version_id;
+  END IF;
+  IF EXISTS(SELECT 1 FROM learning_design_versions WHERE pkbm_id=NEW.pkbm_id AND id=design_id AND status='published') THEN
+   RAISE EXCEPTION 'Published design requires a new version';
+  END IF;
+ END IF;
+ RETURN NEW;
+END; $$;
+CREATE TRIGGER immutable_published_design BEFORE UPDATE ON learning_design_versions FOR EACH ROW EXECUTE FUNCTION protect_published_local_design();
+CREATE TRIGGER immutable_published_component BEFORE INSERT OR UPDATE ON design_components FOR EACH ROW EXECUTE FUNCTION protect_published_local_design();
+CREATE TRIGGER immutable_published_activity BEFORE INSERT OR UPDATE ON learning_activities FOR EACH ROW EXECUTE FUNCTION protect_published_local_design();
+CREATE TRIGGER immutable_published_target BEFORE INSERT OR UPDATE ON activity_targets FOR EACH ROW EXECUTE FUNCTION protect_published_local_design();

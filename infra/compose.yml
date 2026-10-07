@@ -88,6 +88,9 @@ services:
       BUNDLE_GEMFILE: /usr/src/pkbm/Gemfile
       PKBM_DB_PASSWORD: ${PKBM_DB_PASSWORD:?Run scripts/env-init}
       PKBM_SECRET_KEY_BASE: ${PKBM_SECRET_KEY_BASE:?Run scripts/env-init}
+      PKBM_LOCAL_ADMIN_PASSWORD: ${PKBM_LOCAL_ADMIN_PASSWORD:-}
+      PKBM_LOCAL_TUTOR_PASSWORD: ${PKBM_LOCAL_TUTOR_PASSWORD:-}
+      PKBM_LOCAL_WB_PASSWORD: ${PKBM_LOCAL_WB_PASSWORD:-}
     volumes:
       - ../apps/pkbm:/usr/src/pkbm
       - ../var/pkbm-gems:/home/docker/.gem

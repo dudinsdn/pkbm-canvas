@@ -1,6 +1,6 @@
 # Catatan implementasi PKBM–Canvas
 
-**Status terbaru:** Tahap 1–2 lulus lokal untuk fondasi dan katalog contoh; Tahap 3 lulus lokal dengan checklist lengkap, termasuk pengukuran terpisah dan unggahan browser melalui Files lama. [Bukti terbaru](../tahap12-verifikasi.md). Bagian sebelumnya merupakan riwayat bertanggal, bukan status terkini.
+**Status terbaru:** Tahap 4 diimplementasikan dan API lulus lokal; pengguna mengonfirmasi UI dasar secara manual. Tahap 4 Lulus lokal berdasarkan uji API agen dan konfirmasi alur dasar browser oleh pengguna. Tahap 1–2 lulus lokal untuk fondasi dan katalog contoh; Tahap 3 lulus lokal dengan checklist lengkap, termasuk pengukuran terpisah dan unggahan browser melalui Files lama. [Bukti terbaru](../tahap12-verifikasi.md). Bagian sebelumnya merupakan riwayat bertanggal, bukan status terkini.
 
 ## Tahap 0 — 7 Oktober 2026
 
@@ -233,3 +233,17 @@ Pada tampilan Files lama yang dibuka pengguna, event filechooser berhasil, fixtu
 ## Konfirmasi manual New Files Page
 
 Pengguna mengonfirmasi unggahan New Files Page berhasil pada 7 Oktober 2026. Jalur tersebut dicatat lulus berdasarkan pengujian manual pengguna; timeout sebelumnya terbatas pada otomatisasi picker agen. Checklist unggahan browser tercentang dan status Tahap 3 tetap Lulus lokal. Bukti byte unduhan yang diperiksa agen berasal dari pengujian Files lama.
+
+## Implementasi Tahap 4 — 7 Oktober 2026
+
+Migrasi `20261007000200` berhasil (exit 0) dan fixture opt-in dua PKBM berhasil diterapkan (exit 0). Schema SQL hasil Rails diperbarui. PKBM, orang/membership/peran, program/kelompok, rancangan versi/komponen/kegiatan/target, pelaksanaan/staff/enrollment, rencana/item serta sesi diimplementasikan. FK lokal komposit membatasi relasi PKBM; API menambahkan pemeriksaan peran, penugasan dan konteks akademik.
+
+UI React lokal menyediakan layar pengelola/tutor/warga belajar pada port 3000 yang sama. React/ReactDOM dan lisensinya disalin dari dependensi Canvas lokal; tidak memasang dependensi baru. Kredensial pendamping berbeda dari Canvas, ditambahkan ke `.env` yang dikecualikan Git; tidak ditampilkan. Rancangan terbit dipertahankan dan perubahan memakai versi baru. Tidak menulis tabel Canvas, menetapkan nilai akhir atau mengesahkan SKK.
+
+**Status: implementasi tersedia; gerbang Tahap 4 belum lulus.** Pengguna memilih “Implementasi saja dahulu” ketika ditawarkan pemeriksaan API dua PKBM/peran dan alur browser. Tidak menjalankan pengujian tersebut. Checklist penyediaan implementasi tercentang, tidak menjadi klaim keamanan/alur runtime sudah terbukti. Tahap 5 belum dikerjakan. [Lingkup/batas](../tahap4-implementasi.md), [status](../tahap4-status.json). Log pemasangan: `var/validation/stage4-migrate.log`, `var/validation/stage4-seed.log`.
+
+## Validasi API Tahap 4 — 7 Oktober 2026
+
+Atas permintaan pengguna, API diuji pada dua PKBM dan tiga peran, dilengkapi warga belajar sementara pada PKBM yang sama. Hasil akhir 483 assertion lulus, 0 gagal. Seluruh koleksi, otorisasi lintas PKBM, mutasi peran, rancangan/target, penugasan, rencana pribadi serta alur tulis diuji. Celah pembacaan item rencana pelaksanaan lain oleh tutor ditemukan, dibatasi pada delivery yang dapat diakses, kemudian kasus diuji ulang dan lulus.
+
+Record sementara dibersihkan tepat UUID; seluruh record asli kedua PKBM sama sebelum/sesudah. Tidak mengubah tabel Canvas. Pengguna mengonfirmasi tampilan/alur dasar browser berjalan; belum ada bukti agen atas keseluruhan alur browser pembuatan/penugasan/rencana WB. Tahap 4 Lulus lokal: batas PKBM/peran terbukti lewat API dan alur dasar browser dikonfirmasi manual pengguna sesuai gerbang roadmap. Pengujian otomatis seluruh formulir tidak diklaim. Penundaan validasi API sebelumnya adalah riwayat yang digantikan permintaan terbaru. [Bukti](../tahap4-api-verifikasi.md), [hasil](../tahap4-api-verifikasi.json). Belum commit atau mulai Tahap 5.

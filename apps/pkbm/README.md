@@ -40,8 +40,12 @@ Setelah image web, gems pendamping dan PostgreSQL tersedia:
 - `GET /api/v1/catalog/learning_targets?limit=50&offset=0`: data target, maksimal 100 per halaman.
 - Koleksi lain menggunakan nama tabel katalog yang diizinkan controller.
 
-Endpoint lokal pada port 3000, hanya katalog bersama. Belum ada login/peran/data pribadi atau API mutasi. Jangan membuka endpoint ini ke internet. Secret Rails ada pada `.env` proyek. Gems pendamping terpisah dari gems Canvas.
+Endpoint katalog lokal pada port 3000 tetap hanya katalog bersama. API operasional Tahap 4 memiliki login/peran dan mutasi terpisah melalui `/api/v1/operations`. Jangan membuka endpoint ini ke internet. Secret Rails ada pada `.env` proyek. Gems pendamping terpisah dari gems Canvas.
 
 ## Batas
 
-Skema PKBM, orang, kelompok, rencana, bukti dan keputusan dimulai Tahap 4/6. Penarikan hasil Canvas dan pengesahan SKK belum tersedia. Struktur katalog bukan klaim ketuntasan warga belajar.
+Skema PKBM, orang, kelompok dan rencana tersedia pada Tahap 4. Bukti hasil serta keputusan akademik mengikuti Tahap 6 dan seterusnya. Penarikan hasil Canvas dan pengesahan SKK belum tersedia. Struktur katalog bukan klaim ketuntasan warga belajar.
+
+## Pengelolaan dan rencana belajar (Tahap 4)
+
+Implementasi data pelaksanaan, autentikasi pendamping, pembatasan PKBM/peran dan UI React tersedia. Jalankan `./scripts/local pkbm-migrate`, `pkbm-operations-seed` (fixture opt-in dua PKBM), lalu `catalog-start`. UI pada port 3000 yang sama. [Lingkup, alur dan batas](../../docs/tahap4-implementasi.md). Gerbang kelulusan mengikuti bukti API/browser yang tercatat, bukan keberadaan file.

@@ -83,6 +83,31 @@ BEGIN
 END; $$;
 
 
+--
+-- Name: protect_published_local_design(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.protect_published_local_design() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE design_id uuid;
+BEGIN
+ IF TG_TABLE_NAME='learning_design_versions' THEN
+  IF OLD.status='published' THEN RAISE EXCEPTION 'Published design requires a new version'; END IF;
+ ELSE
+  IF TG_TABLE_NAME='activity_targets' THEN
+   SELECT learning_design_version_id INTO design_id FROM learning_activities WHERE pkbm_id=NEW.pkbm_id AND id=NEW.learning_activity_id;
+  ELSE
+   design_id := NEW.learning_design_version_id;
+  END IF;
+  IF EXISTS(SELECT 1 FROM learning_design_versions WHERE pkbm_id=NEW.pkbm_id AND id=design_id AND status='published') THEN
+   RAISE EXCEPTION 'Published design requires a new version';
+  END IF;
+ END IF;
+ RETURN NEW;
+END; $$;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -101,6 +126,24 @@ CREATE TABLE public.academic_frameworks (
     availability text NOT NULL,
     source_reference_id uuid,
     CONSTRAINT academic_frameworks_kind_check CHECK ((kind = ANY (ARRAY['kurikulum'::text, 'silabus'::text, 'panduan'::text, 'standar_program'::text])))
+);
+
+
+--
+-- Name: activity_targets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.activity_targets (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    learning_activity_id uuid NOT NULL,
+    learning_target_id uuid NOT NULL,
+    relation_type text NOT NULL,
+    mapping_status text DEFAULT 'rancangan_lokal'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT activity_targets_mapping_status_check CHECK ((mapping_status = ANY (ARRAY['rancangan_lokal'::text, 'ditelaah_tutor'::text]))),
+    CONSTRAINT activity_targets_relation_type_check CHECK ((relation_type = ANY (ARRAY['landasan'::text, 'diajarkan'::text, 'dinilai'::text])))
 );
 
 
@@ -197,6 +240,70 @@ CREATE TABLE public.curriculum_versions (
 
 
 --
+-- Name: deliveries; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.deliveries (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    learning_design_version_id uuid NOT NULL,
+    learning_group_id uuid NOT NULL,
+    name text NOT NULL,
+    period text NOT NULL,
+    location text DEFAULT ''::text NOT NULL,
+    status text DEFAULT 'draft'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT deliveries_status_check CHECK ((status = ANY (ARRAY['draft'::text, 'active'::text, 'closed'::text])))
+);
+
+
+--
+-- Name: delivery_enrollments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.delivery_enrollments (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    delivery_id uuid NOT NULL,
+    learner_program_id uuid NOT NULL,
+    status text DEFAULT 'active'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT delivery_enrollments_status_check CHECK ((status = ANY (ARRAY['active'::text, 'inactive'::text, 'completed'::text])))
+);
+
+
+--
+-- Name: delivery_staff; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.delivery_staff (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    delivery_id uuid NOT NULL,
+    membership_id uuid NOT NULL,
+    responsibility text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: design_components; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.design_components (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    learning_design_version_id uuid NOT NULL,
+    curriculum_component_id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: framework_activities; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -256,6 +363,142 @@ CREATE TABLE public.framework_topics (
 
 
 --
+-- Name: group_memberships; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.group_memberships (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    learning_group_id uuid NOT NULL,
+    learner_program_id uuid NOT NULL,
+    starts_on date NOT NULL,
+    ends_on date,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT group_memberships_check CHECK (((ends_on IS NULL) OR (ends_on >= starts_on)))
+);
+
+
+--
+-- Name: learner_programs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.learner_programs (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    program_offering_id uuid NOT NULL,
+    membership_id uuid NOT NULL,
+    curriculum_level_id uuid NOT NULL,
+    specialization_track_id uuid,
+    starts_on date NOT NULL,
+    status text DEFAULT 'active'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT learner_programs_status_check CHECK ((status = ANY (ARRAY['active'::text, 'inactive'::text, 'completed'::text])))
+);
+
+
+--
+-- Name: learning_activities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.learning_activities (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    learning_design_version_id uuid NOT NULL,
+    title text NOT NULL,
+    "position" integer NOT NULL,
+    objective text NOT NULL,
+    mode text NOT NULL,
+    evidence_plan text NOT NULL,
+    assessment_method text NOT NULL,
+    local_adjustment text DEFAULT ''::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT learning_activities_mode_check CHECK ((mode = ANY (ARRAY['tatap_muka'::text, 'tutorial'::text, 'mandiri'::text, 'praktik'::text]))),
+    CONSTRAINT learning_activities_position_check CHECK (("position" > 0))
+);
+
+
+--
+-- Name: learning_design_versions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.learning_design_versions (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    program_offering_id uuid NOT NULL,
+    owner_membership_id uuid NOT NULL,
+    name text NOT NULL,
+    version integer NOT NULL,
+    kind text NOT NULL,
+    local_adjustment text DEFAULT ''::text NOT NULL,
+    adjustment_origin text DEFAULT 'rancangan_tutor_pkbm'::text NOT NULL,
+    status text DEFAULT 'draft'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT learning_design_versions_adjustment_origin_check CHECK ((adjustment_origin = 'rancangan_tutor_pkbm'::text)),
+    CONSTRAINT learning_design_versions_kind_check CHECK ((kind = ANY (ARRAY['mapel'::text, 'pemberdayaan'::text, 'keterampilan'::text, 'terpadu'::text]))),
+    CONSTRAINT learning_design_versions_status_check CHECK ((status = ANY (ARRAY['draft'::text, 'published'::text]))),
+    CONSTRAINT learning_design_versions_version_check CHECK ((version > 0))
+);
+
+
+--
+-- Name: learning_groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.learning_groups (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    program_offering_id uuid NOT NULL,
+    name text NOT NULL,
+    period text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: learning_plan_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.learning_plan_items (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    learning_plan_id uuid NOT NULL,
+    delivery_id uuid NOT NULL,
+    learning_target_id uuid NOT NULL,
+    "position" integer NOT NULL,
+    planned_on date,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT learning_plan_items_position_check CHECK (("position" > 0))
+);
+
+
+--
+-- Name: learning_plans; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.learning_plans (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    learner_program_id uuid NOT NULL,
+    version integer NOT NULL,
+    starts_on date NOT NULL,
+    ends_on date,
+    objective text NOT NULL,
+    status text DEFAULT 'draft'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT learning_plans_check CHECK (((ends_on IS NULL) OR (ends_on >= starts_on))),
+    CONSTRAINT learning_plans_status_check CHECK ((status = ANY (ARRAY['draft'::text, 'active'::text, 'superseded'::text]))),
+    CONSTRAINT learning_plans_version_check CHECK ((version > 0))
+);
+
+
+--
 -- Name: learning_resources; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -266,6 +509,26 @@ CREATE TABLE public.learning_resources (
     title text NOT NULL,
     source_document_id uuid,
     version text
+);
+
+
+--
+-- Name: learning_sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.learning_sessions (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    delivery_id uuid NOT NULL,
+    learning_activity_id uuid NOT NULL,
+    starts_at timestamp with time zone NOT NULL,
+    mode text NOT NULL,
+    planned_jp numeric(8,2) NOT NULL,
+    location text DEFAULT ''::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT learning_sessions_mode_check CHECK ((mode = ANY (ARRAY['tatap_muka'::text, 'tutorial'::text, 'mandiri'::text, 'praktik'::text]))),
+    CONSTRAINT learning_sessions_planned_jp_check CHECK ((planned_jp > (0)::numeric))
 );
 
 
@@ -289,6 +552,67 @@ CREATE TABLE public.learning_targets (
     CONSTRAINT learning_targets_dimension_check CHECK ((dimension = ANY (ARRAY['spiritual'::text, 'sosial'::text, 'pengetahuan'::text, 'keterampilan'::text, 'sikap'::text, 'lintas_dimensi'::text]))),
     CONSTRAINT learning_targets_kind_check CHECK ((kind = ANY (ARRAY['KI'::text, 'KD'::text, 'indikator'::text, 'area_panduan'::text, 'capaian_panduan'::text]))),
     CONSTRAINT learning_targets_transcription_type_check CHECK ((transcription_type = ANY (ARRAY['normalisasi_tipografi'::text, 'ringkasan_editorial'::text, 'kutipan'::text])))
+);
+
+
+--
+-- Name: people; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.people (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    name text NOT NULL,
+    email text NOT NULL,
+    password_digest text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT people_name_check CHECK ((length(TRIM(BOTH FROM name)) > 0))
+);
+
+
+--
+-- Name: pkbm_memberships; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.pkbm_memberships (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    person_id uuid NOT NULL,
+    status text DEFAULT 'active'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT pkbm_memberships_status_check CHECK ((status = ANY (ARRAY['active'::text, 'inactive'::text])))
+);
+
+
+--
+-- Name: pkbms; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.pkbms (
+    id uuid NOT NULL,
+    name text NOT NULL,
+    local_code text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: program_offerings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.program_offerings (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    curriculum_version_id uuid NOT NULL,
+    name text NOT NULL,
+    period text NOT NULL,
+    status text DEFAULT 'draft'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT program_offerings_status_check CHECK ((status = ANY (ARRAY['draft'::text, 'active'::text, 'closed'::text])))
 );
 
 
@@ -335,6 +659,21 @@ CREATE TABLE public.resource_units (
     learning_resource_id uuid NOT NULL,
     title text NOT NULL,
     source_reference_id uuid NOT NULL
+);
+
+
+--
+-- Name: role_assignments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.role_assignments (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    membership_id uuid NOT NULL,
+    role text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT role_assignments_role_check CHECK ((role = ANY (ARRAY['pengelola'::text, 'tutor'::text, 'instruktur'::text, 'warga_belajar'::text])))
 );
 
 
@@ -460,6 +799,30 @@ ALTER TABLE ONLY public.academic_frameworks
 
 
 --
+-- Name: activity_targets activity_targets_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activity_targets
+    ADD CONSTRAINT activity_targets_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: activity_targets activity_targets_pkbm_id_learning_activity_id_learning_targ_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activity_targets
+    ADD CONSTRAINT activity_targets_pkbm_id_learning_activity_id_learning_targ_key UNIQUE (pkbm_id, learning_activity_id, learning_target_id, relation_type);
+
+
+--
+-- Name: activity_targets activity_targets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activity_targets
+    ADD CONSTRAINT activity_targets_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -572,6 +935,94 @@ ALTER TABLE ONLY public.curriculum_versions
 
 
 --
+-- Name: deliveries deliveries_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.deliveries
+    ADD CONSTRAINT deliveries_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: deliveries deliveries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.deliveries
+    ADD CONSTRAINT deliveries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: delivery_enrollments delivery_enrollments_pkbm_id_delivery_id_learner_program_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_enrollments
+    ADD CONSTRAINT delivery_enrollments_pkbm_id_delivery_id_learner_program_id_key UNIQUE (pkbm_id, delivery_id, learner_program_id);
+
+
+--
+-- Name: delivery_enrollments delivery_enrollments_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_enrollments
+    ADD CONSTRAINT delivery_enrollments_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: delivery_enrollments delivery_enrollments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_enrollments
+    ADD CONSTRAINT delivery_enrollments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: delivery_staff delivery_staff_pkbm_id_delivery_id_membership_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_staff
+    ADD CONSTRAINT delivery_staff_pkbm_id_delivery_id_membership_id_key UNIQUE (pkbm_id, delivery_id, membership_id);
+
+
+--
+-- Name: delivery_staff delivery_staff_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_staff
+    ADD CONSTRAINT delivery_staff_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: delivery_staff delivery_staff_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_staff
+    ADD CONSTRAINT delivery_staff_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: design_components design_components_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.design_components
+    ADD CONSTRAINT design_components_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: design_components design_components_pkbm_id_learning_design_version_id_curric_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.design_components
+    ADD CONSTRAINT design_components_pkbm_id_learning_design_version_id_curric_key UNIQUE (pkbm_id, learning_design_version_id, curriculum_component_id);
+
+
+--
+-- Name: design_components design_components_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.design_components
+    ADD CONSTRAINT design_components_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: framework_activities framework_activities_catalog_key_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -652,6 +1103,166 @@ ALTER TABLE ONLY public.framework_topics
 
 
 --
+-- Name: group_memberships group_memberships_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.group_memberships
+    ADD CONSTRAINT group_memberships_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: group_memberships group_memberships_pkbm_id_learning_group_id_learner_program_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.group_memberships
+    ADD CONSTRAINT group_memberships_pkbm_id_learning_group_id_learner_program_key UNIQUE (pkbm_id, learning_group_id, learner_program_id);
+
+
+--
+-- Name: group_memberships group_memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.group_memberships
+    ADD CONSTRAINT group_memberships_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: learner_programs learner_programs_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learner_programs
+    ADD CONSTRAINT learner_programs_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: learner_programs learner_programs_pkbm_id_program_offering_id_membership_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learner_programs
+    ADD CONSTRAINT learner_programs_pkbm_id_program_offering_id_membership_id_key UNIQUE (pkbm_id, program_offering_id, membership_id);
+
+
+--
+-- Name: learner_programs learner_programs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learner_programs
+    ADD CONSTRAINT learner_programs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: learning_activities learning_activities_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_activities
+    ADD CONSTRAINT learning_activities_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: learning_activities learning_activities_pkbm_id_learning_design_version_id_posi_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_activities
+    ADD CONSTRAINT learning_activities_pkbm_id_learning_design_version_id_posi_key UNIQUE (pkbm_id, learning_design_version_id, "position");
+
+
+--
+-- Name: learning_activities learning_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_activities
+    ADD CONSTRAINT learning_activities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: learning_design_versions learning_design_versions_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_design_versions
+    ADD CONSTRAINT learning_design_versions_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: learning_design_versions learning_design_versions_pkbm_id_program_offering_id_name_v_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_design_versions
+    ADD CONSTRAINT learning_design_versions_pkbm_id_program_offering_id_name_v_key UNIQUE (pkbm_id, program_offering_id, name, version);
+
+
+--
+-- Name: learning_design_versions learning_design_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_design_versions
+    ADD CONSTRAINT learning_design_versions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: learning_groups learning_groups_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_groups
+    ADD CONSTRAINT learning_groups_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: learning_groups learning_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_groups
+    ADD CONSTRAINT learning_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: learning_plan_items learning_plan_items_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_plan_items
+    ADD CONSTRAINT learning_plan_items_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: learning_plan_items learning_plan_items_pkbm_id_learning_plan_id_position_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_plan_items
+    ADD CONSTRAINT learning_plan_items_pkbm_id_learning_plan_id_position_key UNIQUE (pkbm_id, learning_plan_id, "position");
+
+
+--
+-- Name: learning_plan_items learning_plan_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_plan_items
+    ADD CONSTRAINT learning_plan_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: learning_plans learning_plans_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_plans
+    ADD CONSTRAINT learning_plans_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: learning_plans learning_plans_pkbm_id_learner_program_id_version_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_plans
+    ADD CONSTRAINT learning_plans_pkbm_id_learner_program_id_version_key UNIQUE (pkbm_id, learner_program_id, version);
+
+
+--
+-- Name: learning_plans learning_plans_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_plans
+    ADD CONSTRAINT learning_plans_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: learning_resources learning_resources_catalog_key_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -665,6 +1276,22 @@ ALTER TABLE ONLY public.learning_resources
 
 ALTER TABLE ONLY public.learning_resources
     ADD CONSTRAINT learning_resources_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: learning_sessions learning_sessions_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_sessions
+    ADD CONSTRAINT learning_sessions_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: learning_sessions learning_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_sessions
+    ADD CONSTRAINT learning_sessions_pkey PRIMARY KEY (id);
 
 
 --
@@ -689,6 +1316,86 @@ ALTER TABLE ONLY public.learning_targets
 
 ALTER TABLE ONLY public.learning_targets
     ADD CONSTRAINT learning_targets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: people people_pkbm_id_email_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.people
+    ADD CONSTRAINT people_pkbm_id_email_key UNIQUE (pkbm_id, email);
+
+
+--
+-- Name: people people_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.people
+    ADD CONSTRAINT people_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: people people_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.people
+    ADD CONSTRAINT people_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pkbm_memberships pkbm_memberships_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pkbm_memberships
+    ADD CONSTRAINT pkbm_memberships_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: pkbm_memberships pkbm_memberships_pkbm_id_person_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pkbm_memberships
+    ADD CONSTRAINT pkbm_memberships_pkbm_id_person_id_key UNIQUE (pkbm_id, person_id);
+
+
+--
+-- Name: pkbm_memberships pkbm_memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pkbm_memberships
+    ADD CONSTRAINT pkbm_memberships_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pkbms pkbms_local_code_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pkbms
+    ADD CONSTRAINT pkbms_local_code_key UNIQUE (local_code);
+
+
+--
+-- Name: pkbms pkbms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pkbms
+    ADD CONSTRAINT pkbms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: program_offerings program_offerings_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.program_offerings
+    ADD CONSTRAINT program_offerings_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: program_offerings program_offerings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.program_offerings
+    ADD CONSTRAINT program_offerings_pkey PRIMARY KEY (id);
 
 
 --
@@ -761,6 +1468,30 @@ ALTER TABLE ONLY public.resource_units
 
 ALTER TABLE ONLY public.resource_units
     ADD CONSTRAINT resource_units_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: role_assignments role_assignments_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.role_assignments
+    ADD CONSTRAINT role_assignments_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: role_assignments role_assignments_pkbm_id_membership_id_role_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.role_assignments
+    ADD CONSTRAINT role_assignments_pkbm_id_membership_id_role_key UNIQUE (pkbm_id, membership_id, role);
+
+
+--
+-- Name: role_assignments role_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.role_assignments
+    ADD CONSTRAINT role_assignments_pkey PRIMARY KEY (id);
 
 
 --
@@ -860,6 +1591,97 @@ ALTER TABLE ONLY public.specialization_tracks
 
 
 --
+-- Name: activity_targets_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX activity_targets_pkbm_id_idx ON public.activity_targets USING btree (pkbm_id);
+
+
+--
+-- Name: deliveries_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX deliveries_pkbm_id_idx ON public.deliveries USING btree (pkbm_id);
+
+
+--
+-- Name: delivery_enrollments_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX delivery_enrollments_pkbm_id_idx ON public.delivery_enrollments USING btree (pkbm_id);
+
+
+--
+-- Name: delivery_staff_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX delivery_staff_pkbm_id_idx ON public.delivery_staff USING btree (pkbm_id);
+
+
+--
+-- Name: design_components_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX design_components_pkbm_id_idx ON public.design_components USING btree (pkbm_id);
+
+
+--
+-- Name: group_memberships_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX group_memberships_pkbm_id_idx ON public.group_memberships USING btree (pkbm_id);
+
+
+--
+-- Name: learner_programs_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX learner_programs_pkbm_id_idx ON public.learner_programs USING btree (pkbm_id);
+
+
+--
+-- Name: learning_activities_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX learning_activities_pkbm_id_idx ON public.learning_activities USING btree (pkbm_id);
+
+
+--
+-- Name: learning_design_versions_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX learning_design_versions_pkbm_id_idx ON public.learning_design_versions USING btree (pkbm_id);
+
+
+--
+-- Name: learning_groups_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX learning_groups_pkbm_id_idx ON public.learning_groups USING btree (pkbm_id);
+
+
+--
+-- Name: learning_plan_items_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX learning_plan_items_pkbm_id_idx ON public.learning_plan_items USING btree (pkbm_id);
+
+
+--
+-- Name: learning_plans_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX learning_plans_pkbm_id_idx ON public.learning_plans USING btree (pkbm_id);
+
+
+--
+-- Name: learning_sessions_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX learning_sessions_pkbm_id_idx ON public.learning_sessions USING btree (pkbm_id);
+
+
+--
 -- Name: learning_targets_component_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -881,10 +1703,45 @@ CREATE INDEX mappings_target_idx ON public.resource_target_mappings USING btree 
 
 
 --
+-- Name: one_active_learning_plan; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX one_active_learning_plan ON public.learning_plans USING btree (pkbm_id, learner_program_id) WHERE (status = 'active'::text);
+
+
+--
+-- Name: people_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX people_pkbm_id_idx ON public.people USING btree (pkbm_id);
+
+
+--
+-- Name: pkbm_memberships_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX pkbm_memberships_pkbm_id_idx ON public.pkbm_memberships USING btree (pkbm_id);
+
+
+--
+-- Name: program_offerings_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX program_offerings_pkbm_id_idx ON public.program_offerings USING btree (pkbm_id);
+
+
+--
 -- Name: references_document_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX references_document_idx ON public.source_references USING btree (source_document_id);
+
+
+--
+-- Name: role_assignments_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX role_assignments_pkbm_id_idx ON public.role_assignments USING btree (pkbm_id);
 
 
 --
@@ -899,6 +1756,34 @@ CREATE TRIGGER activity_target_context BEFORE INSERT OR UPDATE ON public.framewo
 --
 
 CREATE TRIGGER component_track_context BEFORE INSERT OR UPDATE ON public.curriculum_components FOR EACH ROW EXECUTE FUNCTION public.check_catalog_component_track();
+
+
+--
+-- Name: learning_activities immutable_published_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER immutable_published_activity BEFORE INSERT OR UPDATE ON public.learning_activities FOR EACH ROW EXECUTE FUNCTION public.protect_published_local_design();
+
+
+--
+-- Name: design_components immutable_published_component; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER immutable_published_component BEFORE INSERT OR UPDATE ON public.design_components FOR EACH ROW EXECUTE FUNCTION public.protect_published_local_design();
+
+
+--
+-- Name: learning_design_versions immutable_published_design; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER immutable_published_design BEFORE UPDATE ON public.learning_design_versions FOR EACH ROW EXECUTE FUNCTION public.protect_published_local_design();
+
+
+--
+-- Name: activity_targets immutable_published_target; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER immutable_published_target BEFORE INSERT OR UPDATE ON public.activity_targets FOR EACH ROW EXECUTE FUNCTION public.protect_published_local_design();
 
 
 --
@@ -929,6 +1814,30 @@ ALTER TABLE ONLY public.academic_frameworks
 
 ALTER TABLE ONLY public.academic_frameworks
     ADD CONSTRAINT academic_frameworks_source_reference_id_fkey FOREIGN KEY (source_reference_id) REFERENCES public.source_references(id);
+
+
+--
+-- Name: activity_targets activity_targets_learning_target_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activity_targets
+    ADD CONSTRAINT activity_targets_learning_target_id_fkey FOREIGN KEY (learning_target_id) REFERENCES public.learning_targets(id);
+
+
+--
+-- Name: activity_targets activity_targets_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activity_targets
+    ADD CONSTRAINT activity_targets_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: activity_targets activity_targets_pkbm_id_learning_activity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activity_targets
+    ADD CONSTRAINT activity_targets_pkbm_id_learning_activity_id_fkey FOREIGN KEY (pkbm_id, learning_activity_id) REFERENCES public.learning_activities(pkbm_id, id);
 
 
 --
@@ -1012,6 +1921,102 @@ ALTER TABLE ONLY public.curriculum_versions
 
 
 --
+-- Name: deliveries deliveries_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.deliveries
+    ADD CONSTRAINT deliveries_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: deliveries deliveries_pkbm_id_learning_design_version_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.deliveries
+    ADD CONSTRAINT deliveries_pkbm_id_learning_design_version_id_fkey FOREIGN KEY (pkbm_id, learning_design_version_id) REFERENCES public.learning_design_versions(pkbm_id, id);
+
+
+--
+-- Name: deliveries deliveries_pkbm_id_learning_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.deliveries
+    ADD CONSTRAINT deliveries_pkbm_id_learning_group_id_fkey FOREIGN KEY (pkbm_id, learning_group_id) REFERENCES public.learning_groups(pkbm_id, id);
+
+
+--
+-- Name: delivery_enrollments delivery_enrollments_pkbm_id_delivery_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_enrollments
+    ADD CONSTRAINT delivery_enrollments_pkbm_id_delivery_id_fkey FOREIGN KEY (pkbm_id, delivery_id) REFERENCES public.deliveries(pkbm_id, id);
+
+
+--
+-- Name: delivery_enrollments delivery_enrollments_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_enrollments
+    ADD CONSTRAINT delivery_enrollments_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: delivery_enrollments delivery_enrollments_pkbm_id_learner_program_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_enrollments
+    ADD CONSTRAINT delivery_enrollments_pkbm_id_learner_program_id_fkey FOREIGN KEY (pkbm_id, learner_program_id) REFERENCES public.learner_programs(pkbm_id, id);
+
+
+--
+-- Name: delivery_staff delivery_staff_pkbm_id_delivery_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_staff
+    ADD CONSTRAINT delivery_staff_pkbm_id_delivery_id_fkey FOREIGN KEY (pkbm_id, delivery_id) REFERENCES public.deliveries(pkbm_id, id);
+
+
+--
+-- Name: delivery_staff delivery_staff_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_staff
+    ADD CONSTRAINT delivery_staff_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: delivery_staff delivery_staff_pkbm_id_membership_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_staff
+    ADD CONSTRAINT delivery_staff_pkbm_id_membership_id_fkey FOREIGN KEY (pkbm_id, membership_id) REFERENCES public.pkbm_memberships(pkbm_id, id);
+
+
+--
+-- Name: design_components design_components_curriculum_component_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.design_components
+    ADD CONSTRAINT design_components_curriculum_component_id_fkey FOREIGN KEY (curriculum_component_id) REFERENCES public.curriculum_components(id);
+
+
+--
+-- Name: design_components design_components_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.design_components
+    ADD CONSTRAINT design_components_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: design_components design_components_pkbm_id_learning_design_version_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.design_components
+    ADD CONSTRAINT design_components_pkbm_id_learning_design_version_id_fkey FOREIGN KEY (pkbm_id, learning_design_version_id) REFERENCES public.learning_design_versions(pkbm_id, id);
+
+
+--
 -- Name: framework_activities framework_activities_academic_framework_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1084,11 +2089,203 @@ ALTER TABLE ONLY public.framework_topics
 
 
 --
+-- Name: group_memberships group_memberships_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.group_memberships
+    ADD CONSTRAINT group_memberships_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: group_memberships group_memberships_pkbm_id_learner_program_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.group_memberships
+    ADD CONSTRAINT group_memberships_pkbm_id_learner_program_id_fkey FOREIGN KEY (pkbm_id, learner_program_id) REFERENCES public.learner_programs(pkbm_id, id);
+
+
+--
+-- Name: group_memberships group_memberships_pkbm_id_learning_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.group_memberships
+    ADD CONSTRAINT group_memberships_pkbm_id_learning_group_id_fkey FOREIGN KEY (pkbm_id, learning_group_id) REFERENCES public.learning_groups(pkbm_id, id);
+
+
+--
+-- Name: learner_programs learner_programs_curriculum_level_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learner_programs
+    ADD CONSTRAINT learner_programs_curriculum_level_id_fkey FOREIGN KEY (curriculum_level_id) REFERENCES public.curriculum_levels(id);
+
+
+--
+-- Name: learner_programs learner_programs_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learner_programs
+    ADD CONSTRAINT learner_programs_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: learner_programs learner_programs_pkbm_id_membership_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learner_programs
+    ADD CONSTRAINT learner_programs_pkbm_id_membership_id_fkey FOREIGN KEY (pkbm_id, membership_id) REFERENCES public.pkbm_memberships(pkbm_id, id);
+
+
+--
+-- Name: learner_programs learner_programs_pkbm_id_program_offering_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learner_programs
+    ADD CONSTRAINT learner_programs_pkbm_id_program_offering_id_fkey FOREIGN KEY (pkbm_id, program_offering_id) REFERENCES public.program_offerings(pkbm_id, id);
+
+
+--
+-- Name: learner_programs learner_programs_specialization_track_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learner_programs
+    ADD CONSTRAINT learner_programs_specialization_track_id_fkey FOREIGN KEY (specialization_track_id) REFERENCES public.specialization_tracks(id);
+
+
+--
+-- Name: learning_activities learning_activities_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_activities
+    ADD CONSTRAINT learning_activities_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: learning_activities learning_activities_pkbm_id_learning_design_version_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_activities
+    ADD CONSTRAINT learning_activities_pkbm_id_learning_design_version_id_fkey FOREIGN KEY (pkbm_id, learning_design_version_id) REFERENCES public.learning_design_versions(pkbm_id, id);
+
+
+--
+-- Name: learning_design_versions learning_design_versions_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_design_versions
+    ADD CONSTRAINT learning_design_versions_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: learning_design_versions learning_design_versions_pkbm_id_owner_membership_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_design_versions
+    ADD CONSTRAINT learning_design_versions_pkbm_id_owner_membership_id_fkey FOREIGN KEY (pkbm_id, owner_membership_id) REFERENCES public.pkbm_memberships(pkbm_id, id);
+
+
+--
+-- Name: learning_design_versions learning_design_versions_pkbm_id_program_offering_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_design_versions
+    ADD CONSTRAINT learning_design_versions_pkbm_id_program_offering_id_fkey FOREIGN KEY (pkbm_id, program_offering_id) REFERENCES public.program_offerings(pkbm_id, id);
+
+
+--
+-- Name: learning_groups learning_groups_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_groups
+    ADD CONSTRAINT learning_groups_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: learning_groups learning_groups_pkbm_id_program_offering_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_groups
+    ADD CONSTRAINT learning_groups_pkbm_id_program_offering_id_fkey FOREIGN KEY (pkbm_id, program_offering_id) REFERENCES public.program_offerings(pkbm_id, id);
+
+
+--
+-- Name: learning_plan_items learning_plan_items_learning_target_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_plan_items
+    ADD CONSTRAINT learning_plan_items_learning_target_id_fkey FOREIGN KEY (learning_target_id) REFERENCES public.learning_targets(id);
+
+
+--
+-- Name: learning_plan_items learning_plan_items_pkbm_id_delivery_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_plan_items
+    ADD CONSTRAINT learning_plan_items_pkbm_id_delivery_id_fkey FOREIGN KEY (pkbm_id, delivery_id) REFERENCES public.deliveries(pkbm_id, id);
+
+
+--
+-- Name: learning_plan_items learning_plan_items_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_plan_items
+    ADD CONSTRAINT learning_plan_items_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: learning_plan_items learning_plan_items_pkbm_id_learning_plan_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_plan_items
+    ADD CONSTRAINT learning_plan_items_pkbm_id_learning_plan_id_fkey FOREIGN KEY (pkbm_id, learning_plan_id) REFERENCES public.learning_plans(pkbm_id, id);
+
+
+--
+-- Name: learning_plans learning_plans_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_plans
+    ADD CONSTRAINT learning_plans_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: learning_plans learning_plans_pkbm_id_learner_program_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_plans
+    ADD CONSTRAINT learning_plans_pkbm_id_learner_program_id_fkey FOREIGN KEY (pkbm_id, learner_program_id) REFERENCES public.learner_programs(pkbm_id, id);
+
+
+--
 -- Name: learning_resources learning_resources_source_document_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.learning_resources
     ADD CONSTRAINT learning_resources_source_document_id_fkey FOREIGN KEY (source_document_id) REFERENCES public.source_documents(id);
+
+
+--
+-- Name: learning_sessions learning_sessions_pkbm_id_delivery_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_sessions
+    ADD CONSTRAINT learning_sessions_pkbm_id_delivery_id_fkey FOREIGN KEY (pkbm_id, delivery_id) REFERENCES public.deliveries(pkbm_id, id);
+
+
+--
+-- Name: learning_sessions learning_sessions_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_sessions
+    ADD CONSTRAINT learning_sessions_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: learning_sessions learning_sessions_pkbm_id_learning_activity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.learning_sessions
+    ADD CONSTRAINT learning_sessions_pkbm_id_learning_activity_id_fkey FOREIGN KEY (pkbm_id, learning_activity_id) REFERENCES public.learning_activities(pkbm_id, id);
 
 
 --
@@ -1113,6 +2310,46 @@ ALTER TABLE ONLY public.learning_targets
 
 ALTER TABLE ONLY public.learning_targets
     ADD CONSTRAINT learning_targets_source_reference_id_fkey FOREIGN KEY (source_reference_id) REFERENCES public.source_references(id);
+
+
+--
+-- Name: people people_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.people
+    ADD CONSTRAINT people_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: pkbm_memberships pkbm_memberships_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pkbm_memberships
+    ADD CONSTRAINT pkbm_memberships_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: pkbm_memberships pkbm_memberships_pkbm_id_person_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pkbm_memberships
+    ADD CONSTRAINT pkbm_memberships_pkbm_id_person_id_fkey FOREIGN KEY (pkbm_id, person_id) REFERENCES public.people(pkbm_id, id);
+
+
+--
+-- Name: program_offerings program_offerings_curriculum_version_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.program_offerings
+    ADD CONSTRAINT program_offerings_curriculum_version_id_fkey FOREIGN KEY (curriculum_version_id) REFERENCES public.curriculum_versions(id);
+
+
+--
+-- Name: program_offerings program_offerings_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.program_offerings
+    ADD CONSTRAINT program_offerings_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
 
 
 --
@@ -1188,6 +2425,22 @@ ALTER TABLE ONLY public.resource_units
 
 
 --
+-- Name: role_assignments role_assignments_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.role_assignments
+    ADD CONSTRAINT role_assignments_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: role_assignments role_assignments_pkbm_id_membership_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.role_assignments
+    ADD CONSTRAINT role_assignments_pkbm_id_membership_id_fkey FOREIGN KEY (pkbm_id, membership_id) REFERENCES public.pkbm_memberships(pkbm_id, id);
+
+
+--
 -- Name: source_findings source_findings_source_reference_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1218,5 +2471,6 @@ ALTER TABLE ONLY public.specialization_tracks
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261007000200'),
 ('20261007000100');
 

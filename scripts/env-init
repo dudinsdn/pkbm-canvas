@@ -6,7 +6,7 @@ p=root/'.env'
 if p.exists():
     raise SystemExit('.env sudah ada; tidak ditimpa.')
 content=(root/'.env.example').read_text().replace('LOCAL_UID=1000',f'LOCAL_UID={os.getuid()}').replace('LOCAL_GID=1000',f'LOCAL_GID={os.getgid()}')
-for key in ['POSTGRES_PASSWORD','CANVAS_DB_PASSWORD','PKBM_DB_PASSWORD','CANVAS_ENCRYPTION_KEY','CANVAS_JWT_KEY','PKBM_SECRET_KEY_BASE','CANVAS_LMS_ADMIN_PASSWORD','CANVAS_LOCAL_TUTOR_PASSWORD','CANVAS_LOCAL_WB_PASSWORD']:
+for key in ['POSTGRES_PASSWORD','CANVAS_DB_PASSWORD','PKBM_DB_PASSWORD','CANVAS_ENCRYPTION_KEY','CANVAS_JWT_KEY','PKBM_SECRET_KEY_BASE','CANVAS_LMS_ADMIN_PASSWORD','CANVAS_LOCAL_TUTOR_PASSWORD','CANVAS_LOCAL_WB_PASSWORD','PKBM_LOCAL_ADMIN_PASSWORD','PKBM_LOCAL_TUTOR_PASSWORD','PKBM_LOCAL_WB_PASSWORD']:
     content=content.replace(key+'=generate_with_scripts_env_init',key+'='+secrets.token_hex(32))
 fd=os.open(p,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
 with os.fdopen(fd,'w') as f: f.write(content)

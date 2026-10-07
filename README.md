@@ -33,3 +33,7 @@ Database Canvas/PKBM terpisah dengan pengguna dan hak CONNECT berbeda. Init SQL 
 Perintah catalog-db-start/catalog-migrate/catalog-seed menjalankan database dan katalog melalui SQL. pkbm-install/pkbm-migrate/pkbm-seed/catalog-start memakai Rails setelah image web tersedia. Sinkronisasi masih belum tersedia sampai Tahap 5. Lihat apps/pkbm/README.md.
 
 Pengukuran idle/operasi Tahap 3 sudah dilakukan; picker dan unggahan browser pada tampilan Files lama sudah terbukti; hasil unduhan cocok byte. [Laporan terbaru](docs/tahap3-pengukuran.md).
+
+Tahap 4 sudah diimplementasikan dan migrasi/fixture dua PKBM dipasang lokal. UI pendamping: `http://127.0.0.1:3000/`. Tahap 4 lulus lokal: API lulus 483 pemeriksaan dan alur dasar UI dikonfirmasi manual pengguna; seluruh formulir tidak diklaim diuji otomatis. [Alur dan batas Tahap 4](docs/tahap4-implementasi.md).
+
+Bukti Tahap 4 terbaru: [validasi API](docs/tahap4-api-verifikasi.md).

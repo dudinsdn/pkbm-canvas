@@ -1,0 +1,2486 @@
+{
+  "date": "2026-10-07",
+  "scope": "Focused local API checks on two PKBM tenants; not production/security audit or load test",
+  "passed": 483,
+  "failed": 0,
+  "browser_evidence": "User reported checking UI directly; agent did not run browser workflow checks during this API validation",
+  "checks": [
+    {
+      "name": "anonymous_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid_login_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "login_DEMO-A_pengelola",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "identity_DEMO-A_pengelola",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_pengelola_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_pengelola_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "login_DEMO-A_tutor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "identity_DEMO-A_tutor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_tutor_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_tutor_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "login_DEMO-A_warga_belajar",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "identity_DEMO-A_warga_belajar",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-A_warga_belajar_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-A_warga_belajar_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_program_self_DEMO-A",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_active_plans_only_DEMO-A",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "login_DEMO-B_pengelola",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "identity_DEMO-B_pengelola",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_pengelola_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_pengelola_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "login_DEMO-B_tutor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "identity_DEMO-B_tutor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_tutor_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_tutor_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "login_DEMO-B_warga_belajar",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "identity_DEMO-B_warga_belajar",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenant_scope_DEMO-B_warga_belajar_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "password_not_serialized_DEMO-B_warga_belajar_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_program_self_DEMO-B",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_active_plans_only_DEMO-B",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tenants_distinct",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_pengelola_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_tutor_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_get_denied_warga_belajar_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_write_denied_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tutor_admin_write_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "unknown_collection_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tampered_token_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "forged_headers_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "catalog_curriculum_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "catalog_curriculum_levels",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "catalog_curriculum_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "catalog_learning_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "create_people",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "payload_tenant_ignored",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "create_pkbm_memberships",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "create_role_assignments",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "login_DEMO-A_warga_belajar",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "identity_DEMO-A_warga_belajar",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "create_program_offerings",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "create_learner_programs",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "create_learning_groups",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "create_group_memberships",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "create_learning_design_versions",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "tutor_owner_server_controlled",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "empty_design_publish_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "create_design_components",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "create_learning_activities",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "target_outside_design_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "create_activity_targets",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "publish_complete_design",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "published_activity_immutable",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "create_deliveries",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "unassigned_tutor_delivery_hidden",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "unassigned_tutor_session_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "create_delivery_staff",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "assigned_tutor_delivery_visible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "create_delivery_enrollments",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "create_learning_sessions",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "create_learning_plans",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "create_learning_plan_items",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "other_wb_plan_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "other_wb_plan_item_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "own_wb_plan_visible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "own_wb_item_visible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "assigned_tutor_plan_visible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "create_deliveries",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "create_delivery_enrollments",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "create_learning_plan_items",
+      "passed": true,
+      "detail": {
+        "status": 201,
+        "error": null
+      }
+    },
+    {
+      "name": "tutor_unassigned_plan_item_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wb_other_own_delivery_item_visible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "second_active_plan_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_fk_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "foreign_patch_denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "list_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "own_email_only",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "temporary_records_cleanup",
+      "passed": true,
+      "detail": {
+        "records": 20
+      }
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-A_learning_sessions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_people",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_pkbm_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_role_assignments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_program_offerings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_learner_programs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_learning_groups",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_group_memberships",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_learning_design_versions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_design_components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_learning_activities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_activity_targets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_deliveries",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_delivery_staff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_delivery_enrollments",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_learning_plans",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_learning_plan_items",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_records_unchanged_DEMO-B_learning_sessions",
+      "passed": true,
+      "detail": null
+    }
+  ]
+}

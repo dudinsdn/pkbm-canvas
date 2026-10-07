@@ -131,16 +131,18 @@ Status 7 Oktober 2026: **Lulus lokal; checklist Tahap 3 lengkap**. Bukti fungsi 
 
 **Tujuan:** pelaku, rancangan dan pelaksanaan dapat dikelola pendamping.
 
-- [ ] Implementasikan PKBM, orang/membership/peran, program, learner_program, kelompok dan penugasan.
-- [ ] Implementasikan rancangan versi, komponen, kegiatan/target, pelaksanaan, peserta, rencana belajar dan sesi.
-- [ ] Sediakan UI pengelola untuk memilih acuan, membuat kelompok, menetapkan tutor dan peserta.
-- [ ] Sediakan UI tutor untuk memilih target dan menyusun kegiatan/bukti penilaian sesuai silabus/panduan.
-- [ ] Sediakan UI warga belajar untuk melihat rencana yang berlaku dan pendampingnya.
-- [ ] Catat penyesuaian lokal sebagai rancangan tutor/PKBM terpisah dari sumber.
+- [x] Implementasikan PKBM, orang/membership/peran, program, learner_program, kelompok dan penugasan.
+- [x] Implementasikan rancangan versi, komponen, kegiatan/target, pelaksanaan, peserta, rencana belajar dan sesi.
+- [x] Sediakan UI pengelola untuk memilih acuan, membuat kelompok, menetapkan tutor dan peserta.
+- [x] Sediakan UI tutor untuk memilih target dan menyusun kegiatan/bukti penilaian sesuai silabus/panduan.
+- [x] Sediakan UI warga belajar untuk melihat rencana yang berlaku dan pendampingnya.
+- [x] Catat penyesuaian lokal sebagai rancangan tutor/PKBM terpisah dari sumber.
 
 **Hasil:** program dan pelaksanaan dapat disiapkan tanpa duplikasi pencatatan manual pada dua sistem.
 
 **Gerbang:** batas PKBM dan peran diuji pada API; warga belajar hanya mengakses data sendiri, tutor sesuai penugasan; alur dasar terlihat berfungsi di browser. Gunakan fixture dua PKBM untuk memeriksa pembatasan meskipun pilot hanya satu PKBM.
+
+Status pelaksanaan 7 Oktober 2026: **Lulus lokal: API diuji agen, alur dasar browser dikonfirmasi manual pengguna**. 483 pemeriksaan API lulus, termasuk isolasi tenant/peran dan penugasan tutor; celah item rencana diperbaiki. Bukti browser berasal dari laporan manual pengguna; tidak diklaim sebagai pengujian otomatis semua formulir oleh agen. [Validasi API](../tahap4-api-verifikasi.md), [lingkup](../tahap4-implementasi.md).
 
 ## 9. Tahap 5 — integrasi pelaksanaan dan identitas Canvas
 
