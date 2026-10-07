@@ -24,8 +24,9 @@ case "${1:-help}" in
   pkbm-operations-seed) exec ./scripts/compose --profile catalog run --rm pkbm bundle exec rails runner db/seeds/operations.rb ;;
   pkbm-seed) exec ./scripts/compose --profile catalog run --rm pkbm bundle exec rails db:seed ;;
   catalog-start) exec ./scripts/compose --profile catalog up -d --no-build --pull never pkbm ;;
+  pkbm-assessment-seed) exec ./scripts/compose --profile catalog run --no-deps --rm pkbm bundle exec rails runner db/seeds/assessments.rb ;;
   sync) exec ./scripts/compose --profile catalog run --no-deps --rm pkbm bundle exec rails runner 'job = CanvasSyncRunner.run_one; puts(job ? {job_id: job.id, status: job.status, attempts: job.attempts}.to_json : "Tidak ada job siap dijalankan")' ;;
   sync-start) exec ./scripts/compose --profile integration up -d --no-build --pull never pkbm-sync ;;
   sync-stop) exec ./scripts/compose --profile integration stop pkbm-sync ;;
-  *) echo 'local env|status|capacity|build|start|stop|logs|canvas-migrate|canvas-init|canvas-shell|canvas-gems|canvas-node|canvas-assets|catalog-db-start|catalog-migrate|catalog-seed|pkbm-install|pkbm-migrate|pkbm-seed|pkbm-operations-seed|catalog-start|sync|sync-start|sync-stop' ;;
+  *) echo 'local env|status|capacity|build|start|stop|logs|canvas-migrate|canvas-init|canvas-shell|canvas-gems|canvas-node|canvas-assets|catalog-db-start|catalog-migrate|catalog-seed|pkbm-install|pkbm-migrate|pkbm-seed|pkbm-operations-seed|catalog-start|pkbm-assessment-seed|sync|sync-start|sync-stop' ;;
 esac

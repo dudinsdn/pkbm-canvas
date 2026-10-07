@@ -23,3 +23,19 @@ Rails.application.routes.draw do
   post "/lti/launch", to: "lti#launch"
   post "/api/v1/lti/exchange", to: "lti#exchange"
 end
+
+Rails.application.routes.draw do
+  get '/api/v1/assessments', to: 'assessments#index'
+  patch '/api/v1/assessments/:id', to: 'assessments#update'
+  post '/api/v1/assessments/:id/publish', to: 'assessments#publish'
+  post '/api/v1/assessments/:id/versions', to: 'assessments#clone_version'
+  get '/api/v1/assessments/:id/items/:item_key/submission', to: 'assessments#submission'
+  post '/api/v1/assessments/:id/items/:item_key/submission', to: 'assessments#submission'
+  post '/api/v1/assessments/:id/items/:item_key/grade', to: 'assessments#grade'
+  post '/api/v1/assessments/:id/items/:item_key/release', to: 'assessments#release_tam'
+  post '/api/v1/assessments/:id/items/:item_key/retry', to: 'assessments#retry_tam'
+end
+
+Rails.application.routes.draw do
+  post '/api/v1/assessments/:id/review', to: 'assessments#review_module'
+end

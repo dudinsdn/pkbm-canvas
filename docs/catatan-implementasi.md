@@ -1,6 +1,6 @@
 # Catatan implementasi PKBM–Canvas
 
-**Status terbaru:** Tahap 5 Lulus lokal: 130 pemeriksaan akhir lulus, 0 gagal; token sementara dicabut. Tahap 4 diimplementasikan dan API lulus lokal; pengguna mengonfirmasi UI dasar secara manual. Tahap 4 Lulus lokal berdasarkan uji API agen dan konfirmasi alur dasar browser oleh pengguna. Tahap 1–2 lulus lokal untuk fondasi dan katalog contoh; Tahap 3 lulus lokal dengan checklist lengkap, termasuk pengukuran terpisah dan unggahan browser melalui Files lama. [Bukti terbaru](./tahap5-verifikasi.md). Bagian sebelumnya merupakan riwayat bertanggal, bukan status terkini.
+**Status terbaru:** Tahap 6 dimulai: implementasi dan draf terpasang, belum diuji/publikasi; Tahap 5 Lulus lokal: 130 pemeriksaan akhir lulus, 0 gagal; token sementara dicabut. Tahap 4 diimplementasikan dan API lulus lokal; pengguna mengonfirmasi UI dasar secara manual. Tahap 4 Lulus lokal berdasarkan uji API agen dan konfirmasi alur dasar browser oleh pengguna. Tahap 1–2 lulus lokal untuk fondasi dan katalog contoh; Tahap 3 lulus lokal dengan checklist lengkap, termasuk pengukuran terpisah dan unggahan browser melalui Files lama. [Bukti terbaru](./tahap5-verifikasi.md). Bagian sebelumnya merupakan riwayat bertanggal, bukan status terkini.
 
 ## Tahap 0 — 7 Oktober 2026
 
@@ -269,3 +269,15 @@ Pemeriksaan runtime menemukan nol instance Canvas dan nol job. Permintaan otoris
 Pengguna mengizinkan token sementara. Rangkaian akhir 130 pemeriksaan lulus, 0 gagal: sinkronisasi nyata dua PKBM, idempotensi ID/jumlah objek, binding, akses PDF/peran, update nama/roster, konflik/retry dan pemulihan fault setelah PUT sebelum binding. Header Host client diperbaiki setelah HTTP 403. Launch bertanda tangan Canvas sampai exchange/identitas dibuktikan melalui HTTP sesi Act as, bukan seluruh navigasi browser. UI status diperiksa.
 
 Token sementara dicabut, HTTP 401 terbukti, salinan file/ciphertext dibersihkan; shared secret LTI dipertahankan terenkripsi. Course 3/4 serta audit/binding tetap tersedia, nama/status lokal dipulihkan, tidak ada job aktif. Runner satu job diuji, daemon tidak dimulai. **Gerbang Tahap 5 Lulus lokal**; produksi/LTI 1.3 dan Tahap 6 belum dikerjakan. [Verifikasi](./tahap5-verifikasi.md). Belum commit.
+
+## Implementasi Tahap 6 — 7 Oktober 2026
+
+Migrasi 20261007000400 dan seed draf tiga modul pada dua PKBM dijalankan dengan exit 0. Tidak menjalankan tests/validasi aplikasi atau sinkronisasi Canvas Tahap 6. Blueprint versi, rubrik, publisher assessment native Canvas, bridge submission/grade/history, prasyarat pelepasan tutor, TAM/ulangan, telaah modul dan UI tersedia sebagai source. Semua draf membutuhkan telaah; usulan bobot, denominator dan ambang operasional dibedakan dari aturan sumber. MAP-04 tetap temuan, bukan bukti KD 3.4/4.4.
+
+**Status: implementasi tersedia, gerbang belum lulus.** Course/assessment native baru belum dibuat nyata karena token uji Tahap 5 telah dicabut. Perhitungan, prasyarat, batas percobaan, payload Canvas dan browser WB/tutor belum diuji. [Lingkup](./tahap6-implementasi.md), [status](./tahap6-status.json). Tahap 7 belum dimulai; belum commit Tahap 6.
+
+## Koreksi lingkup identitas — 7 Oktober 2026
+
+Log insiden WB menunjukkan pendamping merespons 200, sedangkan Course 3 Canvas menolak sesi WB demo lama. Binding WB DEMO-A menunjuk Canvas user 5; sesi browser masih memakai pseudonym demo lama. Akun/login pendamping dan Canvas belum disatukan. Credential akun WB hasil sinkronisasi belum diubah; permintaan otorisasi tersebut belum disetujui pengguna.
+
+SSO dicatat sebagai Tahap 5A yang belum diimplementasikan, sebelum penyelesaian alur pengguna Tahap 6. Bukti Tahap 5 tidak diperluas menjadi klaim satu login. Tahap 6 belum diuji/publikasi nyata. Perubahan implementasi dan catatan ini disimpan dalam commit lokal Tahap 6; pengujian baru tidak dijalankan untuk commit.

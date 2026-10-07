@@ -161,6 +161,18 @@ Status pelaksanaan 7 Oktober 2026: **Lulus lokal: API diuji agen, alur dasar bro
 
 Status pelaksanaan 7 Oktober 2026: **Lulus lokal, 130 pemeriksaan akhir lulus, 0 gagal**. Koneksi dua PKBM ke Canvas, pengulangan tanpa duplikasi, update/roster, binding, konflik/retry, pemulihan parsial terkontrol dan launch Canvas bertanda tangan melalui HTTP terbukti. UI status diperiksa; seluruh navigasi/formulir browser tidak diklaim. Token sementara dicabut dan salinannya dibersihkan. Worker daemon tidak dimulai; runner satu job diuji. [Bukti dan batas](../tahap5-verifikasi.md), [status](../tahap5-status.json).
 
+## Tahap 5A — satu identitas dan login bersama (SSO)
+
+Kebutuhan ini ditambahkan setelah warga belajar mengalami akses ditolak saat membuka Course Canvas dengan akun demo lama. Akun pendamping dan Canvas sekarang terpisah; sinkronisasi membuat akun Canvas lain, tetapi login pengguna belum disediakan. LTI Canvas → pendamping yang diuji pada Tahap 5 bukan SSO pendamping → Canvas. Status Lulus lokal Tahap 5 tetap hanya untuk lingkup pengujian integrasi yang tercatat.
+
+- [ ] Tetapkan penyedia identitas bersama dan alur login kedua aplikasi.
+- [ ] Petakan satu identitas pengguna ke PKBM, peran dan akun Canvas yang benar.
+- [ ] Tangani akun demo lama/hasil sinkronisasi tanpa menggandakan pengguna atau membuka akses lintas PKBM.
+- [ ] Sediakan satu kali login dan alur keluar yang jelas.
+- [ ] Buktikan perpindahan pendamping → Canvas dan Canvas → pendamping melalui browser WB/tutor/pengelola.
+
+**Gerbang:** pengguna dapat masuk sekali dan membuka pembelajaran sesuai PKBM/peran. Implementasi belum dimulai. Penyelesaian alur pengguna Tahap 6 bergantung pada tahap ini; kode Tahap 6 yang sudah ditulis dipertahankan.
+
 ## 10. Tahap 6 — tiga modul dan alur penilaian lengkap
 
 **Tujuan:** satu alur belajar sampai penilaian/perbaikan berjalan end-to-end.
@@ -177,6 +189,8 @@ Status pelaksanaan 7 Oktober 2026: **Lulus lokal, 130 pemeriksaan akhir lulus, 0
 **Hasil:** warga belajar dapat belajar, mengumpulkan, menerima umpan balik dan memperbaiki; tutor dapat menilai bukti sesuai target.
 
 **Gerbang:** alur browser warga belajar dan tutor lengkap, perhitungan nilai cocok contoh, batas percobaan sesuai lingkup, hasil penilaian dapat ditelusuri. Selesai modul belum berarti SKK disahkan.
+
+Status pelaksanaan 7 Oktober 2026: **implementasi tersedia; gerbang belum diuji/lulus**. Migrasi dan draf tiga modul untuk dua PKBM terpasang. Versi/rubrik, publisher Canvas, bridge bukti/penilaian, prasyarat pelepasan tutor, TAM/ulangan dan UI ditulis. Draf belum ditelaah/terbit dan token API saat ini tidak tersedia. Course/objek baru belum dibuat nyata. Checklist tetap terbuka sampai bukti tersedia. [Lingkup](../tahap6-implementasi.md), [status](../tahap6-status.json).
 
 ## 11. Tahap 7 — rekap capaian lintas modul
 

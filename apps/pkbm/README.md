@@ -53,3 +53,7 @@ Implementasi data pelaksanaan, autentikasi pendamping, pembatasan PKBM/peran dan
 ## Integrasi Canvas (Tahap 5)
 
 UI pengelola menyediakan Integrasi Canvas. Token disimpan terenkripsi, kemudian pelaksanaan dapat diantrekan. `./scripts/local sync` menjalankan satu job; `sync-start`/`sync-stop` mengelola worker opsional tanpa port baru. Koneksi, pengulangan, update/roster, konflik/retry, pemulihan parsial dan launch Canvas melalui HTTP lulus lokal. Token uji telah dicabut dan dibersihkan; siapkan token baru untuk sinkronisasi berikutnya. Worker daemon belum dinyalakan. [Bukti](../../docs/tahap5-verifikasi.md). [Lingkup, identitas dan batas](../../docs/tahap5-implementasi.md).
+
+## Belajar dan umpan balik (Tahap 6)
+
+Jalankan `./scripts/local pkbm-migrate` dan `./scripts/local pkbm-assessment-seed` untuk draf tiga modul di dua fixture PKBM. Tutor/pengelola menelaah draf sebelum terbit; sinkronisasi butuh token baru. Submission/rubric/quiz tetap native Canvas, pendamping menyimpan versi dan snapshot terkait bukti. Implementasi belum diuji atau dipublikasikan nyata. [Lingkup dan pekerjaan tersisa](../../docs/tahap6-implementasi.md).

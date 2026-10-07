@@ -39,3 +39,5 @@ Tahap 4 sudah diimplementasikan dan migrasi/fixture dua PKBM dipasang lokal. UI 
 Bukti Tahap 4 terbaru: [validasi API](docs/tahap4-api-verifikasi.md).
 
 Tahap 5: konfigurasi integrasi, binding, job/retry/konflik, publikasi target/kegiatan/bahan dan akses LTI lokal sudah diimplementasikan. Migrasi dan pengujian nyata lulus lokal (130 pemeriksaan akhir). Token sementara telah dicabut; sinkronisasi berikutnya memerlukan otorisasi baru. Worker daemon belum dimulai. [Bukti Tahap 5](docs/tahap5-verifikasi.md).
+
+Tahap 6 dimulai: draf tiga modul, versi/rubrik, publisher assessment Canvas serta alur bukti/feedback ditulis. Migrasi dan seed terpasang; publikasi dan pengujian belum dilakukan. [Status dan batas Tahap 6](docs/tahap6-implementasi.md).

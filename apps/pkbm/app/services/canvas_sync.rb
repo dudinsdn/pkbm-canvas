@@ -78,6 +78,7 @@ class CanvasSync
     sync_people_and_enrollments(delivery, cid, section.fetch("id"))
     sync_targets(design, delivery, cid)
     sync_contents(design, delivery, cid)
+    CanvasAssessmentPublisher.new(self, @api, @job).publish(delivery, cid)
     sync_lti(delivery, cid)
     @api.request("PUT", "/api/v1/courses/#{cid}", { "course" => { "event" => "offer" } }) unless course["workflow_state"] == "available"
     event("completed", "course", delivery.id, { "course_id" => cid, "local_design_version" => design.version })

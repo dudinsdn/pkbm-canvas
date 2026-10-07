@@ -84,6 +84,19 @@ END; $$;
 
 
 --
+-- Name: preserve_assessment_version(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.preserve_assessment_version() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+ IF TG_OP='DELETE' OR OLD.status='published' THEN RAISE EXCEPTION 'Published assessment version is immutable'; END IF;
+ RETURN NEW;
+END $$;
+
+
+--
 -- Name: protect_published_local_design(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -160,6 +173,66 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: assessment_actions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.assessment_actions (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    assessment_plan_id uuid NOT NULL,
+    learner_program_id uuid NOT NULL,
+    item_key text NOT NULL,
+    action text NOT NULL,
+    payload jsonb NOT NULL,
+    actor_id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT assessment_actions_action_check CHECK ((action = ANY (ARRAY['tam_retry'::text, 'module_review'::text])))
+);
+
+
+--
+-- Name: assessment_attempts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.assessment_attempts (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    assessment_plan_id uuid NOT NULL,
+    item_key text NOT NULL,
+    learner_program_id uuid NOT NULL,
+    canvas_submission_id text NOT NULL,
+    attempt integer NOT NULL,
+    snapshot jsonb NOT NULL,
+    captured_by uuid NOT NULL,
+    captured_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT assessment_attempts_attempt_check CHECK ((attempt > 0))
+);
+
+
+--
+-- Name: assessment_plans; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.assessment_plans (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    delivery_id uuid NOT NULL,
+    learning_resource_id uuid NOT NULL,
+    version integer NOT NULL,
+    status text DEFAULT 'draft'::text NOT NULL,
+    blueprint jsonb NOT NULL,
+    reviewed_by uuid,
+    reviewed_at timestamp with time zone,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT assessment_plans_blueprint_check CHECK ((jsonb_typeof(blueprint) = 'object'::text)),
+    CONSTRAINT assessment_plans_check CHECK (((status = 'draft'::text) OR ((reviewed_by IS NOT NULL) AND (reviewed_at IS NOT NULL)))),
+    CONSTRAINT assessment_plans_status_check CHECK ((status = ANY (ARRAY['draft'::text, 'published'::text]))),
+    CONSTRAINT assessment_plans_version_check CHECK ((version > 0))
+);
+
+
+--
 -- Name: canvas_bindings; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -175,7 +248,7 @@ CREATE TABLE public.canvas_bindings (
     last_remote_snapshot jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
-    CONSTRAINT canvas_bindings_object_kind_check CHECK ((object_kind = ANY (ARRAY['account'::text, 'course'::text, 'section'::text, 'user'::text, 'enrollment'::text, 'outcome'::text, 'module'::text, 'page'::text, 'module_item'::text, 'external_tool'::text])))
+    CONSTRAINT canvas_bindings_object_kind_check CHECK ((object_kind = ANY (ARRAY['account'::text, 'course'::text, 'section'::text, 'user'::text, 'enrollment'::text, 'outcome'::text, 'module'::text, 'page'::text, 'module_item'::text, 'external_tool'::text, 'assessment_module'::text, 'assessment_page'::text, 'assessment_item'::text, 'assignment'::text, 'quiz'::text, 'quiz_question'::text, 'rubric'::text])))
 );
 
 
@@ -949,6 +1022,54 @@ ALTER TABLE ONLY public.activity_targets
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: assessment_actions assessment_actions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_actions
+    ADD CONSTRAINT assessment_actions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: assessment_attempts assessment_attempts_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_attempts
+    ADD CONSTRAINT assessment_attempts_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: assessment_attempts assessment_attempts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_attempts
+    ADD CONSTRAINT assessment_attempts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: assessment_plans assessment_plans_delivery_id_learning_resource_id_version_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_plans
+    ADD CONSTRAINT assessment_plans_delivery_id_learning_resource_id_version_key UNIQUE (delivery_id, learning_resource_id, version);
+
+
+--
+-- Name: assessment_plans assessment_plans_pkbm_id_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_plans
+    ADD CONSTRAINT assessment_plans_pkbm_id_id_key UNIQUE (pkbm_id, id);
+
+
+--
+-- Name: assessment_plans assessment_plans_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_plans
+    ADD CONSTRAINT assessment_plans_pkey PRIMARY KEY (id);
 
 
 --
@@ -1847,6 +1968,13 @@ CREATE INDEX activity_targets_pkbm_id_idx ON public.activity_targets USING btree
 
 
 --
+-- Name: assessment_one_tam_retry; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX assessment_one_tam_retry ON public.assessment_actions USING btree (assessment_plan_id, learner_program_id, item_key) WHERE (action = 'tam_retry'::text);
+
+
+--
 -- Name: deliveries_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2008,6 +2136,13 @@ CREATE TRIGGER activity_target_context BEFORE INSERT OR UPDATE ON public.framewo
 
 
 --
+-- Name: assessment_plans assessment_version_immutable; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER assessment_version_immutable BEFORE DELETE OR UPDATE ON public.assessment_plans FOR EACH ROW EXECUTE FUNCTION public.preserve_assessment_version();
+
+
+--
 -- Name: curriculum_components component_track_context; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -2094,6 +2229,102 @@ ALTER TABLE ONLY public.activity_targets
 
 ALTER TABLE ONLY public.activity_targets
     ADD CONSTRAINT activity_targets_pkbm_id_learning_activity_id_fkey FOREIGN KEY (pkbm_id, learning_activity_id) REFERENCES public.learning_activities(pkbm_id, id);
+
+
+--
+-- Name: assessment_actions assessment_actions_pkbm_id_actor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_actions
+    ADD CONSTRAINT assessment_actions_pkbm_id_actor_id_fkey FOREIGN KEY (pkbm_id, actor_id) REFERENCES public.pkbm_memberships(pkbm_id, id);
+
+
+--
+-- Name: assessment_actions assessment_actions_pkbm_id_assessment_plan_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_actions
+    ADD CONSTRAINT assessment_actions_pkbm_id_assessment_plan_id_fkey FOREIGN KEY (pkbm_id, assessment_plan_id) REFERENCES public.assessment_plans(pkbm_id, id);
+
+
+--
+-- Name: assessment_actions assessment_actions_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_actions
+    ADD CONSTRAINT assessment_actions_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: assessment_actions assessment_actions_pkbm_id_learner_program_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_actions
+    ADD CONSTRAINT assessment_actions_pkbm_id_learner_program_id_fkey FOREIGN KEY (pkbm_id, learner_program_id) REFERENCES public.learner_programs(pkbm_id, id);
+
+
+--
+-- Name: assessment_attempts assessment_attempts_pkbm_id_assessment_plan_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_attempts
+    ADD CONSTRAINT assessment_attempts_pkbm_id_assessment_plan_id_fkey FOREIGN KEY (pkbm_id, assessment_plan_id) REFERENCES public.assessment_plans(pkbm_id, id);
+
+
+--
+-- Name: assessment_attempts assessment_attempts_pkbm_id_captured_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_attempts
+    ADD CONSTRAINT assessment_attempts_pkbm_id_captured_by_fkey FOREIGN KEY (pkbm_id, captured_by) REFERENCES public.pkbm_memberships(pkbm_id, id);
+
+
+--
+-- Name: assessment_attempts assessment_attempts_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_attempts
+    ADD CONSTRAINT assessment_attempts_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: assessment_attempts assessment_attempts_pkbm_id_learner_program_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_attempts
+    ADD CONSTRAINT assessment_attempts_pkbm_id_learner_program_id_fkey FOREIGN KEY (pkbm_id, learner_program_id) REFERENCES public.learner_programs(pkbm_id, id);
+
+
+--
+-- Name: assessment_plans assessment_plans_learning_resource_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_plans
+    ADD CONSTRAINT assessment_plans_learning_resource_id_fkey FOREIGN KEY (learning_resource_id) REFERENCES public.learning_resources(id);
+
+
+--
+-- Name: assessment_plans assessment_plans_pkbm_id_delivery_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_plans
+    ADD CONSTRAINT assessment_plans_pkbm_id_delivery_id_fkey FOREIGN KEY (pkbm_id, delivery_id) REFERENCES public.deliveries(pkbm_id, id);
+
+
+--
+-- Name: assessment_plans assessment_plans_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_plans
+    ADD CONSTRAINT assessment_plans_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: assessment_plans assessment_plans_pkbm_id_reviewed_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.assessment_plans
+    ADD CONSTRAINT assessment_plans_pkbm_id_reviewed_by_fkey FOREIGN KEY (pkbm_id, reviewed_by) REFERENCES public.pkbm_memberships(pkbm_id, id);
 
 
 --
@@ -2847,6 +3078,7 @@ ALTER TABLE ONLY public.sync_jobs
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261007000400'),
 ('20261007000300'),
 ('20261007000200'),
 ('20261007000100');

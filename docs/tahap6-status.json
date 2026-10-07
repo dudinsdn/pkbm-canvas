@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-07",
+  "stage": 6,
+  "status": "implemented_not_validated",
+  "migration_applied": true,
+  "draft_seed_applied": true,
+  "versioned_blueprints_implemented": true,
+  "native_canvas_assessment_publisher_implemented": true,
+  "submission_grade_history_bridge_implemented": true,
+  "tutor_module_review_implemented": true,
+  "tam_retry_implemented": true,
+  "ui_implemented": true,
+  "plans_reviewed_published": false,
+  "actual_canvas_publication_verified": false,
+  "full_unit_module_prerequisite_orchestration_complete": true,
+  "score_examples_verified": false,
+  "attempt_limits_verified": false,
+  "browser_learner_tutor_flow_verified": false,
+  "gate_passed": false,
+  "tests_requested_for_stage6": false,
+  "canvas_access_token_available": false,
+  "scope_document": "docs/tahap6-implementasi.md"
+}
