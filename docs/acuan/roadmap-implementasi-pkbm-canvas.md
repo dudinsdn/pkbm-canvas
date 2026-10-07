@@ -1,6 +1,6 @@
 # Roadmap implementasi PKBM dan Canvas LMS
 
-Tanggal: 7 Oktober 2026. Status: rencana implementasi; pekerjaan implementasi pada checklist belum dinyatakan selesai.
+Tanggal: 7 Oktober 2026. Status terkini: Tahap 1–2 lulus lokal sesuai lingkup; gerbang fungsi dasar Tahap 3 lulus lokal, pengukuran terpisah masih terbuka. Bukti: [verifikasi Tahap 1–2](../tahap12-verifikasi.md).
 
 ## 1. Sasaran dan acuan
 
@@ -68,19 +68,23 @@ Catatan pelaksanaan: [Tahap 0](./catatan-implementasi-pkbm-canvas.md). Pemeriksa
 
 **Tujuan:** repositori dan konfigurasi yang dapat dijalankan ulang.
 
+**Arti checklist:** `[x]` berarti bukti memenuhi lingkup butir tersebut. Untuk butir membuat/menyediakan, inspeksi file dapat membuktikan ketersediaan; itu tidak membuktikan seluruh perilaku runtime. Butir gabungan tetap `[ ]` jika sebagian tuntutannya belum dibuktikan. Bukti historis tercatat di catatan implementasi; pembuktian terbaru dijalankan pada 7 Oktober 2026 dan dicatat dalam laporan verifikasi.
+
 - [x] Tetapkan direktori implementasi dan repositori Canvas pada versi terpilih, serta aplikasi PKBM terpisah.
 - [x] Buat `AGENTS.md` untuk lingkup tahap, batas akses, aturan data dan validasi; simpan catatan implementasi yang berubah di `docs/`.
-- [x] Simpan roadmap, pemetaan dan rancangan database sebagai dokumen acuan proyek dengan rujukan yang konsisten.
+- [x] Simpan roadmap, pemetaan dan rancangan database sebagai dokumen acuan proyek dengan rujukan yang konsisten. Tautan lokal, manifest, rujukan sumber dan penanda status historis diperiksa; bukti tercatat pada laporan verifikasi.
 - [x] Siapkan Compose berlingkup proyek, konfigurasi lokal, contoh environment tanpa secret, volume persisten dan jaringan internal.
 - [x] Pisahkan database Canvas dan PKBM secara logis; proses PostgreSQL boleh berbagi layanan jika kompatibel dan dipilih untuk menghemat sumber daya. Gunakan user/hak akses terpisah. Redis mengikuti kebutuhan Canvas; antrean pendamping dipilih tersendiri.
-- [ ] Sediakan perintah singkat untuk start, stop, log, migrasi, seed dan sinkronisasi; dokumentasikan volume yang harus dipertahankan.
+- [x] Sediakan perintah singkat untuk start, stop, log, migrasi dan seed; dokumentasikan penyimpanan yang harus dipertahankan.
+
+Perintah `sync` sudah tersedia sebagai penjaga yang menolak operasi belum diimplementasikan. Implementasi sinkronisasi tetap pekerjaan Tahap 5, setelah fondasi akademik dan integrasi tersedia.
 
 **Hasil:** fondasi source/config dan panduan menjalankan lokal.
 
 **Gerbang:** konfigurasi Compose valid, nama/volume/port tidak bertabrakan dan secret tidak masuk repositori. Gerbang ini adalah bukti konfigurasi, belum bukti aplikasi berjalan.
 
 
-Catatan Tahap 1: source/config dan pemeriksaan Compose selesai. Perintah pendamping migrasi/seed/sync belum diimplementasikan; runtime belum dibuild. Lihat [catatan implementasi](./catatan-implementasi-pkbm-canvas.md).
+Status terbaru Tahap 1: **Lulus lokal fondasi**. Konfigurasi, pemisahan akses database, source pin dan rujukan diperiksa. Penyediaan wrapper tidak berarti setiap kombinasi argumennya diuji. Sinkronisasi tetap Tahap 5. Bukti: [verifikasi Tahap 1–2](../tahap12-verifikasi.md).
 
 ## 6. Tahap 2 — migrasi database dan katalog acuan
 
@@ -88,20 +92,22 @@ Catatan Tahap 1: source/config dan pemeriksaan Compose selesai. Perintah pendamp
 
 - [x] Implementasikan tabel sumber, rujukan, versi kurikulum, tingkatan, kelompok, peminatan, komponen, acuan, target KI/KD/indikator, materi dan kegiatan sumber.
 - [x] Implementasikan hubungan komponen keterampilan wajib ke mapel/KD asal serta register temuan.
-- [x] Terapkan UUID/FK, keunikan dalam konteks dan struktur versi; kode indikator berulang tidak menjadi kunci global.
+- [x] Terapkan UUID/FK, keunikan dalam konteks dan struktur versi; kode indikator berulang tidak menjadi kunci global. Bukti uji dan telaah sumber dicatat pada laporan verifikasi.
 - [x] Seed delapan sumber dan struktur Paket C V/VI. Simpan 26/14 SKK umum, 30/15 peminatan, 24/13 khusus sebagai bobot kelompok.
-- [x] Seed semua mata pelajaran/komponen yang disebut acuan; bedakan Matematika wajib/peminatan dan Sejarah Indonesia/peminatan.
-- [x] Seed KI/KD Matematika dan Bahasa Indonesia Tingkatan V yang dibutuhkan tiga modul contoh; indikator mengikuti silabus terkait.
-- [x] Seed area/capaian Paket C dari panduan pemberdayaan dan struktur keterampilan wajib/pilihan. Jangan membuat kode KD nasional untuk capaian panduan tanpa kode.
-- [x] Import pemetaan contoh dan temuan, termasuk perbedaan persamaan/pertidaksamaan serta kode salah cetak.
-- [ ] Tambahkan tampilan/API baca katalog dan status cakupan; mapel belum lengkap ditandai jelas.
+- [x] Seed semua mata pelajaran/komponen yang disebut acuan; bedakan Matematika wajib/peminatan dan Sejarah Indonesia/peminatan. Bukti uji dan telaah sumber dicatat pada laporan verifikasi.
+- [x] Seed KI/KD Matematika dan Bahasa Indonesia Tingkatan V yang dibutuhkan tiga modul contoh; indikator mengikuti silabus terkait. Bukti uji dan telaah sumber dicatat pada laporan verifikasi.
+- [x] Seed area/capaian Paket C dari panduan pemberdayaan dan struktur keterampilan wajib/pilihan. Jangan membuat kode KD nasional untuk capaian panduan tanpa kode. Bukti uji dan telaah sumber dicatat pada laporan verifikasi.
+- [x] Import pemetaan contoh dan temuan, termasuk perbedaan persamaan/pertidaksamaan serta kode salah cetak. Bukti uji dan telaah sumber dicatat pada laporan verifikasi.
+- [x] Tambahkan tampilan/API baca katalog dan status cakupan; mapel belum lengkap ditandai jelas. API `/api/v1/catalog` sudah berjalan dan diperiksa HTTP 200 pada penyelesaian Tahap 3.
 
-**Hasil:** migrasi, seed idempotent, katalog akademik yang bisa dibaca dan daftar cakupan.
+- [x] Buktikan seed dapat diulang tanpa duplikasi. Migrasi/seed SQL dan Rails dijalankan ulang; jumlah dan hash isi seluruh 20 koleksi tetap sama. Database baru menghasilkan katalog yang sama.
+
+**Hasil yang sudah terbukti:** migrasi database baru, pengulangan seed, penolakan kasus invalid, seluruh koleksi API, identitas delapan PDF dan telaah isi katalog contoh. SKK tetap bobot kelompok; alokasi per mapel belum ditetapkan.
 
 **Gerbang:** migrasi bekerja pada database lokal baru; seed dapat diulang tanpa duplikasi; referensi sumber/tingkatan/mapel benar; angka SKK tidak dibagi rata atau dihitung ganda. Semua KD Paket C belum harus menjadi seed pada tahap ini.
 
 
-Pelaksanaan Tahap 2: migrasi dan seed sudah dipasang di PostgreSQL 14.24 lokal. API baca masih berupa source; pengulangan seed/constraint belum diuji. Gerbang tahap belum lulus penuh. Detail di [catatan implementasi](./catatan-implementasi-pkbm-canvas.md).
+Status terbaru Tahap 2: **Lulus lokal katalog contoh**. 62 pemeriksaan database/API lulus, disertai pemeriksaan integritas register dan telaah halaman sumber. Seluruh KD nasional dan pengesahan akademik oleh tutor/PKBM berada di luar lingkup ini; temuan MAP-04 tetap terbuka. Bukti: [verifikasi Tahap 1–2](../tahap12-verifikasi.md).
 
 ## 7. Tahap 3 — Canvas lokal berfungsi
 
@@ -112,13 +118,13 @@ Pelaksanaan Tahap 2: migrasi dan seed sudah dipasang di PostgreSQL 14.24 lokal. 
 - [x] Siapkan satu account/sub-account PKBM, akun pengelola, tutor dan warga belajar contoh.
 - [x] Periksa login, kewenangan dasar, pembuatan Course dan unggahan berkas.
 - [x] Periksa job latar belakang dan persistensi data setelah restart normal.
-- [x] Catat RAM/disk saat idle dan saat operasi contoh; pisahkan dari kemampuan menampung banyak pengguna.
+- [ ] Catat RAM/disk saat idle dan saat operasi contoh; pisahkan dari kemampuan menampung banyak pengguna. **Parsial:** snapshot sesudah operasi dan saat build tersedia; pengukuran idle dan operasi contoh secara terpisah belum dilakukan.
 
 **Hasil:** satu Canvas lokal yang dapat digunakan pada endpoint yang ditetapkan.
 
 **Gerbang:** UI login dan Course dapat digunakan di browser, proses dasar/jobs berfungsi, data bertahan restart. HTTP 200 saja tidak memenuhi gerbang ini. Kinerja kelompok nyata belum disimpulkan.
 
-Status 7 Oktober 2026: **Lulus lokal**. Bukti dan keterbatasan: [catatan implementasi](../catatan-implementasi.md). Belum lulus produksi.
+Status 7 Oktober 2026: **gerbang fungsi dasar lulus lokal; checklist pengukuran belum lengkap**. Login/course, unggahan melalui API, worker dan persistensi terbukti; pemilih berkas browser otomatis belum terverifikasi. Bukti dan keterbatasan: [catatan implementasi](../catatan-implementasi.md). Belum lulus produksi.
 
 ## 8. Tahap 4 — pengelolaan PKBM dan rencana belajar
 
@@ -246,7 +252,7 @@ Status 7 Oktober 2026: **Lulus lokal**. Bukti dan keterbatasan: [catatan impleme
 | Alokasi/pengesahan SKK dan format hasil PKBM | Tahap 9 | Rekap capaian tersedia; pengakuan SKK belum aktif |
 | Kapasitas dan lingkungan produksi | Setelah pilot | Tidak menyatakan siap produksi |
 
-## 17. Status awal dan langkah terdekat
+## 17. Snapshot awal perancangan (historis)
 
 | Hasil | Status saat roadmap dibuat |
 |---|---|
@@ -259,6 +265,8 @@ Status 7 Oktober 2026: **Lulus lokal**. Bukti dan keterbatasan: [catatan impleme
 | Course, integrasi dan alur browser | Belum dibuat/divalidasi |
 | Pilot, restore dan produksi | Belum dilakukan |
 
-Langkah terdekat: **Tahap 0**, kemudian **Tahap 1**. Setelah fondasi, kerjakan migrasi acuan (**Tahap 2**) dan runtime Canvas (**Tahap 3**) sesuai kapasitas. Roadmap ini tidak memberikan estimasi hari karena versi, kapasitas disk dan rincian kebijakan lokal belum diputuskan.
+Urutan yang direncanakan saat dokumen dibuat: **Tahap 0**, kemudian **Tahap 1**. Setelah fondasi, kerjakan migrasi acuan (**Tahap 2**) dan runtime Canvas (**Tahap 3**) sesuai kapasitas. Roadmap ini tidak memberikan estimasi hari karena versi, kapasitas disk dan rincian kebijakan lokal belum diputuskan.
 
 Untuk setiap tahap, catatan pelaksanaan minimal memuat: tanggal, lingkup, perubahan, bukti konfigurasi/database/API/browser/eksternal yang relevan, hasil, masalah, serta gerbang yang sudah/belum terpenuhi. Checklist diperbarui berdasarkan bukti tersebut.
+
+Status pelaksanaan terbaru: Tahap 1–2 lulus lokal sesuai lingkup dan gerbang fungsi dasar Tahap 3 lulus lokal. Pengukuran Tahap 3 masih terbuka; implementasi domain PKBM berikutnya mengikuti Tahap 4. [Bukti](../tahap12-verifikasi.md).

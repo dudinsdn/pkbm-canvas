@@ -1,5 +1,7 @@
 # Rangkuman sesi: arsitektur dan implementasi PKBM dengan Canvas LMS
 
+> Dokumen ini adalah snapshot perancangan. Status implementasi terkini: [verifikasi Tahap 1–2](../tahap12-verifikasi.md) dan [catatan implementasi](../catatan-implementasi.md).
+
 Tanggal: 7 Oktober 2026. Dokumen ini merekam keputusan dan hasil sesi sampai tahap perancangan; belum ada instalasi Canvas atau implementasi aplikasi/database.
 
 ## 1. Tujuan dan pelaku

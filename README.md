@@ -4,7 +4,7 @@ Fondasi implementasi untuk Paket C. Canvas mengelola pembelajaran; pendamping PK
 
 ## Status
 
-Tahap 3 **Lulus lokal**: Canvas beserta web/worker, database, aset, tiga akun demo dan kursus tersedia. Login/UI, izin dasar, unggahan/download, job dan persistensi setelah restart telah diperiksa. API katalog PKBM berjalan. Implementasi rencana belajar, penilaian akademik dan integrasi PKBM–Canvas mengikuti Tahap 4 dan seterusnya. Bukti di [catatan implementasi](docs/catatan-implementasi.md).
+Tahap 3 **gerbang fungsi dasar lulus lokal; checklist pengukuran belum lengkap**: Canvas beserta web/worker, database, aset, tiga akun demo dan kursus tersedia. Login/UI, izin dasar, unggahan/download, job dan persistensi setelah restart telah diperiksa. API katalog PKBM berjalan. Tahap 1–2 **lulus lokal untuk fondasi dan katalog contoh** setelah migrasi database baru, seed ulang, uji negatif, API dan telaah sumber. Bukti: [verifikasi Tahap 1–2](docs/tahap12-verifikasi.md). Implementasi rencana belajar, penilaian akademik dan integrasi PKBM–Canvas mengikuti Tahap 4 dan seterusnya. Bukti di [catatan implementasi](docs/catatan-implementasi.md).
 
 - Acuan dan roadmap: docs/acuan/
 - Versi terpilih: infra/runtime-selection.json

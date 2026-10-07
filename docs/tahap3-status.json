@@ -1,7 +1,7 @@
 {
   "date": "2026-10-07",
   "stage": 3,
-  "status": "completed_local",
+  "status": "partially_verified_local",
   "web_image_built": true,
   "web_image_id": "sha256:2ea427dbe2484158f7471b7a1b5581c9743a61fee3e53221188a39e6ccd0b4fe",
   "web_image_bytes": 1223272266,
@@ -42,5 +42,10 @@
   "file_upload_download_verified": true,
   "worker_execution_verified": true,
   "restart_persistence_verified": true,
-  "validation_scope": "Focused local browser/API/worker/restart checks, not full upstream test suite or production"
+  "validation_scope": "Focused local browser/API/worker/restart checks, not full upstream test suite or production",
+  "basic_runtime_gate_passed": true,
+  "stage_checklist_complete": false,
+  "idle_and_operation_metrics_separately_verified": false,
+  "browser_file_picker_verified": false,
+  "upstream_test_suite_run": false
 }

@@ -1,5 +1,7 @@
 # Catatan implementasi PKBM–Canvas
 
+**Status terbaru:** Tahap 1–2 lulus lokal untuk fondasi dan katalog contoh; gerbang fungsi dasar Tahap 3 tetap lulus lokal dengan pengukuran terpisah belum lengkap. [Bukti terbaru](./tahap12-verifikasi.md). Bagian sebelumnya merupakan riwayat bertanggal, bukan status terkini.
+
 ## Tahap 0 — 7 Oktober 2026
 
 Status: pemeriksaan lingkungan dan pemilihan konfigurasi selesai; gerbang build bersyarat. Canvas belum dipasang. Tahap 1 belum dikerjakan.
@@ -186,3 +188,34 @@ Pengguna meminta menyelesaikan runtime; pemeriksaan operasional dilakukan pada 7
 Bukti lokal: var/validation/runtime-api.json, runtime-persistence.json, worker-result.txt dan warga-belajar.jpg. Skrip pemeriksaan terarah scripts/validate-runtime.py tersedia; jangan jalankan ulang tanpa permintaan. Konfigurasi rahasia dan bukti runtime tetap diabaikan Git.
 
 Batas: font OpenDyslexic memberi peringatan berkas tidak ditemukan saat build; font default tampil normal. RCE layanan media eksternal, email keluar, seluruh peran/fitur, beban banyak pengguna dan produksi belum diperiksa. Tahap 3 Lulus lokal; Tahap 4–11 dan keputusan akademik belum selesai.
+
+
+### Rekonsiliasi checklist Tahap 1–2
+
+Checklist diperbarui dari bukti yang sudah ada, tanpa menjalankan pemeriksaan ulang. Tahap 1 selesai untuk fondasi lokal: perintah start/stop/log/migrasi/seed dan dokumentasi penyimpanan tersedia. Perintah sync masih guard yang menolak operasi; implementasi sinkronisasi tetap Tahap 5. Kalimat runtime belum dibuild pada catatan Tahap 1 adalah snapshot historis, sudah dilanjutkan Tahap 3.
+
+Checklist implementasi Tahap 2 seluruhnya tercentang: API katalog HTTP 200 dan cakupan diperiksa pada penyelesaian Tahap 3. Gerbang pengulangan seed tanpa duplikasi belum dibuktikan; status Tahap 2 masih belum lulus penuh pada gerbang tersebut. Tidak menjalankan seed ulang, migrasi ulang, tests atau browser baru untuk pembaruan dokumentasi ini.
+
+
+### Koreksi status berdasarkan kecukupan bukti
+
+Koreksi ini menggantikan klaim rekonsiliasi sebelumnya bahwa seluruh checklist implementasi Tahap 2 selesai. Checklist roadmap kini mengikuti tuntutan setiap butir, bukan hanya keberadaan kode. Tidak menjalankan pemeriksaan/seed/test baru.
+
+- Tahap 1: source/config, pemisahan database dan perintah tersedia dengan bukti file/runtime terdahulu; audit konsistensi seluruh rujukan belum lengkap, sehingga butir gabungannya tetap terbuka. Ketersediaan skrip tidak berarti seluruh cabang perintah sudah dijalankan.
+- Tahap 2: migrasi dan seed awal berhasil; jumlah koleksi/anggaran kelompok serta API katalog terbaca. UUID/FK ada pada skema, tetapi perilaku penolakan data invalid belum diuji. Jumlah baris tidak membuktikan semua komponen/indikator/pemetaan sesuai sumber. Butir ketepatan akademik, constraint dan idempotensi tetap terbuka.
+- Tahap 3: bukti login tiga peran, pembuatan course/modul, unggahan/download via API, worker dan persistensi tetap berlaku sebagai kelulusan gerbang fungsi dasar lokal. Checklist keseluruhan masih parsial karena snapshot sumber daya yang ada belum memisahkan idle dan operasi contoh. Pemilih berkas browser otomatis belum terbukti.
+
+Status akhir yang berlaku: Tahap 1–2 terbukti sebagian; Tahap 3 gerbang fungsi dasar lulus lokal dengan checklist pengukuran belum lengkap. Tidak ada klaim lulus produksi atau seluruh roadmap selesai.
+
+## Pembuktian aktual Tahap 1–2 — 7 Oktober 2026
+
+Bagian ini menggantikan status parsial Tahap 1–2 pada koreksi sebelumnya. Pembuktian dijalankan setelah permintaan pengguna, sehingga kelulusan sekarang didukung hasil eksekusi dan telaah sumber.
+
+- 62 pemeriksaan database/API lulus: migrasi database baru, seed ulang tanpa perubahan hash/jumlah 20 koleksi, seed berbeda ditolak, kasus constraint invalid ditolak, seluruh koleksi API dan pembatasan endpoint. Database audit dibuang setelah selesai; data katalog aktif tidak berubah.
+- Migrasi dan seed melalui Rails juga selesai exit 0. Schema dump disimpan di `apps/pkbm/db/structure.sql`.
+- Delapan PDF diperiksa identitas/jumlah halaman, batas rujukan dan struktur register; isi struktur kurikulum, KI/KD contoh, indikator, muatan khusus, pemetaan dan aturan ditelaah pada halaman sumber. Rincian serta jumlah pemeriksaan integritas tersimpan pada laporan.
+- Konfigurasi, source pin, manifest, patch dan pengecualian rahasia diperiksa. Dokumen acuan dibedakan dari status implementasi terkini.
+
+**Keputusan:** Tahap 1 Lulus lokal fondasi; Tahap 2 Lulus lokal katalog contoh. Pengesahan tutor/PKBM tetap belum dilakukan, temuan persamaan/pertidaksamaan tidak ditutup, seluruh KD nasional tidak diklaim lengkap, alokasi SKK per mapel tidak diisi. Tahap 3 mempertahankan bukti fungsi dasar yang sudah ada; pengukuran idle/operasi terpisah dan picker browser belum dibuktikan pada pemeriksaan ini.
+
+Laporan: [tahap12-verifikasi.md](./tahap12-verifikasi.md), hasil terstruktur: [tahap12-verifikasi.json](./tahap12-verifikasi.json). Log rinci berada di `var/validation/stage12/` dan dikecualikan Git.

@@ -1,6 +1,6 @@
 # Katalog akademik pendamping PKBM
 
-Tahap 2 menyediakan migrasi PostgreSQL, seed sumber dan kerangka API baca Rails. Antarmuka React dan data pelaksanaan PKBM berada pada tahap berikutnya.
+Tahap 2 menyediakan migrasi PostgreSQL, seed sumber dan API baca Rails yang sudah berjalan lokal dan diperiksa pada penyelesaian Tahap 3. Antarmuka React dan data pelaksanaan PKBM berada pada tahap berikutnya.
 
 ## Cakupan
 
@@ -23,7 +23,7 @@ Jalankan dari root proyek setelah image PostgreSQL dibuild:
 ./scripts/local catalog-seed
 ```
 
-Runner SQL dan migrasi Rails menggunakan satu SQL serta ID migrasi yang sama. Runner SQL dapat digunakan sebelum Ruby/Canvas terpasang. Kedua seeder memakai UUID deterministik, transaksi dan advisory lock. Isi yang sama dapat dipanggil ulang secara desain; perubahan isi existing ditolak agar tidak diam-diam menimpa versi. Perubahan sumber harus menghasilkan versi/key baru. Belum ada uji pengulangan atau uji negatif yang dijalankan.
+Runner SQL dan migrasi Rails menggunakan satu SQL serta ID migrasi yang sama. Runner SQL dapat digunakan sebelum Ruby/Canvas terpasang. Kedua seeder memakai UUID deterministik, transaksi dan advisory lock. Isi yang sama dapat dipanggil ulang secara desain; perubahan isi existing ditolak agar tidak diam-diam menimpa versi. Perubahan sumber harus menghasilkan versi/key baru. Uji pengulangan SQL/Rails, database baru, penolakan perubahan seed dan kasus constraint invalid sudah lulus lokal. Bukti dan batas cakupan: [verifikasi Tahap 1–2](../../docs/tahap12-verifikasi.md).
 
 `db/seeds/build_catalog.py` menghasilkan `catalog.json` dari register pemetaan dan data acuan yang ditelaah. Script ini tidak terhubung ke database. Gunakan setelah perubahan seed yang memang disengaja.
 

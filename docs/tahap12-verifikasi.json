@@ -1,0 +1,356 @@
+{
+  "date": "2026-10-07",
+  "stage_1": "passed_local_foundation",
+  "stage_2": "passed_local_example_catalog",
+  "scope": "Fondasi dan katalog contoh; tidak mencakup seluruh KD nasional, pengesahan tutor atau produksi",
+  "database_api": {
+    "passed": 62,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "existing_catalog-migrate_0",
+        "passed": true
+      },
+      {
+        "name": "existing_catalog-seed_1",
+        "passed": true
+      },
+      {
+        "name": "existing_catalog-seed_2",
+        "passed": true
+      },
+      {
+        "name": "existing_repeat_hashes_unchanged",
+        "passed": true
+      },
+      {
+        "name": "fresh_migrate_4",
+        "passed": true
+      },
+      {
+        "name": "fresh_seed_5",
+        "passed": true
+      },
+      {
+        "name": "fresh_migrate_6",
+        "passed": true
+      },
+      {
+        "name": "fresh_seed_7",
+        "passed": true
+      },
+      {
+        "name": "fresh_matches_existing",
+        "passed": true
+      },
+      {
+        "name": "fresh_migration_once",
+        "passed": true
+      },
+      {
+        "name": "seed_changed_content_rejected",
+        "passed": true
+      },
+      {
+        "name": "rejected_seed_transaction_unchanged",
+        "passed": true
+      },
+      {
+        "name": "temporary_database_removed",
+        "passed": true
+      },
+      {
+        "name": "canvas_pkbm_connect_isolated",
+        "passed": true
+      },
+      {
+        "name": "duplicate_catalog_key",
+        "passed": true
+      },
+      {
+        "name": "source_sha_invalid",
+        "passed": true
+      },
+      {
+        "name": "reference_page_bounds",
+        "passed": true
+      },
+      {
+        "name": "reference_reverse_range",
+        "passed": true
+      },
+      {
+        "name": "foreign_key_missing",
+        "passed": true
+      },
+      {
+        "name": "group_kind_invalid",
+        "passed": true
+      },
+      {
+        "name": "skk_zero",
+        "passed": true
+      },
+      {
+        "name": "subject_skk_negative",
+        "passed": true
+      },
+      {
+        "name": "target_parent_cross_component",
+        "passed": true
+      },
+      {
+        "name": "target_parent_wrong_kind",
+        "passed": true
+      },
+      {
+        "name": "target_self_parent",
+        "passed": true
+      },
+      {
+        "name": "target_parent_cycle",
+        "passed": true
+      },
+      {
+        "name": "framework_target_cross_component",
+        "passed": true
+      },
+      {
+        "name": "activity_target_cross_component",
+        "passed": true
+      },
+      {
+        "name": "resource_unit_wrong_resource",
+        "passed": true
+      },
+      {
+        "name": "mapping_cannot_prove_mastery",
+        "passed": true
+      },
+      {
+        "name": "source_rules_not_executable",
+        "passed": true
+      },
+      {
+        "name": "repeated_indicator_codes_preserved",
+        "passed": true
+      },
+      {
+        "name": "component_track_wrong_version",
+        "passed": true
+      },
+      {
+        "name": "all_subject_skk_unallocated",
+        "passed": true
+      },
+      {
+        "name": "skk_group_budgets",
+        "passed": true
+      },
+      {
+        "name": "negative_checks_leave_data_unchanged",
+        "passed": true
+      },
+      {
+        "name": "api_counts_match_seed",
+        "passed": true
+      },
+      {
+        "name": "api_coverage_exact",
+        "passed": true
+      },
+      {
+        "name": "api_collection_source_documents",
+        "passed": true
+      },
+      {
+        "name": "api_collection_source_references",
+        "passed": true
+      },
+      {
+        "name": "api_collection_curriculum_versions",
+        "passed": true
+      },
+      {
+        "name": "api_collection_specialization_tracks",
+        "passed": true
+      },
+      {
+        "name": "api_collection_curriculum_levels",
+        "passed": true
+      },
+      {
+        "name": "api_collection_curriculum_groups",
+        "passed": true
+      },
+      {
+        "name": "api_collection_curriculum_components",
+        "passed": true
+      },
+      {
+        "name": "api_collection_component_relations",
+        "passed": true
+      },
+      {
+        "name": "api_collection_academic_frameworks",
+        "passed": true
+      },
+      {
+        "name": "api_collection_learning_targets",
+        "passed": true
+      },
+      {
+        "name": "api_collection_framework_targets",
+        "passed": true
+      },
+      {
+        "name": "api_collection_framework_topics",
+        "passed": true
+      },
+      {
+        "name": "api_collection_framework_activities",
+        "passed": true
+      },
+      {
+        "name": "api_collection_framework_activity_targets",
+        "passed": true
+      },
+      {
+        "name": "api_collection_source_findings",
+        "passed": true
+      },
+      {
+        "name": "api_collection_learning_resources",
+        "passed": true
+      },
+      {
+        "name": "api_collection_resource_components",
+        "passed": true
+      },
+      {
+        "name": "api_collection_resource_units",
+        "passed": true
+      },
+      {
+        "name": "api_collection_resource_target_mappings",
+        "passed": true
+      },
+      {
+        "name": "api_collection_source_policy_statements",
+        "passed": true
+      },
+      {
+        "name": "api_limit_clamped",
+        "passed": true
+      },
+      {
+        "name": "api_unknown_collection_rejected",
+        "passed": true
+      },
+      {
+        "name": "api_write_not_exposed",
+        "passed": true
+      },
+      {
+        "name": "final_catalog_hashes_unchanged",
+        "passed": true
+      }
+    ]
+  },
+  "source_integrity": {
+    "passed": 317,
+    "failed": 0,
+    "source_identities": [
+      {
+        "check": "identity_KUR-C",
+        "passed": true,
+        "detail": {
+          "sha256": "1876f80c3f647dfe4d558480dcca86494d5ee5eb5b30c98afac97ff90ef500f3",
+          "pdf_pages": 162
+        }
+      },
+      {
+        "check": "identity_SIL-MTK",
+        "passed": true,
+        "detail": {
+          "sha256": "d38ab6c0949ef73c66a9ad1c7fadfe41d108851eec800cb9c5958dd5dff12772",
+          "pdf_pages": 24
+        }
+      },
+      {
+        "check": "identity_MOD-MTK-V-01",
+        "passed": true,
+        "detail": {
+          "sha256": "f0dd0539a049270114c27db2d657c7fbd8e01d17592d8367e770cff7caab82ee",
+          "pdf_pages": 24
+        }
+      },
+      {
+        "check": "identity_MOD-MTK-V-02",
+        "passed": true,
+        "detail": {
+          "sha256": "086e83068d49a258dec25273107ae990e58a6106141f5950486731d88d7e59d6",
+          "pdf_pages": 18
+        }
+      },
+      {
+        "check": "identity_SIL-BID",
+        "passed": true,
+        "detail": {
+          "sha256": "c674e2c5cae8535290a2683eb85882a56eb0a362e2c423d1368d7e707b462f84",
+          "pdf_pages": 22
+        }
+      },
+      {
+        "check": "identity_MOD-BID-V-01",
+        "passed": true,
+        "detail": {
+          "sha256": "b5de63f4345a5710f6cc1bab0002819cb244398b3c32c05d6f932423e286fc5f",
+          "pdf_pages": 22
+        }
+      },
+      {
+        "check": "identity_PAN-KET",
+        "passed": true,
+        "detail": {
+          "sha256": "8b8b73d4799f27b4acb96571c9cd9451d756cbefbf7b06f5da4299e60513828c",
+          "pdf_pages": 18
+        }
+      },
+      {
+        "check": "identity_PAN-PEM",
+        "passed": true,
+        "detail": {
+          "sha256": "410b43794c53f1d203cd9dd9be9844ef3415cb70c1389a87b30f76e717435f9f",
+          "pdf_pages": 20
+        }
+      }
+    ]
+  },
+  "rails_migration_exit": 0,
+  "rails_seed_exit": 0,
+  "catalog_snapshots": {
+    "source_documents": "{\"count\" : 8, \"digest\" : \"e495280e6f8271e784f133a0097b642d\"}",
+    "source_references": "{\"count\" : 45, \"digest\" : \"407998dc5406de722c2b0f70d087e323\"}",
+    "curriculum_versions": "{\"count\" : 1, \"digest\" : \"0d1ae833d4bda0241bf97c075ec85a9d\"}",
+    "specialization_tracks": "{\"count\" : 3, \"digest\" : \"5179925839e5c76281af8d4b5c64908b\"}",
+    "curriculum_levels": "{\"count\" : 2, \"digest\" : \"4f79604c64f48a17a2b04761b3d380b9\"}",
+    "curriculum_groups": "{\"count\" : 6, \"digest\" : \"d8521b69dbc5f55561373855b06123d4\"}",
+    "curriculum_components": "{\"count\" : 52, \"digest\" : \"d3360bbe7c839b4c9b1b4345479f40d6\"}",
+    "component_relations": "{\"count\" : 10, \"digest\" : \"650fd493dc0fc12414acabfe4bb433c9\"}",
+    "academic_frameworks": "{\"count\" : 52, \"digest\" : \"a46fbf2714997b8ef49210cdcb3c3603\"}",
+    "learning_targets": "{\"count\" : 75, \"digest\" : \"ef522b53d096e2460cebb531341cef75\"}",
+    "framework_targets": "{\"count\" : 61, \"digest\" : \"50e3217d50bb03f1eea4fb74b17f2487\"}",
+    "framework_topics": "{\"count\" : 6, \"digest\" : \"5aa985924b14615c483859962ba9a8d8\"}",
+    "framework_activities": "{\"count\" : 6, \"digest\" : \"7e33c4586b2e27d9a560e3b06c08b50c\"}",
+    "framework_activity_targets": "{\"count\" : 12, \"digest\" : \"1abe87365622dcde5e67debcb1d233b3\"}",
+    "source_findings": "{\"count\" : 3, \"digest\" : \"5557a24aceab1dfa8c550835815494d5\"}",
+    "learning_resources": "{\"count\" : 3, \"digest\" : \"32082cab22707fbc9716174c5ee92439\"}",
+    "resource_components": "{\"count\" : 3, \"digest\" : \"65f929a30da2ded7af796647006f0be1\"}",
+    "resource_units": "{\"count\" : 10, \"digest\" : \"0212c7ef71ba265ef20412af98fbfe79\"}",
+    "resource_target_mappings": "{\"count\" : 18, \"digest\" : \"686ef7673581f185e18ec7d7f6f5f1be\"}",
+    "source_policy_statements": "{\"count\" : 22, \"digest\" : \"934625e21a01e7051bad4ff38518888f\"}"
+  },
+  "semantic_review": "Pembacaan sumber tercatat pada docs/tahap12-verifikasi.md; tutor_pkbm_review_pending",
+  "temporary_database_removed": true
+}

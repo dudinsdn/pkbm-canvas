@@ -1,5 +1,7 @@
 # Struktur database akademik PKBM
 
+> Dokumen ini adalah snapshot perancangan. Status implementasi terkini: [verifikasi Tahap 1–2](../tahap12-verifikasi.md) dan [catatan implementasi](../catatan-implementasi.md).
+
 Tanggal: 7 Oktober 2026. Status: rancangan logis, belum migrasi atau database terpasang.
 
 ## 1. Dasar rancangan
