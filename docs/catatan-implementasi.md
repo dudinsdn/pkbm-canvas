@@ -1,6 +1,6 @@
 # Catatan implementasi PKBM–Canvas
 
-**Status terbaru:** Tahap 1–2 lulus lokal untuk fondasi dan katalog contoh; gerbang fungsi dasar Tahap 3 tetap lulus lokal dengan pengukuran terpisah belum lengkap. [Bukti terbaru](./tahap12-verifikasi.md). Bagian sebelumnya merupakan riwayat bertanggal, bukan status terkini.
+**Status terbaru:** Tahap 1–2 lulus lokal untuk fondasi dan katalog contoh; Tahap 3 lulus lokal dengan checklist lengkap, termasuk pengukuran terpisah dan unggahan browser melalui Files lama. [Bukti terbaru](./tahap12-verifikasi.md). Bagian sebelumnya merupakan riwayat bertanggal, bukan status terkini.
 
 ## Tahap 0 — 7 Oktober 2026
 
@@ -219,3 +219,17 @@ Bagian ini menggantikan status parsial Tahap 1–2 pada koreksi sebelumnya. Pemb
 **Keputusan:** Tahap 1 Lulus lokal fondasi; Tahap 2 Lulus lokal katalog contoh. Pengesahan tutor/PKBM tetap belum dilakukan, temuan persamaan/pertidaksamaan tidak ditutup, seluruh KD nasional tidak diklaim lengkap, alokasi SKK per mapel tidak diisi. Tahap 3 mempertahankan bukti fungsi dasar yang sudah ada; pengukuran idle/operasi terpisah dan picker browser belum dibuktikan pada pemeriksaan ini.
 
 Laporan: [tahap12-verifikasi.md](./tahap12-verifikasi.md), hasil terstruktur: [tahap12-verifikasi.json](./tahap12-verifikasi.json). Log rinci berada di `var/validation/stage12/` dan dikecualikan Git.
+
+## Pengukuran Tahap 3 dan hambatan picker — 7 Oktober 2026
+
+Pengukuran terpisah dijalankan: 3 sampel idle, 12 sampel login/navigasi dan 8 sampel percobaan picker. Butir pengukuran roadmap tercentang berdasarkan hasil nyata. Dialog Upload file terbuka; dua metode filechooser timeout. Unggahan browser tetap belum terverifikasi, sehingga Tahap 3 keseluruhan masih parsial dan Tahap 4 belum dimulai. [Laporan dan batas ukur](./tahap3-pengukuran.md), [metrik](./tahap3-pengukuran.json). Ini memperbarui keterbatasan pengukuran pada catatan historis di atas.
+
+## Penyelesaian validasi Tahap 3 — 7 Oktober 2026
+
+Pada tampilan Files lama yang dibuka pengguna, event filechooser berhasil, fixture dipilih lewat browser dan toast unggahan sukses terlihat. Kedua record bernama tampilan `cek-browser-tahap3.txt` (ID 2 dan 4) diperiksa lewat unduhan API baca; masing-masing 55 byte identik dengan fixture asli. [Bukti unggahan](./tahap3-unggahan-browser.json). Bukti screenshot di `var/validation/stage3/upload-success.png`.
+
+**Status terbaru: Tahap 3 Lulus lokal; seluruh checklist lengkap.** Pengukuran idle/operasi sebelumnya tetap berlaku. Picker Files baru tetap tidak terverifikasi; jalur Files lama terbukti. Tidak ada klaim produksi/kapasitas kelas nyata. Tahap 4 belum dimulai. Bagian hambatan sebelumnya adalah riwayat yang telah diselesaikan melalui jalur Files lama.
+
+## Konfirmasi manual New Files Page
+
+Pengguna mengonfirmasi unggahan New Files Page berhasil pada 7 Oktober 2026. Jalur tersebut dicatat lulus berdasarkan pengujian manual pengguna; timeout sebelumnya terbatas pada otomatisasi picker agen. Checklist unggahan browser tercentang dan status Tahap 3 tetap Lulus lokal. Bukti byte unduhan yang diperiksa agen berasal dari pengujian Files lama.

@@ -1,6 +1,6 @@
 # Roadmap implementasi PKBM dan Canvas LMS
 
-Tanggal: 7 Oktober 2026. Status terkini: Tahap 1–2 lulus lokal sesuai lingkup; gerbang fungsi dasar Tahap 3 lulus lokal, pengukuran terpisah masih terbuka. Bukti: [verifikasi Tahap 1–2](../tahap12-verifikasi.md).
+Tanggal: 7 Oktober 2026. Status terkini: Tahap 1–2 lulus lokal sesuai lingkup; Tahap 3 lulus lokal dengan checklist lengkap. Bukti: [verifikasi Tahap 1–2](../tahap12-verifikasi.md).
 
 ## 1. Sasaran dan acuan
 
@@ -118,13 +118,14 @@ Status terbaru Tahap 2: **Lulus lokal katalog contoh**. 62 pemeriksaan database/
 - [x] Siapkan satu account/sub-account PKBM, akun pengelola, tutor dan warga belajar contoh.
 - [x] Periksa login, kewenangan dasar, pembuatan Course dan unggahan berkas.
 - [x] Periksa job latar belakang dan persistensi data setelah restart normal.
-- [ ] Catat RAM/disk saat idle dan saat operasi contoh; pisahkan dari kemampuan menampung banyak pengguna. **Parsial:** snapshot sesudah operasi dan saat build tersedia; pengukuran idle dan operasi contoh secara terpisah belum dilakukan.
+- [x] Catat RAM/disk saat idle dan saat operasi contoh; pisahkan dari kemampuan menampung banyak pengguna. Tiga sampel idle dan dua belas sampel operasi direkam; rincian dan batas ukur pada [laporan](../tahap3-pengukuran.md).
+- [x] Buktikan pemilihan berkas dan unggahan selesai melalui browser. Tampilan Files lama: pemilih berkas berhasil, toast sukses dan baris berkas terlihat; unduhan cocok byte dengan fixture. New Files Page juga berhasil menurut pengujian manual pengguna. [Bukti](../tahap3-unggahan-browser.json).
 
 **Hasil:** satu Canvas lokal yang dapat digunakan pada endpoint yang ditetapkan.
 
 **Gerbang:** UI login dan Course dapat digunakan di browser, proses dasar/jobs berfungsi, data bertahan restart. HTTP 200 saja tidak memenuhi gerbang ini. Kinerja kelompok nyata belum disimpulkan.
 
-Status 7 Oktober 2026: **gerbang fungsi dasar lulus lokal; checklist pengukuran belum lengkap**. Login/course, unggahan melalui API, worker dan persistensi terbukti; pemilih berkas browser otomatis belum terverifikasi. Bukti dan keterbatasan: [catatan implementasi](../catatan-implementasi.md). Belum lulus produksi.
+Status 7 Oktober 2026: **Lulus lokal; checklist Tahap 3 lengkap**. Bukti fungsi dasar terdahulu dilengkapi pengukuran idle/operasi serta unggahan browser melalui tampilan Files lama, dengan hasil unduhan cocok byte. New Files Page berhasil menurut pengujian manual pengguna; otomatisasi picker pada tampilan baru masih timeout; tidak ada klaim kapasitas kelas nyata atau lulus produksi. [Pengukuran](../tahap3-pengukuran.md), [unggahan](../tahap3-unggahan-browser.json).
 
 ## 8. Tahap 4 — pengelolaan PKBM dan rencana belajar
 
@@ -269,4 +270,4 @@ Urutan yang direncanakan saat dokumen dibuat: **Tahap 0**, kemudian **Tahap 1**.
 
 Untuk setiap tahap, catatan pelaksanaan minimal memuat: tanggal, lingkup, perubahan, bukti konfigurasi/database/API/browser/eksternal yang relevan, hasil, masalah, serta gerbang yang sudah/belum terpenuhi. Checklist diperbarui berdasarkan bukti tersebut.
 
-Status pelaksanaan terbaru: Tahap 1–2 lulus lokal sesuai lingkup dan gerbang fungsi dasar Tahap 3 lulus lokal. Pengukuran Tahap 3 masih terbuka; implementasi domain PKBM berikutnya mengikuti Tahap 4. [Bukti](../tahap12-verifikasi.md).
+Status pelaksanaan terbaru: Tahap 1–2 lulus lokal sesuai lingkup dan gerbang fungsi dasar Tahap 3 lulus lokal. Checklist Tahap 3 lengkap; implementasi domain PKBM berikutnya mengikuti Tahap 4. [Bukti](../tahap12-verifikasi.md).

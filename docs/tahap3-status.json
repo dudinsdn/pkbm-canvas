@@ -1,7 +1,7 @@
 {
   "date": "2026-10-07",
   "stage": 3,
-  "status": "partially_verified_local",
+  "status": "completed_local",
   "web_image_built": true,
   "web_image_id": "sha256:2ea427dbe2484158f7471b7a1b5581c9743a61fee3e53221188a39e6ccd0b4fe",
   "web_image_bytes": 1223272266,
@@ -44,8 +44,16 @@
   "restart_persistence_verified": true,
   "validation_scope": "Focused local browser/API/worker/restart checks, not full upstream test suite or production",
   "basic_runtime_gate_passed": true,
-  "stage_checklist_complete": false,
-  "idle_and_operation_metrics_separately_verified": false,
-  "browser_file_picker_verified": false,
-  "upstream_test_suite_run": false
+  "stage_checklist_complete": true,
+  "idle_and_operation_metrics_separately_verified": true,
+  "browser_file_picker_verified": true,
+  "upstream_test_suite_run": false,
+  "remaining_verification": [],
+  "resource_metrics_evidence": "docs/tahap3-pengukuran.json",
+  "browser_upload_evidence": "docs/tahap3-unggahan-browser.json",
+  "new_files_page_upload": {
+    "verified": true,
+    "evidence_type": "user_reported_manual_test",
+    "automated_filechooser_verified": false
+  }
 }

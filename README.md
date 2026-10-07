@@ -4,7 +4,7 @@ Fondasi implementasi untuk Paket C. Canvas mengelola pembelajaran; pendamping PK
 
 ## Status
 
-Tahap 3 **gerbang fungsi dasar lulus lokal; checklist pengukuran belum lengkap**: Canvas beserta web/worker, database, aset, tiga akun demo dan kursus tersedia. Login/UI, izin dasar, unggahan/download, job dan persistensi setelah restart telah diperiksa. API katalog PKBM berjalan. Tahap 1–2 **lulus lokal untuk fondasi dan katalog contoh** setelah migrasi database baru, seed ulang, uji negatif, API dan telaah sumber. Bukti: [verifikasi Tahap 1–2](docs/tahap12-verifikasi.md). Implementasi rencana belajar, penilaian akademik dan integrasi PKBM–Canvas mengikuti Tahap 4 dan seterusnya. Bukti di [catatan implementasi](docs/catatan-implementasi.md).
+Tahap 3 **lulus lokal; checklist lengkap**: Canvas beserta web/worker, database, aset, tiga akun demo dan kursus tersedia. Login/UI, izin dasar, unggahan/download, job dan persistensi setelah restart telah diperiksa. API katalog PKBM berjalan. Tahap 1–2 **lulus lokal untuk fondasi dan katalog contoh** setelah migrasi database baru, seed ulang, uji negatif, API dan telaah sumber. Bukti: [verifikasi Tahap 1–2](docs/tahap12-verifikasi.md). Implementasi rencana belajar, penilaian akademik dan integrasi PKBM–Canvas mengikuti Tahap 4 dan seterusnya. Bukti di [catatan implementasi](docs/catatan-implementasi.md).
 
 - Acuan dan roadmap: docs/acuan/
 - Versi terpilih: infra/runtime-selection.json
@@ -31,3 +31,5 @@ Endpoint yang dipilih: http://127.0.0.1:8081 (Canvas), http://127.0.0.1:3000 (AP
 Database Canvas/PKBM terpisah dengan pengguna dan hak CONNECT berbeda. Init SQL hanya berjalan pada direktori PostgreSQL baru; perubahan .env tidak otomatis mengganti password database lama. Jangan menghapus data untuk mengatasi beda password.
 
 Perintah catalog-db-start/catalog-migrate/catalog-seed menjalankan database dan katalog melalui SQL. pkbm-install/pkbm-migrate/pkbm-seed/catalog-start memakai Rails setelah image web tersedia. Sinkronisasi masih belum tersedia sampai Tahap 5. Lihat apps/pkbm/README.md.
+
+Pengukuran idle/operasi Tahap 3 sudah dilakukan; picker dan unggahan browser pada tampilan Files lama sudah terbukti; hasil unduhan cocok byte. [Laporan terbaru](docs/tahap3-pengukuran.md).

@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-07",
+  "course_id": 2,
+  "display_name": "cek-browser-tahap3.txt",
+  "verified_files": [
+    {
+      "file_id": 2,
+      "size_bytes": 55,
+      "sha256": "bc080db9d8b829209d15e45c367a55d9d2de6fe605631e686336b9509a929922",
+      "download_bytes_match": true
+    },
+    {
+      "file_id": 4,
+      "size_bytes": 55,
+      "sha256": "bc080db9d8b829209d15e45c367a55d9d2de6fe605631e686336b9509a929922",
+      "download_bytes_match": true
+    }
+  ],
+  "upload_method": "Browser legacy Files: chooser.setFiles; success toast and row observed. Two matching records retained; no deletion.",
+  "screenshot": "var/validation/stage3/upload-success.png",
+  "new_files_page": {
+    "upload_success": true,
+    "evidence_type": "user_reported_manual_test",
+    "note": "Pengguna mengonfirmasi New Files Page juga bisa upload; agen tidak mengklaim pengujian otomatis pada jalur ini."
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "date": "2026-10-07",
+  "method": "Sequential docker stats --no-stream, /proc/meminfo and df -B1; 2 second pauses between samples, not continuous peak profiling. Host includes other desktop processes.",
+  "operations": "Login admin and course Files navigation; upload phase only attempts filechooser, no successful browser upload.",
+  "phases": {
+    "idle": {
+      "samples": 3,
+      "start_utc": "2026-10-07T02:59:28.028805+00:00",
+      "end_utc": "2026-10-07T02:59:37.241173+00:00",
+      "host_available_mib": {
+        "min": 1578.9,
+        "max": 1587.5
+      },
+      "containers": {
+        "pkbm-canvas-web-1": {
+          "memory_mib_min": 590.6,
+          "memory_mib_max": 590.6,
+          "cpu_percent_max": 0.01
+        },
+        "pkbm-canvas-jobs-1": {
+          "memory_mib_min": 376.8,
+          "memory_mib_max": 376.8,
+          "cpu_percent_max": 0.44
+        },
+        "pkbm-canvas-pkbm-1": {
+          "memory_mib_min": 87.11,
+          "memory_mib_max": 87.11,
+          "cpu_percent_max": 0.01
+        },
+        "pkbm-canvas-postgres-1": {
+          "memory_mib_min": 105.6,
+          "memory_mib_max": 105.6,
+          "cpu_percent_max": 10.06
+        },
+        "pkbm-canvas-redis-1": {
+          "memory_mib_min": 12.37,
+          "memory_mib_max": 12.37,
+          "cpu_percent_max": 0.48
+        }
+      },
+      "last_disk_df_bytes": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/sda6       52253237248  38822506496 10729611264  79% /\n/dev/sda5      120942809088 105264865280  9577807872  92% /home\n"
+    },
+    "operation": {
+      "samples": 12,
+      "start_utc": "2026-10-07T02:59:49.711225+00:00",
+      "end_utc": "2026-10-07T03:00:40.251074+00:00",
+      "host_available_mib": {
+        "min": 1387.3,
+        "max": 1573.2
+      },
+      "containers": {
+        "pkbm-canvas-web-1": {
+          "memory_mib_min": 590.6,
+          "memory_mib_max": 590.8,
+          "cpu_percent_max": 25.31
+        },
+        "pkbm-canvas-jobs-1": {
+          "memory_mib_min": 376.8,
+          "memory_mib_max": 377.1,
+          "cpu_percent_max": 42.24
+        },
+        "pkbm-canvas-pkbm-1": {
+          "memory_mib_min": 87.11,
+          "memory_mib_max": 87.11,
+          "cpu_percent_max": 0.02
+        },
+        "pkbm-canvas-postgres-1": {
+          "memory_mib_min": 105.6,
+          "memory_mib_max": 114.8,
+          "cpu_percent_max": 11.1
+        },
+        "pkbm-canvas-redis-1": {
+          "memory_mib_min": 12.37,
+          "memory_mib_max": 12.38,
+          "cpu_percent_max": 1.66
+        }
+      },
+      "last_disk_df_bytes": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/sda6       52253237248  38822961152 10729156608  79% /\n/dev/sda5      120942809088 105265463296  9577209856  92% /home\n"
+    },
+    "upload": {
+      "samples": 8,
+      "start_utc": "2026-10-07T03:00:46.906058+00:00",
+      "end_utc": "2026-10-07T03:01:18.912806+00:00",
+      "host_available_mib": {
+        "min": 1484.5,
+        "max": 1510.2
+      },
+      "containers": {
+        "pkbm-canvas-web-1": {
+          "memory_mib_min": 590.8,
+          "memory_mib_max": 590.8,
+          "cpu_percent_max": 0.01
+        },
+        "pkbm-canvas-jobs-1": {
+          "memory_mib_min": 377.1,
+          "memory_mib_max": 377.1,
+          "cpu_percent_max": 0.52
+        },
+        "pkbm-canvas-pkbm-1": {
+          "memory_mib_min": 87.11,
+          "memory_mib_max": 87.11,
+          "cpu_percent_max": 0.02
+        },
+        "pkbm-canvas-postgres-1": {
+          "memory_mib_min": 114.8,
+          "memory_mib_max": 114.8,
+          "cpu_percent_max": 10.89
+        },
+        "pkbm-canvas-redis-1": {
+          "memory_mib_min": 12.38,
+          "memory_mib_max": 12.38,
+          "cpu_percent_max": 0.44
+        }
+      },
+      "last_disk_df_bytes": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/sda6       52253237248  38822981632 10729136128  79% /\n/dev/sda5      120942809088 105265643520  9577029632  92% /home\n"
+    }
+  },
+  "browser_upload": {
+    "verified": true,
+    "attempts": [
+      "choose-files button: filechooser timeout 10s",
+      "actual input[type=file]: filechooser timeout 10s"
+    ],
+    "blocker": "No filechooser event delivered through available in-app browser automation; native computer control unavailable. Does not establish Canvas uploader failure.",
+    "resolution": "Verified later through legacy Files; see docs/tahap3-unggahan-browser.json. Measured upload phase still contains attempts only."
+  }
+}
