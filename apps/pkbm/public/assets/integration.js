@@ -37,9 +37,9 @@ function IntegrationPanel({data,catalog,request}) {
 }
 function CanvasCourseLinks({request}) {
   const E=React.createElement;
-  const [courses,setCourses]=React.useState([]),[error,setError]=React.useState('');
-  React.useEffect(()=>{request('integration/links').then(x=>setCourses(x.courses)).catch(e=>setError(e.message));},[]);
-  return E('section',{className:'card'},E('h2',null,'Pembelajaran di Canvas'),error&&E('p',{role:'alert'},error),courses.length?E('ul',null,courses.map(x=>E('li',{key:x.delivery_id},x.url?E('a',{href:x.url,target:'_blank',rel:'noopener noreferrer'},x.delivery_name||'Mulai belajar'):E('span',null,(x.delivery_name||'Pembelajaran')+' — akses sedang disiapkan oleh pengelola')))):E('p',null,'Pelaksanaan belum terhubung dengan Canvas. Pendamping dapat memberi informasi jadwal dan bahan.'));
+  const [courses,setCourses]=React.useState([]),[management,setManagement]=React.useState(null),[error,setError]=React.useState('');
+  React.useEffect(()=>{request('integration/links').then(x=>{setCourses(x.courses);setManagement(x.management);}).catch(e=>setError(e.message));},[]);
+  return E('section',{className:'card'},E('h2',null,'Pembelajaran di Canvas'),error&&E('p',{role:'alert'},error),management&&(management.url?E('p',null,E('a',{href:management.url},'Kelola Canvas')):E('p',null,'Akses pengelola ke Canvas belum siap.')),courses.length?E('ul',null,courses.map(x=>E('li',{key:x.delivery_id},x.url?E('a',{href:x.url},x.delivery_name||'Mulai belajar'):E('span',null,(x.delivery_name||'Pembelajaran')+' — akses sedang disiapkan oleh pengelola')))):E('p',null,'Pelaksanaan belum terhubung dengan Canvas. Pendamping dapat memberi informasi jadwal dan bahan.'));
 }
 function ResourceViewer({resourceId,deliveryId}) {
   const E=React.createElement;

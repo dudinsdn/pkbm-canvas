@@ -1,0 +1,169 @@
+{
+  "scope": "Local HTTP/API manager dashboard; loopback cookie exception emulated; no rendered browser proof",
+  "passed": 30,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "demo-a portal login",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a management link",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a manager landing",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "path": "/accounts/4"
+      }
+    },
+    {
+      "name": "demo-a correct Canvas identity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a Dashboard redirects to PKBM",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "path": "/accounts/4"
+      }
+    },
+    {
+      "name": "demo-a portal return link",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a wildcard dashboard HTML",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a account API stays JSON",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a navigation /accounts/4/search",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a navigation /accounts/4/users",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a navigation /accounts/4/settings",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a navigation /pkbm-manager.css",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a courses scope 4",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a courses scope 5",
+      "passed": true,
+      "detail": 403
+    },
+    {
+      "name": "demo-a courses scope 1",
+      "passed": true,
+      "detail": 403
+    },
+    {
+      "name": "demo-b portal login",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b management link",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b manager landing",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "path": "/accounts/5"
+      }
+    },
+    {
+      "name": "demo-b correct Canvas identity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b Dashboard redirects to PKBM",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "path": "/accounts/5"
+      }
+    },
+    {
+      "name": "demo-b portal return link",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b wildcard dashboard HTML",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b account API stays JSON",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b navigation /accounts/5/search",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b navigation /accounts/5/users",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b navigation /accounts/5/settings",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b navigation /pkbm-manager.css",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b courses scope 5",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b courses scope 4",
+      "passed": true,
+      "detail": 403
+    },
+    {
+      "name": "demo-b courses scope 1",
+      "passed": true,
+      "detail": 403
+    }
+  ]
+}

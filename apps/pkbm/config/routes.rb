@@ -53,6 +53,7 @@ end
 
 Rails.application.routes.draw do
   get '/belajar/:id', to: 'learning_entry#show'
+  get '/kelola/canvas', to: 'learning_entry#manage'
 end
 
 Rails.application.routes.draw do

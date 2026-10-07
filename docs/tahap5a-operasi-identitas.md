@@ -91,3 +91,39 @@ Tidak ada kegagalan endpoint baru pada cakupan ini. HTTP/API tidak mengeksekusi 
 - HTTP/API: 230 pemeriksaan, 0 gagal; enam akun portal dan empat akun Canvas tutor/WB. Logout dari kedua aplikasi berakhir pada form login, bearer portal lama ditolak 401, cookie Canvas ditolak 401. Ini mencakup pemeriksaan baca API operasional/katalog/penilaian dan isolasi dua PKBM, bukan seluruh mutasi domain.
 - Browser nyata, WB DEMO-A: login menuju rencana belajar otomatis, Keluar portal langsung ke form login; login ulang dan masuk Course 3, logout Canvas ke form login; buka ulang portal tetap login. Screenshot: docs/logout-login-browser.png. Canvas mempertahankan konfirmasi Log Out bawaan.
 - Bootstrap demo sempat berhenti karena token admin kedaluwarsa setelah konfigurasi client diterapkan. Tidak ada perubahan password; logout aktual kedua client telah terbukti melalui HTTP dan browser. Restart portal/web selesai. Gerbang keseluruhan 5A tetap terbuka untuk skenario lainnya.
+
+
+### 2026-10-07 — Akses pengelola Canvas (implementasi, otorisasi runtime tertunda)
+
+- Ditambahkan route `/kelola/canvas`, tautan Kelola Canvas, pemetaan `canvas_management_links`, dan provisioning pengelola melalui API. Login memakai identity yang sama; tidak membuat password kedua.
+- Provisioner memakai kembali binding/global identity/SIS key; memasang login federasi, memeriksa subaccount milik PKBM, menolak root admin, dan membaca ulang grant sebelum menandai siap. Skrip operasi dibatasi pada DEMO-A/DEMO-B.
+- Migrasi 20261007000800 diterapkan lokal setelah backup `var/backups/pkbm-before-manager-access-20261007.dump`. Tidak menjalankan pengujian API/browser untuk perubahan ini.
+- Review persetujuan otomatis menolak pemindahan token operasional dan pemberian AccountAdmin pada subaccount: permintaan akses Canvas belum dianggap otorisasi eksplisit untuk hak administrasi. Persetujuan pengguna diminta. Pemberian hak/user Canvas belum dijalankan; tautan tetap belum siap. Token sementara dicabut dalam langkah pembersihan.
+- Bukti 230 pemeriksaan sebelumnya mendahului perubahan akses pengelola ini, sehingga bukan bukti kelulusannya.
+
+
+### 2026-10-07 — Hak pengelola Canvas dipasang
+
+Pengguna menyetujui pengelola sebagai admin Canvas pada subaccount masing-masing. Provisioning API selesai: Canvas user 9 → subaccount 4; user 10 → subaccount 5. Dua pemetaan berstatus ready setelah pembacaan ulang login federasi dan grant AccountAdmin; tidak diberi root admin. Link Kelola Canvas tersedia melalui `/kelola/canvas` memakai akun/login yang sama. Token operasional sementara dicabut dan salinan rahasia dihapus. Belum menjalankan suite API/browser untuk fitur pengelola; bukti 230 pemeriksaan sebelumnya tidak mencakup perubahan ini. Belum commit.
+
+
+### 2026-10-07 — Halaman awal dan navigasi pengelola Canvas
+
+- Adapter presentasi Canvas lokal mengarahkan Dashboard pengelola yang punya satu subaccount PKBM ke halaman Kelola pembelajaran. Jika lebih dari satu PKBM, menuju pemilih account native; operator root dan pengguna tanpa grant tetap memakai dashboard native.
+- Halaman subaccount menampilkan nama PKBM, tautan pembelajaran, tutor/warga belajar dan pengaturan sesuai izin Canvas, serta daftar maksimal 12 course dengan tautan Lihat semua. Data dan otorisasi tetap milik Canvas. Ada tautan kembali ke ruang kerja PKBM; seluruh perpindahan link course/kelola menggunakan tab yang sama.
+- Perubahan disimpan pada adapter/view/CSS milik proyek dan di-mount ke Canvas, tanpa mengubah versi/source vendor atau membangun ulang bundle Canvas. Aktivasi melalui recreate layanan web memakai image lokal.
+- Tidak menjalankan suite pengujian atau verifikasi browser untuk perubahan dashboard ini; bukti 230 pemeriksaan lama tidak membuktikan tampilan baru. Belum commit.
+
+
+### 2026-10-07 — Pengujian HTTP/API dashboard pengelola
+
+Permintaan pengguna mengotorisasi pemeriksaan API. Uji awal menemukan adapter tidak menangani Accept wildcard (20 lulus/6 gagal). Setelah mengaktifkan HTML non-API, permintaan Dashboard menemukan HTTP 500 karena Canvas melarang `includes`; diganti `preload` (run kedua 24 lulus/6 gagal). Pengulangan akhir exit 0: **30 pemeriksaan lulus, 0 gagal**.
+
+Kedua pengelola masuk dengan user Canvas 9/10, link Kelola Canvas dan Dashboard `/` menuju subaccount 4/5 yang benar, HTML halaman baru memuat tautan kembali portal, navigasi pembelajaran/pengguna/pengaturan dan CSS memberi HTTP 200. Endpoint account tetap JSON meski Accept wildcard. API daftar course account sendiri 200, account PKBM lain/root 403. Script: scripts/validation/manager-dashboard-api.py; bukti: docs/tahap5a-hasil-uji-dashboard-pengelola.json. Cookie Secure loopback diemulasikan untuk HTTP lokal. Ini bukti HTTP/API, bukan render/klik browser maupun seluruh skenario/gerbang 5A. Sesi uji ditutup; tidak memakai token admin. Belum commit.
+
+
+### 2026-10-07 — Telusur browser alur login pengelola
+
+Permintaan pengguna: cek lagi alur login. Pada satu tab browser diuji WB DEMO-A keluar → form login → login demo-a-pengelola → portal mengidentifikasi Pengelola DEMO-A → Kelola Canvas → /accounts/4. Tidak ada password kedua. Membuka Canvas `/` saat sesi aktif menuju /accounts/4. Setelah logout portal, membuka Canvas `/` tanpa sesi menampilkan form OIDC client pkbm-canvas; satu password pengelola membawa ke /accounts/4. Kembali ke portal menyelesaikan callback OIDC otomatis dan mengidentifikasi pengelola yang sama, lalu Kelola Canvas kembali ke /accounts/4 pada tab yang sama. Screenshot docs/pengelola-login-browser.png.
+
+Tidak ditemukan kegagalan login pada jalur terbatas ini. Detail masalah yang dialami pengguna diminta (form kedua, akun salah, atau tujuan halaman). Tidak mengubah algoritma login tanpa reproduksi. Ini bukan bukti semua akun/perangkat/multitab atau gerbang 5A keseluruhan.

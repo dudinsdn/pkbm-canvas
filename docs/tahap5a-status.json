@@ -60,5 +60,20 @@
   "frontend_autologin_browser_verified": true,
   "portal_logout_redirect_login_verified": true,
   "canvas_logout_redirect_login_verified": true,
-  "logout_browser_demo_wb_verified": true
+  "logout_browser_demo_wb_verified": true,
+  "manager_canvas_access_implemented": true,
+  "manager_canvas_access_migration_applied": true,
+  "manager_canvas_access_provisioned": true,
+  "manager_canvas_access_tested": true,
+  "manager_subaccount_admin_approval_pending": false,
+  "latest_API_evidence_predates_manager_access_change": true,
+  "manager_canvas_provisioning_readback_verified": true,
+  "manager_dashboard_implemented": true,
+  "manager_dashboard_browser_verified": true,
+  "manager_navigation_same_tab_implemented": true,
+  "manager_dashboard_http_verified": true,
+  "manager_dashboard_api_checks_passed": 30,
+  "manager_dashboard_api_checks_failed": 0,
+  "manager_dashboard_api_report": "docs/tahap5a-hasil-uji-dashboard-pengelola.json",
+  "manager_login_browser_verified_scope": "DEMO-A manager: WB logout then portal login; Canvas direct login after logout; portal-Canvas-return same tab without second password"
 }

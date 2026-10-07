@@ -31,6 +31,12 @@ services:
     networks: [backend, outbound]
     volumes:
       - ./identity/canvas-oidc-http.rb:/usr/src/app/config/initializers/pkbm_local_oidc_http.rb:ro
+      - ./identity/canvas-manager-dashboard.rb:/usr/src/app/config/initializers/pkbm_manager_dashboard.rb:ro
+      - ./identity/views:/usr/src/app/config/pkbm_views/pkbm:ro
+      - ./identity/pkbm-manager.css:/usr/src/app/public/pkbm-manager.css:ro
   jobs:
     volumes:
       - ./identity/canvas-oidc-http.rb:/usr/src/app/config/initializers/pkbm_local_oidc_http.rb:ro
+      - ./identity/canvas-manager-dashboard.rb:/usr/src/app/config/initializers/pkbm_manager_dashboard.rb:ro
+      - ./identity/views:/usr/src/app/config/pkbm_views/pkbm:ro
+      - ./identity/pkbm-manager.css:/usr/src/app/public/pkbm-manager.css:ro

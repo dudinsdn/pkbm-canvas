@@ -1,0 +1,33 @@
+<%= stylesheet_link_tag '/pkbm-manager.css' %>
+<section class="pkbm-manager" aria-labelledby="pkbm-manager-title">
+  <header class="pkbm-manager-header">
+    <div><p class="pkbm-manager-eyebrow"><%= @account.name %></p>
+      <h1 id="pkbm-manager-title">Kelola pembelajaran</h1>
+      <p>Atur pembelajaran, dampingi tutor, dan pantau warga belajar di PKBM Anda.</p>
+    </div>
+    <a class="Button" href="http://127.0.0.1:3000/">Kembali ke ruang kerja PKBM</a>
+  </header>
+  <nav class="pkbm-manager-actions" aria-label="Navigasi pengelola PKBM">
+    <a href="<%= account_course_user_search_path(@account) %>"><strong>Pembelajaran</strong><span>Lihat dan kelola seluruh course</span></a>
+    <% if @account.grants_right?(@current_user, session, :read_roster) %>
+      <a href="<%= account_users_path(@account) %>"><strong>Tutor dan warga belajar</strong><span>Lihat peserta dan penugasan</span></a>
+    <% end %>
+    <% if @account.grants_right?(@current_user, session, :manage_account_settings) %>
+      <a href="<%= account_settings_path(@account) %>"><strong>Pengaturan PKBM</strong><span>Kelola pengaturan pembelajaran</span></a>
+    <% end %>
+  </nav>
+  <section aria-labelledby="pkbm-course-title">
+    <div class="pkbm-manager-section-title"><h2 id="pkbm-course-title">Pembelajaran PKBM <span>(<%= @pkbm_course_count %>)</span></h2>
+      <a href="<%= account_course_user_search_path(@account) %>">Lihat semua</a>
+    </div>
+    <% if @pkbm_course_count.zero? %>
+      <p>Belum ada pembelajaran. Siapkan pelaksanaan dari ruang kerja PKBM atau kelola course melalui menu Pembelajaran.</p>
+    <% else %>
+      <ul class="pkbm-manager-courses">
+        <% @pkbm_courses.each do |course| %>
+          <li><a href="<%= course_path(course) %>"><strong><%= course.name %></strong><span><%= course.workflow_state == 'available' ? 'Sudah diterbitkan' : (course.workflow_state == 'completed' ? 'Selesai' : 'Belum diterbitkan') %></span></a></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </section>
+</section>

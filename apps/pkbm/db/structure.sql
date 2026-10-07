@@ -309,6 +309,30 @@ CREATE TABLE public.canvas_instances (
 
 
 --
+-- Name: canvas_management_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.canvas_management_links (
+    id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    canvas_instance_id uuid NOT NULL,
+    identity_account_id uuid NOT NULL,
+    membership_id uuid NOT NULL,
+    remote_account_id text NOT NULL,
+    remote_user_id text NOT NULL,
+    remote_role_id text NOT NULL,
+    status text NOT NULL,
+    verified_at timestamp with time zone NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT canvas_management_links_remote_account_id_check CHECK ((remote_account_id ~ '^[1-9][0-9]*$'::text)),
+    CONSTRAINT canvas_management_links_remote_role_id_check CHECK ((remote_role_id ~ '^[1-9][0-9]*$'::text)),
+    CONSTRAINT canvas_management_links_remote_user_id_check CHECK ((remote_user_id ~ '^[1-9][0-9]*$'::text)),
+    CONSTRAINT canvas_management_links_status_check CHECK ((status = ANY (ARRAY['ready'::text, 'disabled'::text, 'conflict'::text])))
+);
+
+
+--
 -- Name: component_relations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1293,6 +1317,22 @@ ALTER TABLE ONLY public.canvas_instances
 
 ALTER TABLE ONLY public.canvas_instances
     ADD CONSTRAINT canvas_instances_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: canvas_management_links canvas_management_links_canvas_instance_id_membership_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_management_links
+    ADD CONSTRAINT canvas_management_links_canvas_instance_id_membership_id_key UNIQUE (canvas_instance_id, membership_id);
+
+
+--
+-- Name: canvas_management_links canvas_management_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_management_links
+    ADD CONSTRAINT canvas_management_links_pkey PRIMARY KEY (id);
 
 
 --
@@ -2657,6 +2697,30 @@ ALTER TABLE ONLY public.canvas_instances
 
 
 --
+-- Name: canvas_management_links canvas_management_links_canvas_instance_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_management_links
+    ADD CONSTRAINT canvas_management_links_canvas_instance_id_fkey FOREIGN KEY (canvas_instance_id) REFERENCES public.canvas_instances(id);
+
+
+--
+-- Name: canvas_management_links canvas_management_links_identity_account_id_pkbm_id_member_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_management_links
+    ADD CONSTRAINT canvas_management_links_identity_account_id_pkbm_id_member_fkey FOREIGN KEY (identity_account_id, pkbm_id, membership_id) REFERENCES public.identity_membership_links(identity_account_id, pkbm_id, membership_id);
+
+
+--
+-- Name: canvas_management_links canvas_management_links_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_management_links
+    ADD CONSTRAINT canvas_management_links_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
 -- Name: component_relations component_relations_from_component_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3447,6 +3511,7 @@ ALTER TABLE ONLY public.sync_jobs
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261007000800'),
 ('20261007000700'),
 ('20261007000600'),
 ('20261007000500'),

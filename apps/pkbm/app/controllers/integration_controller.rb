@@ -72,7 +72,9 @@ class IntegrationController < OperationsController
     member_link = sso && IdentityMembershipLink.find_by(membership_id: @scope.membership_id)
     ready = !sso || (member_link && instance && CanvasIdentityLink.exists?(identity_account_id: member_link.identity_account_id,
       deployment_key: 'pkbm-canvas-local', root_account_id: instance.root_account_id, status: 'ready'))
-    render json: { courses: rows.map { |row| { delivery_id: row.local_key, canvas_course_id: row.remote_id, delivery_name: @scope.records("deliveries").find(row.local_key).name, access_ready: !!ready, url: ready ? (sso ? "/belajar/#{row.local_key}" : "#{instance.public_base_url}/courses/#{row.remote_id}") : nil } } }
+    management = sso && ready && @scope.manager? && CanvasManagementLink.find_by(pkbm_id: @scope.pkbm_id,
+      canvas_instance_id: instance.id, membership_id: @scope.membership_id, identity_account_id: member_link.identity_account_id, status: 'ready')
+    render json: { management: @scope.manager? ? {access_ready: !!management, url: management ? '/kelola/canvas' : nil} : nil, courses: rows.map { |row| { delivery_id: row.local_key, canvas_course_id: row.remote_id, delivery_name: @scope.records("deliveries").find(row.local_key).name, access_ready: !!ready, url: ready ? (sso ? "/belajar/#{row.local_key}" : "#{instance.public_base_url}/courses/#{row.remote_id}") : nil } } }
   end
 
   def resource
