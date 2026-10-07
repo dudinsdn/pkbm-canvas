@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euo pipefail
+TASK_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+exec docker compose --env-file "$TASK_ROOT/.env" --env-file "$TASK_ROOT/var/identity/runtime.env" -f "$TASK_ROOT/infra/compose.yml" -f "$TASK_ROOT/infra/identity/compose.yml" --profile identity --profile catalog "$@"

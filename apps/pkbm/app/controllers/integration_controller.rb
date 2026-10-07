@@ -68,7 +68,11 @@ class IntegrationController < OperationsController
   def links
     instance = CanvasInstance.find_by(pkbm_id: @scope.pkbm_id)
     rows = instance ? CanvasBinding.where(pkbm_id: @scope.pkbm_id, canvas_instance_id: instance.id, object_kind: "course", local_key: @scope.records("deliveries").pluck(:id)) : CanvasBinding.none
-    render json: { courses: rows.map { |row| { delivery_id: row.local_key, canvas_course_id: row.remote_id, delivery_name: @scope.records("deliveries").find(row.local_key).name, url: "#{instance.public_base_url}/courses/#{row.remote_id}" } } }
+    sso = ENV['PKBM_SSO_ENABLED'] == 'true'
+    member_link = sso && IdentityMembershipLink.find_by(membership_id: @scope.membership_id)
+    ready = !sso || (member_link && instance && CanvasIdentityLink.exists?(identity_account_id: member_link.identity_account_id,
+      deployment_key: 'pkbm-canvas-local', root_account_id: instance.root_account_id, status: 'ready'))
+    render json: { courses: rows.map { |row| { delivery_id: row.local_key, canvas_course_id: row.remote_id, delivery_name: @scope.records("deliveries").find(row.local_key).name, access_ready: !!ready, url: ready ? (sso ? "/belajar/#{row.local_key}" : "#{instance.public_base_url}/courses/#{row.remote_id}") : nil } } }
   end
 
   def resource

@@ -39,7 +39,7 @@ function CanvasCourseLinks({request}) {
   const E=React.createElement;
   const [courses,setCourses]=React.useState([]),[error,setError]=React.useState('');
   React.useEffect(()=>{request('integration/links').then(x=>setCourses(x.courses)).catch(e=>setError(e.message));},[]);
-  return E('section',{className:'card'},E('h2',null,'Pembelajaran di Canvas'),error&&E('p',{role:'alert'},error),courses.length?E('ul',null,courses.map(x=>E('li',{key:x.delivery_id},E('a',{href:x.url,target:'_blank',rel:'noopener noreferrer'},x.delivery_name||'Buka pembelajaran Canvas')))):E('p',null,'Pelaksanaan belum terhubung dengan Canvas. Pendamping dapat memberi informasi jadwal dan bahan.'));
+  return E('section',{className:'card'},E('h2',null,'Pembelajaran di Canvas'),error&&E('p',{role:'alert'},error),courses.length?E('ul',null,courses.map(x=>E('li',{key:x.delivery_id},x.url?E('a',{href:x.url,target:'_blank',rel:'noopener noreferrer'},x.delivery_name||'Mulai belajar'):E('span',null,(x.delivery_name||'Pembelajaran')+' — akses sedang disiapkan oleh pengelola')))):E('p',null,'Pelaksanaan belum terhubung dengan Canvas. Pendamping dapat memberi informasi jadwal dan bahan.'));
 }
 function ResourceViewer({resourceId,deliveryId}) {
   const E=React.createElement;

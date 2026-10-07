@@ -33,7 +33,8 @@ flowchart TB
     P2 --> P4[Tahap 4 — pengelolaan PKBM dan rencana belajar]
     P3 --> P5[Tahap 5 — integrasi pelaksanaan]
     P4 --> P5
-    P5 --> P6[Tahap 6 — tiga modul dan penilaian]
+    P5 --> P5A[Tahap 5A — satu identitas dan login bersama]
+    P5A --> P6[Tahap 6 — tiga modul dan penilaian]
     P6 --> P7[Tahap 7 — capaian lintas modul]
     P7 --> P8[Tahap 8 — pemberdayaan dan keterampilan]
     P8 --> P9[Tahap 9 — keputusan akademik dan SKK]
@@ -163,15 +164,20 @@ Status pelaksanaan 7 Oktober 2026: **Lulus lokal, 130 pemeriksaan akhir lulus, 0
 
 ## Tahap 5A — satu identitas dan login bersama (SSO)
 
-Kebutuhan ini ditambahkan setelah warga belajar mengalami akses ditolak saat membuka Course Canvas dengan akun demo lama. Akun pendamping dan Canvas sekarang terpisah; sinkronisasi membuat akun Canvas lain, tetapi login pengguna belum disediakan. LTI Canvas → pendamping yang diuji pada Tahap 5 bukan SSO pendamping → Canvas. Status Lulus lokal Tahap 5 tetap hanya untuk lingkup pengujian integrasi yang tercatat.
+**Tujuan:** warga belajar, tutor dan pengelola mempunyai satu akun utama dan login sekali melalui Portal PKBM. Portal dan Canvas tetap dua aplikasi dengan record internal sendiri yang ditautkan ke identity yang sama; pengguna tidak mendaftar atau mengatur password dua kali.
 
-- [ ] Tetapkan penyedia identitas bersama dan alur login kedua aplikasi.
-- [ ] Petakan satu identitas pengguna ke PKBM, peran dan akun Canvas yang benar.
-- [ ] Tangani akun demo lama/hasil sinkronisasi tanpa menggandakan pengguna atau membuka akses lintas PKBM.
-- [ ] Sediakan satu kali login dan alur keluar yang jelas.
-- [ ] Buktikan perpindahan pendamping → Canvas dan Canvas → pendamping melalui browser WB/tutor/pengelola.
+Kebutuhan ini ditambahkan setelah WB mendapat akses ditolak pada Course Canvas karena browser memakai akun demo lama, sedangkan Course memakai user hasil sinkronisasi. LTI Canvas → pendamping bukan SSO pendamping → Canvas. Bukti Tahap 5 tetap berlaku pada lingkup yang tercatat, tanpa klaim satu login.
 
-**Gerbang:** pengguna dapat masuk sekali dan membuka pembelajaran sesuai PKBM/peran. Implementasi belum dimulai. Penyelesaian alur pengguna Tahap 6 bergantung pada tahap ini; kode Tahap 6 yang sudah ditulis dipertahankan.
+**Dokumen rancangan tersedia:** [arsitektur identitas, algoritma provisioning, alur tiap peran, migrasi dan kriteria penerimaan](../tahap5a-arsitektur-identitas-dan-alur.md), [status](../tahap5a-status.json). Dukungan SAML ditemukan pada source Canvas terkunci; IdP, resource/dependensi, protokol portal dan logout belum ditetapkan atau diuji.
+
+- [ ] 5A.1: pilih IdP/protokol/versi, resource, callback/domain dan kontrak logout.
+- [ ] 5A.2: implementasikan identity global, pemetaan provider/profile/Canvas dan audit pencocokan akun lama.
+- [ ] 5A.3: sediakan aktivasi/login/pemulihan terpusat, sesi portal dan konteks membership PKBM.
+- [ ] 5A.4: pasang federasi Canvas dan provisioning idempotent yang memakai kembali user yang benar, tanpa password pengguna kedua.
+- [ ] 5A.5: sediakan alur portal → Canvas → portal, penanganan sesi yang berbeda serta logout bersama.
+- [ ] 5A.6: migrasikan fixture yang ditelaah, pertahankan enrollment/hasil, buktikan API/browser tiga peran/dua PKBM dan rollback.
+
+**Gerbang:** login sekali terbukti di browser kedua aplikasi, identitas/user/peran tepat, akun lama tidak terduplikasi, hasil terjaga dan logout/pencabutan sesuai kontrak yang diuji. **Status: rancangan terdokumentasi; implementasi dan pengujian belum dimulai.** Penyelesaian alur pengguna Tahap 6 bergantung pada gerbang ini. Kode Tahap 6 yang sudah ditulis dipertahankan.
 
 ## 10. Tahap 6 — tiga modul dan alur penilaian lengkap
 
@@ -289,3 +295,33 @@ Urutan yang direncanakan saat dokumen dibuat: **Tahap 0**, kemudian **Tahap 1**.
 Untuk setiap tahap, catatan pelaksanaan minimal memuat: tanggal, lingkup, perubahan, bukti konfigurasi/database/API/browser/eksternal yang relevan, hasil, masalah, serta gerbang yang sudah/belum terpenuhi. Checklist diperbarui berdasarkan bukti tersebut.
 
 Status pelaksanaan terbaru: Tahap 1–2 lulus lokal sesuai lingkup dan gerbang fungsi dasar Tahap 3 lulus lokal. Checklist Tahap 3 lengkap; implementasi domain PKBM berikutnya mengikuti Tahap 4. [Bukti](../tahap12-verifikasi.md).
+
+### Pembaruan implementasi Tahap 5A — 7 Oktober 2026
+
+Fondasi skema identitas dan layanan pemetaan/sesi sudah ditulis, belum dimigrasikan atau diuji. [Catatan implementasi](../tahap5a-implementasi.md). Checklist 5A tetap terbuka karena keluaran tiap bagian belum lengkap.
+
+### Bukti fondasi identitas — 7 Oktober 2026
+
+Migrasi lokal diterapkan setelah backup. Pengujian database/service: 23 lolos, 0 gagal, fixture rollback. [Hasil](../tahap5a-hasil-uji-identitas.json). Ini memenuhi bukti fondasi terbatas, bukan kelulusan 5A.2 keseluruhan maupun SSO; checklist federasi dan migrasi akun lama tetap terbuka.
+
+### Implementasi federasi lokal — 7 Oktober 2026
+
+IdP lokal dan callback portal aktif; enam identity demo terhubung ke subject, provider Canvas 3 dan empat login federasi memakai user lama 4/5/6/7. Sesi/state/sid, route belajar, context serta handler logout/LTI ditulis. Dua token sementara dicabut. [Catatan operasi](../tahap5a-operasi-identitas.md). Belum ada bukti browser/login sekali/logout/recovery, sehingga gerbang dan checklist lengkap 5A tetap terbuka.
+
+### Bukti HTTP/API federasi — 7 Oktober 2026
+
+[78 lolos, 0 gagal](../tahap5a-hasil-uji-oidc-api.json): enam login portal/peran/tenant, callback, context, user Canvas dan akses Course tutor/WB, login ulang tanpa password, logout IdP serta pencabutan token lama/sesi Canvas. Host/return Course diperbaiki. GUI/browser, reset, kasus negatif/konkurensi/migrasi historis penuh belum terbukti, sehingga gerbang lengkap belum lulus.
+
+### Pemeriksaan API halaman operasional setelah pangkas klik
+
+[Hasil gabungan 212 lolos, 0 gagal](../tahap5a-hasil-uji-oidc-api.json), termasuk API operasional/katalog/penilaian, guard peran, isolasi membership/Course antar-PKBM dan asset. Tiga pemeriksaan asset diulang secara terarah setelah koreksi decoding harness. Ini belum bukti render atau alur React otomatis; gerbang 5A browser tetap terbuka.
+
+
+### 2026-10-07 — Logout kembali ke login bersama
+
+- Portal kini mengirim tujuan logout `/auth/login`; IdP kedua client mengizinkan tujuan yang sama. Adapter Canvas hanya untuk provider PKBM lokal mempertahankan id_token_hint bawaan dan mengirim tujuan login portal.
+- Callback portal menyimpan ID token yang telah diverifikasi dalam cookie terenkripsi HttpOnly untuk logout tanpa konfirmasi IdP tambahan; cookie dibuang ketika logout. Parameter hint disaring dari log Rails. Sesi lama tanpa hint masih meminta konfirmasi IdP sekali.
+- Penanda logout pada tab tidak lagi menghentikan pengguna di halaman tombol Masuk kembali: membuka ulang portal mengarah ke login.
+- HTTP/API: 230 pemeriksaan, 0 gagal; enam akun portal dan empat akun Canvas tutor/WB. Logout dari kedua aplikasi berakhir pada form login, bearer portal lama ditolak 401, cookie Canvas ditolak 401. Ini mencakup pemeriksaan baca API operasional/katalog/penilaian dan isolasi dua PKBM, bukan seluruh mutasi domain.
+- Browser nyata, WB DEMO-A: login menuju rencana belajar otomatis, Keluar portal langsung ke form login; login ulang dan masuk Course 3, logout Canvas ke form login; buka ulang portal tetap login. Screenshot: docs/logout-login-browser.png. Canvas mempertahankan konfirmasi Log Out bawaan.
+- Bootstrap demo sempat berhenti karena token admin kedaluwarsa setelah konfigurasi client diterapkan. Tidak ada perubahan password; logout aktual kedua client telah terbukti melalui HTTP dan browser. Restart portal/web selesai. Gerbang keseluruhan 5A tetap terbuka untuk skenario lainnya.

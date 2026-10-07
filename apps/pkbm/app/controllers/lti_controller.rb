@@ -4,6 +4,7 @@ require "cgi"
 require "digest"
 require "uri"
 class LtiController < ActionController::API
+  include ActionController::Cookies
   def launch
     instance = CanvasInstance.find_by!(consumer_key: params.require(:oauth_consumer_key), enabled: true)
     values = request.request_parameters.to_h
@@ -44,12 +45,21 @@ class LtiController < ActionController::API
       launch = LtiLaunchCode.lock.find_by!(code_digest: Digest::SHA256.hexdigest(params.require(:code).to_s), used_at: nil)
       raise ArgumentError unless launch.expires_at > Time.current
       member = OperationRecord.for('pkbm_memberships').find_by!(id: launch.membership_id, pkbm_id: launch.pkbm_id, status: 'active')
-      token = Rails.application.message_verifier('pkbm_operations').generate({'pkbm_id'=>member.pkbm_id,'membership_id'=>member.id},expires_in:8.hours,purpose:'pkbm_operations')
+      if ENV['PKBM_SSO_ENABLED'] == 'true'
+        session = IdentitySessionStore.resolve!(cookies[:pkbm_identity_session])
+        link = IdentityMembershipLink.find_by!(membership_id: member.id, identity_account_id: session.identity_account_id)
+        identity = IdentityAccount.find(link.identity_account_id)
+        token = IdentitySessionStore.issue!(identity: identity, pkbm_id: member.pkbm_id, membership_id: member.id, oidc_sid: session.oidc_sid)
+        IdentitySessionStore.revoke!(cookies[:pkbm_identity_session])
+        cookies[:pkbm_identity_session] = {value: token, httponly: true, same_site: :lax, secure: request.ssl?, expires: 8.hours.from_now}
+      else
+        token = Rails.application.message_verifier('pkbm_operations').generate({'pkbm_id'=>member.pkbm_id,'membership_id'=>member.id},expires_in:8.hours,purpose:'pkbm_operations')
+      end
       launch.update!(used_at: Time.current)
     end
     response.headers['Cache-Control']='no-store'
     render json: {token:token,expires_in_seconds:28_800}
-  rescue ArgumentError, ActiveRecord::RecordNotFound, ActionController::ParameterMissing
+  rescue IdentitySessionStore::Unauthorized, ArgumentError, ActiveRecord::RecordNotFound, ActionController::ParameterMissing
     render json:{error:'Kode launch tidak tersedia atau kedaluwarsa'},status: :unauthorized
   end
 end

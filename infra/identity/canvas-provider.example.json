@@ -1,0 +1,16 @@
+{
+  "auth_type": "openid_connect",
+  "client_id": "pkbm-canvas",
+  "client_secret": "READ_FROM_IGNORED_RUNTIME_ENV",
+  "issuer": "http://127.0.0.1:8082/realms/pkbm",
+  "authorize_url": "http://127.0.0.1:8082/realms/pkbm/protocol/openid-connect/auth",
+  "token_url": "http://identity:8080/realms/pkbm/protocol/openid-connect/token",
+  "jwks_uri": "http://identity:8080/realms/pkbm/protocol/openid-connect/certs",
+  "userinfo_endpoint": "http://identity:8080/realms/pkbm/protocol/openid-connect/userinfo",
+  "end_session_endpoint": "http://127.0.0.1:8082/realms/pkbm/protocol/openid-connect/logout",
+  "scope": "openid",
+  "login_attribute": "sub",
+  "token_endpoint_auth_method": "client_secret_post",
+  "jit_provisioning": false,
+  "position": 1
+}

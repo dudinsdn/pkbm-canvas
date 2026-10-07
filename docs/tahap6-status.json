@@ -19,5 +19,7 @@
   "gate_passed": false,
   "tests_requested_for_stage6": false,
   "canvas_access_token_available": false,
-  "scope_document": "docs/tahap6-implementasi.md"
+  "scope_document": "docs/tahap6-implementasi.md",
+  "user_flow_prerequisite": "stage_5A_single_identity_SSO",
+  "user_flow_prerequisite_met": false
 }

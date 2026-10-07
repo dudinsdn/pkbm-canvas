@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+"""Prepare ignored local IdP realm and secret configuration. Never overwrite."""
+import json, secrets, pathlib, os
+root = pathlib.Path(__file__).resolve().parents[1]
+env = root / 'var/identity/runtime.env'
+realm = root / 'var/identity/import/pkbm-realm.json'
+if env.exists() or realm.exists():
+    raise SystemExit('Identity configuration already exists; preserve existing secrets.')
+realm.parent.mkdir(parents=True, exist_ok=True)
+(root / 'var/identity/data').mkdir(parents=True, exist_ok=True)
+portal, canvas, admin = [secrets.token_urlsafe(36) for _ in range(3)]
+clients = []
+for name, secret, origin, callback in [('pkbm-portal', portal, 'http://127.0.0.1:3000', '/auth/callback'), ('pkbm-canvas', canvas, 'http://127.0.0.1:8081', '/login/oauth2/callback')]:
+    clients.append(dict(clientId=name, secret=secret, enabled=True, protocol='openid-connect', publicClient=False, standardFlowEnabled=True, directAccessGrantsEnabled=False, serviceAccountsEnabled=False, redirectUris=[origin+callback], webOrigins=[origin], attributes={'post.logout.redirect.uris':'http://127.0.0.1:3000/auth/login', 'pkce.code.challenge.method':'S256'} if name=='pkbm-portal' else {'post.logout.redirect.uris':'http://127.0.0.1:3000/auth/login'}))
+realm.write_text(json.dumps(dict(realm='pkbm', enabled=True, displayName='Masuk Pembelajaran PKBM', registrationAllowed=False, resetPasswordAllowed=False, loginWithEmailAllowed=False, duplicateEmailsAllowed=True, bruteForceProtected=True, clients=clients), indent=2)+'\n')
+env.write_text(f'PKBM_IDP_ADMIN_PASSWORD={admin}\nPKBM_OIDC_CLIENT_SECRET={portal}\nPKBM_CANVAS_OIDC_CLIENT_SECRET={canvas}\nPKBM_SSO_ENABLED=false\n')
+for p in [env, realm]: os.chmod(p, 0o600)
+print('Ignored local realm and credentials prepared. No users created; SSO disabled.')

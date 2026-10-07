@@ -1,0 +1,32 @@
+{
+  "stage": "5A identity foundation",
+  "passed": 23,
+  "failed": 0,
+  "checks": [
+    "identity starts pending",
+    "retry reuses identity",
+    "other tenant manager rejected",
+    "learner cannot provision",
+    "tenant profiles not merged by email",
+    "membership conflict rejected",
+    "pending identity cannot issue session",
+    "active identity resolves own membership",
+    "raw token not stored",
+    "foreign membership session rejected",
+    "inactive membership revokes effective access",
+    "session version revocation",
+    "explicit session revocation",
+    "expired session rejected",
+    "disabled identity rejected",
+    "malformed token rejected",
+    "duplicate external subject rejected",
+    "tenant membership FK rejects mismatch",
+    "duplicate Canvas user rejected",
+    "ready Canvas link needs verification",
+    "audit update rejected",
+    "audit delete rejected",
+    "fixture transaction rolled back"
+  ],
+  "fixtures_rolled_back": true,
+  "canvas_calls": 0
+}

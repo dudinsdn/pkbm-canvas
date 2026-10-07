@@ -97,6 +97,16 @@ END $$;
 
 
 --
+-- Name: protect_identity_audit(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.protect_identity_audit() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN RAISE EXCEPTION 'Identity audit events are immutable'; END; $$;
+
+
+--
 -- Name: protect_published_local_design(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -249,6 +259,32 @@ CREATE TABLE public.canvas_bindings (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
     CONSTRAINT canvas_bindings_object_kind_check CHECK ((object_kind = ANY (ARRAY['account'::text, 'course'::text, 'section'::text, 'user'::text, 'enrollment'::text, 'outcome'::text, 'module'::text, 'page'::text, 'module_item'::text, 'external_tool'::text, 'assessment_module'::text, 'assessment_page'::text, 'assessment_item'::text, 'assignment'::text, 'quiz'::text, 'quiz_question'::text, 'rubric'::text])))
+);
+
+
+--
+-- Name: canvas_identity_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.canvas_identity_links (
+    id uuid NOT NULL,
+    identity_account_id uuid NOT NULL,
+    deployment_key text NOT NULL,
+    root_account_id integer NOT NULL,
+    remote_user_id text NOT NULL,
+    authentication_provider_id text NOT NULL,
+    federated_identifier text NOT NULL,
+    status text DEFAULT 'pending'::text NOT NULL,
+    verified_at timestamp with time zone,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT canvas_identity_links_authentication_provider_id_check CHECK ((authentication_provider_id ~ '^[1-9][0-9]*$'::text)),
+    CONSTRAINT canvas_identity_links_check CHECK (((status <> 'ready'::text) OR (verified_at IS NOT NULL))),
+    CONSTRAINT canvas_identity_links_deployment_key_check CHECK ((length(TRIM(BOTH FROM deployment_key)) > 0)),
+    CONSTRAINT canvas_identity_links_federated_identifier_check CHECK ((length(TRIM(BOTH FROM federated_identifier)) > 0)),
+    CONSTRAINT canvas_identity_links_remote_user_id_check CHECK ((remote_user_id ~ '^[1-9][0-9]*$'::text)),
+    CONSTRAINT canvas_identity_links_root_account_id_check CHECK ((root_account_id > 0)),
+    CONSTRAINT canvas_identity_links_status_check CHECK ((status = ANY (ARRAY['pending'::text, 'ready'::text, 'conflict'::text, 'disabled'::text])))
 );
 
 
@@ -504,6 +540,105 @@ CREATE TABLE public.group_memberships (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
     CONSTRAINT group_memberships_check CHECK (((ends_on IS NULL) OR (ends_on >= starts_on)))
+);
+
+
+--
+-- Name: identity_accounts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.identity_accounts (
+    id uuid NOT NULL,
+    status text DEFAULT 'pending'::text NOT NULL,
+    session_version integer DEFAULT 1 NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT identity_accounts_session_version_check CHECK ((session_version > 0)),
+    CONSTRAINT identity_accounts_status_check CHECK ((status = ANY (ARRAY['pending'::text, 'active'::text, 'disabled'::text])))
+);
+
+
+--
+-- Name: identity_external_subjects; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.identity_external_subjects (
+    id uuid NOT NULL,
+    identity_account_id uuid NOT NULL,
+    issuer text NOT NULL,
+    protocol text NOT NULL,
+    subject text NOT NULL,
+    verified_at timestamp with time zone NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT identity_external_subjects_issuer_check CHECK ((length(TRIM(BOTH FROM issuer)) > 0)),
+    CONSTRAINT identity_external_subjects_protocol_check CHECK ((protocol = ANY (ARRAY['oidc'::text, 'saml'::text]))),
+    CONSTRAINT identity_external_subjects_subject_check CHECK ((length(TRIM(BOTH FROM subject)) > 0))
+);
+
+
+--
+-- Name: identity_login_flows; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.identity_login_flows (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    state_digest character varying NOT NULL,
+    expires_at timestamp(6) without time zone NOT NULL,
+    used_at timestamp(6) without time zone
+);
+
+
+--
+-- Name: identity_membership_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.identity_membership_links (
+    id uuid NOT NULL,
+    identity_account_id uuid NOT NULL,
+    pkbm_id uuid NOT NULL,
+    membership_id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: identity_migration_events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.identity_migration_events (
+    id uuid NOT NULL,
+    identity_account_id uuid NOT NULL,
+    actor_membership_id uuid NOT NULL,
+    event_type text NOT NULL,
+    reason text NOT NULL,
+    reference_id uuid,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT identity_migration_events_event_type_check CHECK ((event_type = ANY (ARRAY['identity_created'::text, 'membership_linked'::text, 'subject_linked'::text, 'canvas_linked'::text, 'identity_disabled'::text]))),
+    CONSTRAINT identity_migration_events_reason_check CHECK ((length(TRIM(BOTH FROM reason)) > 0))
+);
+
+
+--
+-- Name: identity_sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.identity_sessions (
+    id uuid NOT NULL,
+    identity_account_id uuid NOT NULL,
+    token_digest text NOT NULL,
+    pkbm_id uuid,
+    membership_id uuid,
+    session_version integer NOT NULL,
+    expires_at timestamp with time zone NOT NULL,
+    revoked_at timestamp with time zone,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    oidc_sid text,
+    CONSTRAINT identity_sessions_check CHECK (((pkbm_id IS NULL) = (membership_id IS NULL))),
+    CONSTRAINT identity_sessions_check1 CHECK ((expires_at > created_at)),
+    CONSTRAINT identity_sessions_session_version_check CHECK ((session_version > 0)),
+    CONSTRAINT identity_sessions_token_digest_check CHECK ((token_digest ~ '^[a-f0-9]{64}$'::text))
 );
 
 
@@ -1097,6 +1232,38 @@ ALTER TABLE ONLY public.canvas_bindings
 
 
 --
+-- Name: canvas_identity_links canvas_identity_links_deployment_key_root_account_id_authen_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_identity_links
+    ADD CONSTRAINT canvas_identity_links_deployment_key_root_account_id_authen_key UNIQUE (deployment_key, root_account_id, authentication_provider_id, federated_identifier);
+
+
+--
+-- Name: canvas_identity_links canvas_identity_links_deployment_key_root_account_id_identi_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_identity_links
+    ADD CONSTRAINT canvas_identity_links_deployment_key_root_account_id_identi_key UNIQUE (deployment_key, root_account_id, identity_account_id);
+
+
+--
+-- Name: canvas_identity_links canvas_identity_links_deployment_key_root_account_id_remote_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_identity_links
+    ADD CONSTRAINT canvas_identity_links_deployment_key_root_account_id_remote_key UNIQUE (deployment_key, root_account_id, remote_user_id);
+
+
+--
+-- Name: canvas_identity_links canvas_identity_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_identity_links
+    ADD CONSTRAINT canvas_identity_links_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: canvas_instances canvas_instances_consumer_key_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1438,6 +1605,94 @@ ALTER TABLE ONLY public.group_memberships
 
 ALTER TABLE ONLY public.group_memberships
     ADD CONSTRAINT group_memberships_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: identity_accounts identity_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_accounts
+    ADD CONSTRAINT identity_accounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: identity_external_subjects identity_external_subjects_issuer_protocol_subject_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_external_subjects
+    ADD CONSTRAINT identity_external_subjects_issuer_protocol_subject_key UNIQUE (issuer, protocol, subject);
+
+
+--
+-- Name: identity_external_subjects identity_external_subjects_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_external_subjects
+    ADD CONSTRAINT identity_external_subjects_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: identity_login_flows identity_login_flows_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_login_flows
+    ADD CONSTRAINT identity_login_flows_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: identity_membership_links identity_membership_links_identity_account_id_pkbm_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_membership_links
+    ADD CONSTRAINT identity_membership_links_identity_account_id_pkbm_id_key UNIQUE (identity_account_id, pkbm_id);
+
+
+--
+-- Name: identity_membership_links identity_membership_links_identity_account_id_pkbm_id_membe_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_membership_links
+    ADD CONSTRAINT identity_membership_links_identity_account_id_pkbm_id_membe_key UNIQUE (identity_account_id, pkbm_id, membership_id);
+
+
+--
+-- Name: identity_membership_links identity_membership_links_membership_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_membership_links
+    ADD CONSTRAINT identity_membership_links_membership_id_key UNIQUE (membership_id);
+
+
+--
+-- Name: identity_membership_links identity_membership_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_membership_links
+    ADD CONSTRAINT identity_membership_links_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: identity_migration_events identity_migration_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_migration_events
+    ADD CONSTRAINT identity_migration_events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: identity_sessions identity_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_sessions
+    ADD CONSTRAINT identity_sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: identity_sessions identity_sessions_token_digest_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_sessions
+    ADD CONSTRAINT identity_sessions_token_digest_key UNIQUE (token_digest);
 
 
 --
@@ -2010,6 +2265,41 @@ CREATE INDEX group_memberships_pkbm_id_idx ON public.group_memberships USING btr
 
 
 --
+-- Name: identity_external_subjects_identity_account_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX identity_external_subjects_identity_account_id_idx ON public.identity_external_subjects USING btree (identity_account_id);
+
+
+--
+-- Name: identity_migration_events_identity_account_id_created_at_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX identity_migration_events_identity_account_id_created_at_idx ON public.identity_migration_events USING btree (identity_account_id, created_at);
+
+
+--
+-- Name: identity_sessions_identity_account_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX identity_sessions_identity_account_id_idx ON public.identity_sessions USING btree (identity_account_id);
+
+
+--
+-- Name: index_identity_login_flows_on_state_digest; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_identity_login_flows_on_state_digest ON public.identity_login_flows USING btree (state_digest);
+
+
+--
+-- Name: index_identity_sessions_on_oidc_sid; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_identity_sessions_on_oidc_sid ON public.identity_sessions USING btree (oidc_sid);
+
+
+--
 -- Name: learner_programs_pkbm_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2147,6 +2437,13 @@ CREATE TRIGGER assessment_version_immutable BEFORE DELETE OR UPDATE ON public.as
 --
 
 CREATE TRIGGER component_track_context BEFORE INSERT OR UPDATE ON public.curriculum_components FOR EACH ROW EXECUTE FUNCTION public.check_catalog_component_track();
+
+
+--
+-- Name: identity_migration_events immutable_identity_audit; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER immutable_identity_audit BEFORE DELETE OR UPDATE ON public.identity_migration_events FOR EACH ROW EXECUTE FUNCTION public.protect_identity_audit();
 
 
 --
@@ -2341,6 +2638,14 @@ ALTER TABLE ONLY public.canvas_bindings
 
 ALTER TABLE ONLY public.canvas_bindings
     ADD CONSTRAINT canvas_bindings_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: canvas_identity_links canvas_identity_links_identity_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canvas_identity_links
+    ADD CONSTRAINT canvas_identity_links_identity_account_id_fkey FOREIGN KEY (identity_account_id) REFERENCES public.identity_accounts(id);
 
 
 --
@@ -2645,6 +2950,70 @@ ALTER TABLE ONLY public.group_memberships
 
 ALTER TABLE ONLY public.group_memberships
     ADD CONSTRAINT group_memberships_pkbm_id_learning_group_id_fkey FOREIGN KEY (pkbm_id, learning_group_id) REFERENCES public.learning_groups(pkbm_id, id);
+
+
+--
+-- Name: identity_external_subjects identity_external_subjects_identity_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_external_subjects
+    ADD CONSTRAINT identity_external_subjects_identity_account_id_fkey FOREIGN KEY (identity_account_id) REFERENCES public.identity_accounts(id);
+
+
+--
+-- Name: identity_membership_links identity_membership_links_identity_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_membership_links
+    ADD CONSTRAINT identity_membership_links_identity_account_id_fkey FOREIGN KEY (identity_account_id) REFERENCES public.identity_accounts(id);
+
+
+--
+-- Name: identity_membership_links identity_membership_links_pkbm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_membership_links
+    ADD CONSTRAINT identity_membership_links_pkbm_id_fkey FOREIGN KEY (pkbm_id) REFERENCES public.pkbms(id);
+
+
+--
+-- Name: identity_membership_links identity_membership_links_pkbm_id_membership_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_membership_links
+    ADD CONSTRAINT identity_membership_links_pkbm_id_membership_id_fkey FOREIGN KEY (pkbm_id, membership_id) REFERENCES public.pkbm_memberships(pkbm_id, id);
+
+
+--
+-- Name: identity_migration_events identity_migration_events_actor_membership_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_migration_events
+    ADD CONSTRAINT identity_migration_events_actor_membership_id_fkey FOREIGN KEY (actor_membership_id) REFERENCES public.pkbm_memberships(id);
+
+
+--
+-- Name: identity_migration_events identity_migration_events_identity_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_migration_events
+    ADD CONSTRAINT identity_migration_events_identity_account_id_fkey FOREIGN KEY (identity_account_id) REFERENCES public.identity_accounts(id);
+
+
+--
+-- Name: identity_sessions identity_sessions_identity_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_sessions
+    ADD CONSTRAINT identity_sessions_identity_account_id_fkey FOREIGN KEY (identity_account_id) REFERENCES public.identity_accounts(id);
+
+
+--
+-- Name: identity_sessions identity_sessions_identity_account_id_pkbm_id_membership_i_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identity_sessions
+    ADD CONSTRAINT identity_sessions_identity_account_id_pkbm_id_membership_i_fkey FOREIGN KEY (identity_account_id, pkbm_id, membership_id) REFERENCES public.identity_membership_links(identity_account_id, pkbm_id, membership_id);
 
 
 --
@@ -3078,6 +3447,9 @@ ALTER TABLE ONLY public.sync_jobs
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261007000700'),
+('20261007000600'),
+('20261007000500'),
 ('20261007000400'),
 ('20261007000300'),
 ('20261007000200'),

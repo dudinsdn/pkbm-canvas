@@ -57,3 +57,7 @@ UI pengelola menyediakan Integrasi Canvas. Token disimpan terenkripsi, kemudian 
 ## Belajar dan umpan balik (Tahap 6)
 
 Jalankan `./scripts/local pkbm-migrate` dan `./scripts/local pkbm-assessment-seed` untuk draf tiga modul di dua fixture PKBM. Tutor/pengelola menelaah draf sebelum terbit; sinkronisasi butuh token baru. Submission/rubric/quiz tetap native Canvas, pendamping menyimpan versi dan snapshot terkait bukti. Implementasi belum diuji atau dipublikasikan nyata. [Lingkup dan pekerjaan tersisa](../../docs/tahap6-implementasi.md).
+
+## Identitas dan login — rancangan Tahap 5A
+
+Login lokal saat ini belum menyatukan sesi Canvas. Target memakai satu identity/login melalui layanan identitas bersama, dengan pemetaan ke membership PKBM dan user Canvas yang sudah benar. Implementasi serta pengujian belum dimulai. [Rancangan migrasi dan perjalanan pengguna](../../docs/tahap5a-arsitektur-identitas-dan-alur.md).

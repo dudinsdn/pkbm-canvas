@@ -1,0 +1,36 @@
+services:
+  identity:
+    image: quay.io/keycloak/keycloak:26.8.0@sha256:b0f60d489d51c5d113390bdf5461d4c06e6051be026c05549f2e1e10ec352bcc
+    pull_policy: never
+    profiles: [identity]
+    command: [start-dev, --import-realm]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${PKBM_IDP_ADMIN_USERNAME:-operator}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${PKBM_IDP_ADMIN_PASSWORD:?Generate identity environment first}
+      KC_HOSTNAME: http://127.0.0.1:8082
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: 'true'
+      JAVA_OPTS_KC_HEAP: '-Xms128m -Xmx384m'
+    mem_limit: 768m
+    ports: ['127.0.0.1:8082:8080']
+    volumes:
+      - ../var/identity/data:/opt/keycloak/data
+      - ../var/identity/import:/opt/keycloak/data/import:ro
+    networks: [outbound]
+  pkbm:
+    environment: &pkbm_oidc_environment
+      PKBM_SSO_ENABLED: ${PKBM_SSO_ENABLED:-false}
+      PKBM_OIDC_ISSUER: http://127.0.0.1:8082/realms/pkbm
+      PKBM_OIDC_BACKCHANNEL: http://identity:8080/realms/pkbm
+      PKBM_OIDC_CLIENT_ID: pkbm-portal
+      PKBM_OIDC_CLIENT_SECRET: ${PKBM_OIDC_CLIENT_SECRET:?Generate identity environment first}
+  pkbm-sync:
+    environment: *pkbm_oidc_environment
+  web:
+    environment:
+      VIRTUAL_HOST: web
+    networks: [backend, outbound]
+    volumes:
+      - ./identity/canvas-oidc-http.rb:/usr/src/app/config/initializers/pkbm_local_oidc_http.rb:ro
+  jobs:
+    volumes:
+      - ./identity/canvas-oidc-http.rb:/usr/src/app/config/initializers/pkbm_local_oidc_http.rb:ro

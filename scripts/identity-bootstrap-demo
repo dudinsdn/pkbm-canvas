@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+"""Create central demo identities from explicit tenant metadata, never email matching."""
+import json, pathlib, urllib.request, urllib.parse, subprocess, os
+root=pathlib.Path(__file__).resolve().parents[1]
+def env_file(path):
+    return dict(line.split('=',1) for line in path.read_text().splitlines() if line and not line.startswith('#') and '=' in line)
+env=env_file(root/'.env') | env_file(root/'var/identity/runtime.env')
+base='http://127.0.0.1:8082'
+def call(method,path,data=None,token=None,form=False):
+    payload=urllib.parse.urlencode(data).encode() if form else json.dumps(data).encode() if data is not None else None
+    headers={'Content-Type':'application/x-www-form-urlencoded' if form else 'application/json'}
+    if token: headers['Authorization']='Bearer '+token
+    with urllib.request.urlopen(urllib.request.Request(base+path,data=payload,headers=headers,method=method),timeout=30) as response:
+        raw=response.read(); return json.loads(raw) if raw else None
+admin=call('POST','/realms/master/protocol/openid-connect/token',dict(grant_type='password',client_id='admin-cli',username=env.get('PKBM_IDP_ADMIN_USERNAME','operator'),password=env['PKBM_IDP_ADMIN_PASSWORD']),form=True)['access_token']
+profile=call('GET','/admin/realms/pkbm/users/profile',token=admin)
+profile['unmanagedAttributePolicy']='ADMIN_EDIT'
+call('PUT','/admin/realms/pkbm/users/profile',profile,token=admin)
+for name, endpoint in [('pkbm-portal','http://pkbm:3000/auth/backchannel-logout'), ('pkbm-canvas','http://web:3000/login/openid_connect/logout')]:
+    clients=call('GET','/admin/realms/pkbm/clients?'+urllib.parse.urlencode({'clientId':name}),token=admin)
+    if len(clients)!=1: raise SystemExit('Client configuration conflict')
+    client=clients[0]
+    client.setdefault('attributes',{}).update({'backchannel.logout.url':endpoint,'backchannel.logout.session.required':'true','backchannel.logout.revoke.offline.tokens':'true', 'post.logout.redirect.uris':'http://127.0.0.1:3000/auth/login'})
+    call('PUT','/admin/realms/pkbm/clients/'+client['id'],client,token=admin)
+result=subprocess.run(['docker','exec','pkbm-canvas-pkbm-1','bundle','exec','rails','runner','/usr/src/pkbm/bin/identity-demo-export.rb'],check=True,capture_output=True,text=True)
+rows=json.loads(result.stdout)
+if len(rows)!=6: raise SystemExit('Expected exactly six role fixtures; stop for review.')
+for row in rows:
+    username=row['tenant_code'].lower()+'-'+row['role'].replace('_','-')
+    path='/admin/realms/pkbm/users?'+urllib.parse.urlencode({'username':username,'exact':'true'})
+    candidates=call('GET',path,token=admin)
+    if not candidates:
+        key={'pengelola':'ADMIN','tutor':'TUTOR','warga_belajar':'WB'}[row['role']]
+        password=env['PKBM_LOCAL_'+key+'_PASSWORD']
+        if not password: raise SystemExit('Missing existing demo password; no credential generated.')
+        call('POST','/admin/realms/pkbm/users',dict(username=username,enabled=True,firstName=row['name'],lastName=row['tenant_code'],email=username+'@pkbm.local',emailVerified=True,attributes={'pkbm_membership_id':[row['membership_id']]},credentials=[dict(type='password',value=password,temporary=False)]),token=admin)
+        candidates=call('GET',path,token=admin)
+    if len(candidates)==1:
+        candidates=[call('GET','/admin/realms/pkbm/users/'+candidates[0]['id'],token=admin)]
+    if len(candidates)!=1 or candidates[0].get('attributes',{}).get('pkbm_membership_id')!=[row['membership_id']]:
+        raise SystemExit('Conflicting demo identifier; stop for review.')
+    row.update(idp_subject=candidates[0]['id'],username=username)
+path=root/'var/identity/demo-mapping.json'
+path.write_text(json.dumps(rows,indent=2)+'\n');os.chmod(path,0o600)
+print('Six demo identities prepared in IdP; existing passwords reused, no Canvas credentials changed.')

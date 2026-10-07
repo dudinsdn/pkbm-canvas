@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+"""Materialize private provider payload for the approved temporary-token operation."""
+import pathlib,json,os
+root=pathlib.Path(__file__).resolve().parents[1]
+env=dict(line.split('=',1) for line in (root/'var/identity/runtime.env').read_text().splitlines() if '=' in line)
+payload=json.loads((root/'infra/identity/canvas-provider.example.json').read_text())
+payload['client_secret']=env['PKBM_CANVAS_OIDC_CLIENT_SECRET']
+path=root/'var/identity/canvas-provider.json';path.write_text(json.dumps(payload)+'\n');os.chmod(path,0o600)
+print('Private provider payload prepared; no credential printed.')

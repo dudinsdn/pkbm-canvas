@@ -39,3 +39,23 @@ end
 Rails.application.routes.draw do
   post '/api/v1/assessments/:id/review', to: 'assessments#review_module'
 end
+
+Rails.application.routes.draw do
+  get '/auth/login', to: 'identity#login'
+  get '/auth/callback', to: 'identity#callback'
+  get '/api/v1/identity/contexts', to: 'identity#contexts'
+  post '/api/v1/identity/context', to: 'identity#context'
+end
+
+Rails.application.routes.draw do
+  get '/api/v1/identity/configuration', to: 'identity#configuration'
+end
+
+Rails.application.routes.draw do
+  get '/belajar/:id', to: 'learning_entry#show'
+end
+
+Rails.application.routes.draw do
+  post '/api/v1/identity/logout', to: 'identity#logout'
+  post '/auth/backchannel-logout', to: 'identity#backchannel_logout'
+end

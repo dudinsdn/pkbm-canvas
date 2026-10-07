@@ -94,11 +94,20 @@ class CanvasSync
       roles = @scope.base("role_assignments").where(membership_id: member.id).pluck(:role)
       raise Conflict, "Peran peserta/pendamping berubah; telaah penugasan" unless (role == "TeacherEnrollment" ? (roles & %w[tutor instruktur]).any? : roles.include?("warga_belajar"))
       person = @scope.base("people").find(member.person_id)
+      federated = nil
+      if ENV['PKBM_SSO_ENABLED'] == 'true'
+        identity_link = IdentityMembershipLink.find_by(membership_id: member.id)
+        identity = identity_link && IdentityAccount.find_by(id: identity_link.identity_account_id, status: 'active')
+        federated = identity && CanvasIdentityLink.find_by(identity_account_id: identity.id, deployment_key: 'pkbm-canvas-local', root_account_id: @instance.root_account_id, status: 'ready')
+        raise Conflict, 'Identitas/login federasi belum siap; siapkan akses sebelum sinkronisasi' unless federated
+        old_binding = bindings.find_by(object_kind: 'user', local_key: person.id)
+        raise Conflict, 'Binding user berbeda dari identitas utama' if old_binding && old_binding.remote_id != federated.remote_user_id
+      end
       user_key = sis("user", person.id)
       desired = { "name" => person.name }
       user = ensure_object("user", person.id, desired,
-        lookup: -> { @api.request("GET", "/api/v1/users/sis_user_id:#{user_key}", nil, allow_missing: true) },
-        create: ->(payload) { @api.request("POST", "/api/v1/accounts/#{@instance.root_account_id}/users", { "user" => payload, "pseudonym" => { "unique_id" => "#{person.id}@pkbm.local", "sis_user_id" => user_key, "send_confirmation" => false, "password" => SecureRandom.hex(32) } }) },
+        lookup: -> { @api.request("GET", federated ? "/api/v1/users/#{federated.remote_user_id}" : "/api/v1/users/sis_user_id:#{user_key}", nil, allow_missing: true) },
+        create: ->(payload) { raise Conflict, "User federasi hilang; telaah pemetaan" if federated; @api.request("POST", "/api/v1/accounts/#{@instance.root_account_id}/users", { "user" => payload, "pseudonym" => { "unique_id" => "#{person.id}@pkbm.local", "sis_user_id" => user_key, "send_confirmation" => false, "password" => SecureRandom.hex(32) } }) },
         get: ->(id) { @api.request("GET", "/api/v1/users/#{id}", nil, allow_missing: true) },
         update: ->(id, payload) { @api.request("PUT", "/api/v1/users/#{id}", { "user" => payload }) }, fields: %w[name])
       key = "#{delivery.id}:#{membership_id}:#{role}"

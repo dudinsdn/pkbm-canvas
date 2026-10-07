@@ -1,6 +1,6 @@
 # Rangkuman sesi: arsitektur dan implementasi PKBM dengan Canvas LMS
 
-> Dokumen ini adalah snapshot perancangan. Status implementasi terkini: [verifikasi Tahap 1–2](../tahap12-verifikasi.md) dan [catatan implementasi](../catatan-implementasi.md).
+> Dokumen ini adalah snapshot perancangan awal. Rancangan identitas/login diperbarui 7 Oktober 2026 pada [Tahap 5A — satu akun dan satu login](../tahap5a-arsitektur-identitas-dan-alur.md). Status implementasi terkini: [verifikasi Tahap 1–2](../tahap12-verifikasi.md) dan [catatan implementasi](../catatan-implementasi.md).
 
 Tanggal: 7 Oktober 2026. Dokumen ini merekam keputusan dan hasil sesi sampai tahap perancangan; belum ada instalasi Canvas atau implementasi aplikasi/database.
 
@@ -37,11 +37,13 @@ Kurikulum mencakup seluruh program Paket C. Silabus menguraikan mata pelajaran t
 
 Panduan pemberdayaan dan keterampilan merupakan panduan penyelenggaraan yang membantu PKBM/tutor mengembangkan program sesuai kebutuhan, potensi dan kapasitas setempat. Keduanya bukan modul bernomor seperti modul mata pelajaran.
 
-## 3. Arsitektur final
+## 3. Arsitektur akademik dan pembelajaran (dilengkapi Tahap 5A)
 
 ```mermaid
 flowchart TB
-    AC[Aplikasi Akademik PKBM — Rails + React]
+    U[Warga belajar / tutor / pengelola] --> AC[Portal Akademik PKBM — Rails + React]
+    AC -->|Login bersama| ID[Layanan identitas]
+    CV -->|Federasi login| ID
     CV[Canvas LMS]
     AC -->|Publikasi pelaksanaan, peserta dan target melalui API| CV
     CV -->|Hasil pengumpulan dan penilaian melalui API| AC
@@ -59,6 +61,8 @@ flowchart TB
 | Course, materi, pengumpulan dan penilaian native | Canvas |
 | Penilaian/bukti lokal atau mitra yang dicatat di pendamping | Aplikasi PKBM |
 | Rekap capaian, keputusan akademik, SKK dan sertifikasi | Aplikasi PKBM |
+
+Target pengguna adalah satu akun dan satu kali login melalui portal. Layanan identitas menyimpan credential utama; record portal/Canvas ditautkan ke identity yang sama, bukan dua akun yang diurus pengguna. Dukungan federasi, migrasi akun lama dan logout perlu diimplementasikan/dibuktikan pada Tahap 5A. Rancangan awal API/LTI saja belum memenuhi target ini.
 
 Database Canvas mengikuti migrasi Canvas sendiri. Database akademik PKBM terpisah; integrasi memakai API dan dapat menampilkan layar pendamping melalui LTI. Integrasi tidak menulis langsung ke tabel Canvas.
 

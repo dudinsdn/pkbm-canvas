@@ -1,0 +1,1283 @@
+{
+  "scope": "local HTTP OIDC/API protocol; loopback Secure-cookie exception emulated; not browser UI proof",
+  "passed": 230,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "OIDC discovery issuer",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "portal SSO enabled",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "localhost configuration has canonical origin",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "UI catalog curriculum_versions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "UI catalog curriculum_levels",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "UI catalog specialization_tracks",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "UI catalog curriculum_components",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "UI catalog learning_targets",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "UI catalog learning_resources",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "served asset pkbm.js",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "served asset integration.js",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "served asset assessments.js",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-pengelola login form",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola authenticated callback",
+      "passed": true,
+      "detail": {
+        "callback_status": 200,
+        "contexts_status": 200,
+        "response_path": "/",
+        "error_text": null,
+        "forms": []
+      }
+    },
+    {
+      "name": "demo-a-pengelola one tenant context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-pengelola select context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-pengelola role and tenant scope",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-pengelola operations people",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations pkbm_memberships",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations role_assignments",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations program_offerings",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations learner_programs",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations learning_groups",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations group_memberships",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations learning_design_versions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations design_components",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations learning_activities",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations activity_targets",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations deliveries",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations delivery_staff",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations delivery_enrollments",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations learning_plans",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations learning_plan_items",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola operations learning_sessions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola assessments API",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola integration role guard",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-pengelola other PKBM membership denied",
+      "passed": true,
+      "detail": 404
+    },
+    {
+      "name": "demo-a-pengelola course links API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-pengelola repeated SSO without password",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-pengelola portal logout API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-pengelola portal logout directly reaches login",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-pengelola IdP logout completed",
+      "passed": true,
+      "detail": {
+        "final_path": "/realms/pkbm/protocol/openid-connect/auth",
+        "form_fields": [
+          [
+            "username",
+            "password",
+            "credentialId"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "demo-a-pengelola older portal token revoked by backchannel",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-tutor login form",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor authenticated callback",
+      "passed": true,
+      "detail": {
+        "callback_status": 200,
+        "contexts_status": 200,
+        "response_path": "/",
+        "error_text": null,
+        "forms": []
+      }
+    },
+    {
+      "name": "demo-a-tutor one tenant context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-tutor select context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-tutor role and tenant scope",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-tutor operations people",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations pkbm_memberships",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations role_assignments",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations program_offerings",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations learner_programs",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations learning_groups",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations group_memberships",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations learning_design_versions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations design_components",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations learning_activities",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations activity_targets",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations deliveries",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations delivery_staff",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations delivery_enrollments",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations learning_plans",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations learning_plan_items",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor operations learning_sessions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor assessments API",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-tutor integration role guard",
+      "passed": true,
+      "detail": 403
+    },
+    {
+      "name": "demo-a-tutor other PKBM membership denied",
+      "passed": true,
+      "detail": 404
+    },
+    {
+      "name": "demo-a-tutor course links API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-tutor ready course",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-tutor Canvas session correct user",
+      "passed": true,
+      "detail": {
+        "course_status": 200,
+        "profile_status": 200
+      }
+    },
+    {
+      "name": "demo-a-tutor other PKBM Canvas course denied",
+      "passed": true,
+      "detail": 403
+    },
+    {
+      "name": "demo-a-tutor course access",
+      "passed": true,
+      "detail": {
+        "final_path": "/courses/3",
+        "status": 200
+      }
+    },
+    {
+      "name": "demo-a-tutor repeated SSO without password",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-tutor portal logout API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-tutor portal logout directly reaches login",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-tutor IdP logout completed",
+      "passed": true,
+      "detail": {
+        "final_path": "/realms/pkbm/protocol/openid-connect/auth",
+        "form_fields": [
+          [
+            "username",
+            "password",
+            "credentialId"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "demo-a-tutor older portal token revoked by backchannel",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-tutor Canvas session revoked by IdP",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-tutor Canvas logout reaches central login",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "final_path": "/realms/pkbm/protocol/openid-connect/auth"
+      }
+    },
+    {
+      "name": "demo-a-tutor Canvas logout revokes portal token",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-tutor Canvas logout revokes Canvas cookie",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-warga-belajar login form",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar authenticated callback",
+      "passed": true,
+      "detail": {
+        "callback_status": 200,
+        "contexts_status": 200,
+        "response_path": "/",
+        "error_text": null,
+        "forms": []
+      }
+    },
+    {
+      "name": "demo-a-warga-belajar one tenant context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-warga-belajar select context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-warga-belajar role and tenant scope",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-warga-belajar operations people",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations pkbm_memberships",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations role_assignments",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations program_offerings",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations learner_programs",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations learning_groups",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations group_memberships",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations learning_design_versions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations design_components",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations learning_activities",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations activity_targets",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations deliveries",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations delivery_staff",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations delivery_enrollments",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations learning_plans",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations learning_plan_items",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar operations learning_sessions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar assessments API",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-a-warga-belajar integration role guard",
+      "passed": true,
+      "detail": 403
+    },
+    {
+      "name": "demo-a-warga-belajar other PKBM membership denied",
+      "passed": true,
+      "detail": 404
+    },
+    {
+      "name": "demo-a-warga-belajar course links API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-warga-belajar ready course",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-warga-belajar Canvas session correct user",
+      "passed": true,
+      "detail": {
+        "course_status": 200,
+        "profile_status": 200
+      }
+    },
+    {
+      "name": "demo-a-warga-belajar other PKBM Canvas course denied",
+      "passed": true,
+      "detail": 403
+    },
+    {
+      "name": "demo-a-warga-belajar course access",
+      "passed": true,
+      "detail": {
+        "final_path": "/courses/3",
+        "status": 200
+      }
+    },
+    {
+      "name": "demo-a-warga-belajar repeated SSO without password",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-warga-belajar portal logout API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-warga-belajar portal logout directly reaches login",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-warga-belajar IdP logout completed",
+      "passed": true,
+      "detail": {
+        "final_path": "/realms/pkbm/protocol/openid-connect/auth",
+        "form_fields": [
+          [
+            "username",
+            "password",
+            "credentialId"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "demo-a-warga-belajar older portal token revoked by backchannel",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-warga-belajar Canvas session revoked by IdP",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-warga-belajar Canvas logout reaches central login",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "final_path": "/realms/pkbm/protocol/openid-connect/auth"
+      }
+    },
+    {
+      "name": "demo-a-warga-belajar Canvas logout revokes portal token",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-a-warga-belajar Canvas logout revokes Canvas cookie",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-pengelola login form",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola authenticated callback",
+      "passed": true,
+      "detail": {
+        "callback_status": 200,
+        "contexts_status": 200,
+        "response_path": "/",
+        "error_text": null,
+        "forms": []
+      }
+    },
+    {
+      "name": "demo-b-pengelola one tenant context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-pengelola select context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-pengelola role and tenant scope",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-pengelola operations people",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations pkbm_memberships",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations role_assignments",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations program_offerings",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations learner_programs",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations learning_groups",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations group_memberships",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations learning_design_versions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations design_components",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations learning_activities",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations activity_targets",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations deliveries",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations delivery_staff",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations delivery_enrollments",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations learning_plans",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations learning_plan_items",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola operations learning_sessions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola assessments API",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola integration role guard",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-pengelola other PKBM membership denied",
+      "passed": true,
+      "detail": 404
+    },
+    {
+      "name": "demo-b-pengelola course links API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-pengelola repeated SSO without password",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-pengelola portal logout API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-pengelola portal logout directly reaches login",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-pengelola IdP logout completed",
+      "passed": true,
+      "detail": {
+        "final_path": "/realms/pkbm/protocol/openid-connect/auth",
+        "form_fields": [
+          [
+            "username",
+            "password",
+            "credentialId"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "demo-b-pengelola older portal token revoked by backchannel",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-tutor login form",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor authenticated callback",
+      "passed": true,
+      "detail": {
+        "callback_status": 200,
+        "contexts_status": 200,
+        "response_path": "/",
+        "error_text": null,
+        "forms": []
+      }
+    },
+    {
+      "name": "demo-b-tutor one tenant context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-tutor select context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-tutor role and tenant scope",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-tutor operations people",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations pkbm_memberships",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations role_assignments",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations program_offerings",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations learner_programs",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations learning_groups",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations group_memberships",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations learning_design_versions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations design_components",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations learning_activities",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations activity_targets",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations deliveries",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations delivery_staff",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations delivery_enrollments",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations learning_plans",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations learning_plan_items",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor operations learning_sessions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor assessments API",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-tutor integration role guard",
+      "passed": true,
+      "detail": 403
+    },
+    {
+      "name": "demo-b-tutor other PKBM membership denied",
+      "passed": true,
+      "detail": 404
+    },
+    {
+      "name": "demo-b-tutor course links API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-tutor ready course",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-tutor Canvas session correct user",
+      "passed": true,
+      "detail": {
+        "course_status": 200,
+        "profile_status": 200
+      }
+    },
+    {
+      "name": "demo-b-tutor other PKBM Canvas course denied",
+      "passed": true,
+      "detail": 403
+    },
+    {
+      "name": "demo-b-tutor course access",
+      "passed": true,
+      "detail": {
+        "final_path": "/courses/4",
+        "status": 200
+      }
+    },
+    {
+      "name": "demo-b-tutor repeated SSO without password",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-tutor portal logout API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-tutor portal logout directly reaches login",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-tutor IdP logout completed",
+      "passed": true,
+      "detail": {
+        "final_path": "/realms/pkbm/protocol/openid-connect/auth",
+        "form_fields": [
+          [
+            "username",
+            "password",
+            "credentialId"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "demo-b-tutor older portal token revoked by backchannel",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-tutor Canvas session revoked by IdP",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-tutor Canvas logout reaches central login",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "final_path": "/realms/pkbm/protocol/openid-connect/auth"
+      }
+    },
+    {
+      "name": "demo-b-tutor Canvas logout revokes portal token",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-tutor Canvas logout revokes Canvas cookie",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-warga-belajar login form",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar authenticated callback",
+      "passed": true,
+      "detail": {
+        "callback_status": 200,
+        "contexts_status": 200,
+        "response_path": "/",
+        "error_text": null,
+        "forms": []
+      }
+    },
+    {
+      "name": "demo-b-warga-belajar one tenant context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-warga-belajar select context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-warga-belajar role and tenant scope",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-warga-belajar operations people",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations pkbm_memberships",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations role_assignments",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations program_offerings",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations learner_programs",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations learning_groups",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations group_memberships",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations learning_design_versions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations design_components",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations learning_activities",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations activity_targets",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations deliveries",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations delivery_staff",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations delivery_enrollments",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations learning_plans",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations learning_plan_items",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar operations learning_sessions",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar assessments API",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "demo-b-warga-belajar integration role guard",
+      "passed": true,
+      "detail": 403
+    },
+    {
+      "name": "demo-b-warga-belajar other PKBM membership denied",
+      "passed": true,
+      "detail": 404
+    },
+    {
+      "name": "demo-b-warga-belajar course links API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-warga-belajar ready course",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-warga-belajar Canvas session correct user",
+      "passed": true,
+      "detail": {
+        "course_status": 200,
+        "profile_status": 200
+      }
+    },
+    {
+      "name": "demo-b-warga-belajar other PKBM Canvas course denied",
+      "passed": true,
+      "detail": 403
+    },
+    {
+      "name": "demo-b-warga-belajar course access",
+      "passed": true,
+      "detail": {
+        "final_path": "/courses/4",
+        "status": 200
+      }
+    },
+    {
+      "name": "demo-b-warga-belajar repeated SSO without password",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-warga-belajar portal logout API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-warga-belajar portal logout directly reaches login",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-warga-belajar IdP logout completed",
+      "passed": true,
+      "detail": {
+        "final_path": "/realms/pkbm/protocol/openid-connect/auth",
+        "form_fields": [
+          [
+            "username",
+            "password",
+            "credentialId"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "demo-b-warga-belajar older portal token revoked by backchannel",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-warga-belajar Canvas session revoked by IdP",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-warga-belajar Canvas logout reaches central login",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "final_path": "/realms/pkbm/protocol/openid-connect/auth"
+      }
+    },
+    {
+      "name": "demo-b-warga-belajar Canvas logout revokes portal token",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo-b-warga-belajar Canvas logout revokes Canvas cookie",
+      "passed": true,
+      "detail": null
+    }
+  ]
+}

@@ -12,6 +12,7 @@ class OperationsController < ActionController::API
   end
 
   def login
+    return render json: {error: "Gunakan Masuk pembelajaran", login_url: "/auth/login"}, status: :conflict if ENV['PKBM_SSO_ENABLED'] == 'true'
     # Local companion identities, independent of Canvas. Never accepts role/tenant headers.
     pkbm = ActiveRecord::Base.connection.select_one("SELECT id,name FROM pkbms WHERE local_code=#{ActiveRecord::Base.connection.quote(params[:pkbm_code].to_s)}")
     person = pkbm && OperationRecord.for("people").find_by(pkbm_id: pkbm["id"], email: params[:email].to_s.strip.downcase)
@@ -69,10 +70,19 @@ class OperationsController < ActionController::API
   def authenticate!
     response.headers["Cache-Control"] = "no-store"
     token = request.headers["Authorization"].to_s.delete_prefix("Bearer ")
-    identity = verifier.verified(token, purpose: "pkbm_operations")
+    identity = if token.match?(/\A[a-f0-9]{64}\z/)
+      session = IdentitySessionStore.resolve!(token)
+      {"pkbm_id" => session.pkbm_id, "membership_id" => session.membership_id}
+    elsif ENV['PKBM_SSO_ENABLED'] != 'true'
+      verifier.verified(token, purpose: "pkbm_operations")
+    end
     member = identity && OperationRecord.for("pkbm_memberships").find_by(id: identity["membership_id"], pkbm_id: identity["pkbm_id"], status: "active")
     return render json: { error: "Silakan masuk kembali" }, status: :unauthorized unless member
     @scope = OperationScope.new(member.pkbm_id, member.id)
+  end
+
+  rescue_from IdentitySessionStore::Unauthorized do
+    render json: {error: "Silakan masuk kembali"}, status: :unauthorized
   end
 
   def not_found

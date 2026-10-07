@@ -32,6 +32,10 @@ Penilaian memakai tutor yang ditugaskan dan ID Canvas tutor sebagai pelaku, buka
 
 Telaah Matematika memilih jalur lengkap/prosedur, tugas ≥75%, atau penempatan ≥75%; hasil yang berlawanan memerlukan catatan konflik. Telaah BId mempertimbangkan unit, produk/revisi serta TAM. “Siap lanjut” merupakan telaah modul, bukan keputusan capaian kompetensi/SKK. Penarikan seluruh hasil native secara berkala, rekap lintas modul dan keputusan capaian mengikuti Tahap 7. Memulai Bisnis memerlukan telaah lanjut Belanja Cerdas sebelum penugasan dilepas per warga belajar. Unit 2 BId memerlukan Unit 1 minimal 70; produk memerlukan bukti Unit 2 minimal 70; TAM memerlukan semua bukti unit/produk termasuk revisi. Assignment overrides membatasi penugasan bagi warga belajar yang dilepas tutor. Halaman materi dapat dibaca sebagai persiapan; gerbang berlaku pada penugasan/uji. Seluruh orkestrasi ini belum diuji pada Canvas nyata.
 
+## Dependensi identitas
+
+Penyelesaian dan pengujian alur pengguna tahap ini menunggu [Tahap 5A: satu akun dan login bersama](./tahap5a-arsitektur-identitas-dan-alur.md). Dua record internal ditautkan ke identity utama; pengguna tidak diminta memakai password Canvas kedua. SSO belum diimplementasikan.
+
 ## Menjalankan dan pekerjaan tersisa
 
 ```sh
